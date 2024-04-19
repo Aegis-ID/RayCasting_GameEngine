@@ -12,8 +12,8 @@
     #define NAME "Aegis Engine"
 
 //Screen settings (change into struct later, and retrieve info in a config file)
-    #define WIDTH 320
-    #define HEIGHT 200
+    #define WIDTH 1024
+    #define HEIGHT 512
     #define BITS 32
 
     #define FRAMES 60

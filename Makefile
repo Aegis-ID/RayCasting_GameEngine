@@ -5,7 +5,7 @@
 ## A Base Makefile
 ##
 
-NAME		=	DieAndRetry
+NAME		=	myrpg
 
 INCLUDE 	=	./include/
 
