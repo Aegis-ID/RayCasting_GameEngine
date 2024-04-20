@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "include/my.h"
 
 long get_size(const char *filename)
 {
@@ -33,6 +32,7 @@ int my_readfile(char *filepath)
         return 84;
     size = read(fd, buffer, (file_size - 1));
     buffer[size] = '\0';
+    
     my_putstr(buffer);
     free(buffer);
     close(fd);

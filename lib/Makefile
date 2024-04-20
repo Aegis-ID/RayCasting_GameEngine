@@ -9,11 +9,15 @@ NAME	=	mylib.a
 
 INCLUDE	=	../include/
 
-SRC		=	$(addprefix new_funcs/,	\
+SRC		=	$(addprefix maths/,	\
 			deg_to_rad.c	\
 			rad_to_deg.c 	\
 			get_deg.c 	\
 			)	\
+			$(addprefix funcs/,	\
+			my_readfile.c 	\
+			str_to_word_array.c 	\
+			) 	\
 
 CC	?=	gcc
 
