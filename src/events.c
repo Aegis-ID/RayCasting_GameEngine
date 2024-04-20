@@ -9,20 +9,36 @@
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
 #include "global.h"
+#include <math.h>
 
 static void p_movement(sfEvent *event, player_t *player)
 {
-    sfVector2f *player_pos = &player->pos;
+    if (event->key.code == sfKeyZ) {
+        player->pos.x += player->delta.x;
+        player->pos.y += player->delta.y;
+    }
+    if (event->key.code == sfKeyS) {
+        player->pos.x -= player->delta.x;
+        player->pos.y -= player->delta.y;
+    }
+}
 
-    if (event->key.code == sfKeyQ)
-        player_pos->x -= 5;
-    if (event->key.code == sfKeyD)
-        player_pos->x += 5;
-    if (event->key.code == sfKeyZ)
-        player_pos->y -= 5;
-    if (event->key.code == sfKeyS)
-        player_pos->y += 5;
-    sfRectangleShape_setPosition(player->rect, player->pos);
+static void p_rotation(sfEvent *event, player_t *player)
+{
+    if (event->key.code == sfKeyQ) {
+        player->angle -= 0.1;
+        if (player->angle < 0)
+            player->angle += 2 * M_PI;
+        player->delta.x = cos(player->angle) * 5;
+        player->delta.y = sin(player->angle) * 5;
+    }
+    if (event->key.code == sfKeyD) {
+        player->angle += 0.1;
+        if (player->angle > 2 * M_PI)
+            player->angle += 2 * M_PI;
+        player->delta.x = cos(player->angle) * 5;
+        player->delta.y = sin(player->angle) * 5;
+    }
 }
 
 void events(game_t *game, player_t *player)
@@ -36,4 +52,5 @@ void events(game_t *game, player_t *player)
     else if (event.type == sfEvtResized)
         glViewport(0, 0, event.size.width, event.size.height);
     p_movement(&event, player);
+    p_rotation(&event, player);
 }

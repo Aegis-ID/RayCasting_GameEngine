@@ -11,14 +11,16 @@
 #include <stdio.h>
 #include "window.h"
 #include "global.h"
+#include <math.h>
 
 player_t init_player(void)
 {
-    player_t player;
+    player_t player = {0};
     sfVector2f p_pos = (sfVector2f){WIDTH / 2, HEIGHT / 2};
     sfVector2f size = (sfVector2f){5, 5};
     sfRectangleShape *rect = set_rect(p_pos, size, sfYellow);
 
+    player.delta.x = cos(player.angle) * 5;
     player.pos = p_pos;
     player.rect = rect;
     return player;
@@ -26,7 +28,7 @@ player_t init_player(void)
 
 game_t init_game(void)
 {
-    game_t game;
+    game_t game = {0};
     sfVideoMode mode = {WIDTH, HEIGHT, BITS};
     sfRenderWindow *window = sfRenderWindow_create(mode, NAME, sfDefaultStyle, NULL);
     sfEvent event = {0};

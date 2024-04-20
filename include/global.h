@@ -11,6 +11,8 @@
 
 typedef struct player_s {
     sfVector2f pos;
+    sfVector2f delta;
+    float angle;
     sfRectangleShape *rect;
 } player_t;
 
