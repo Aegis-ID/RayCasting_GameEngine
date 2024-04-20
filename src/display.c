@@ -21,10 +21,9 @@ static void colorize2Dmap(char cell)
         glColor3f(0, 0, 0);
 }
 
-void draw2Dmap(const char **map)
+void draw2Dmap(const char **map, size_t map_s)
 {
     sfVector2i origin = {0};
-    size_t map_s = array_strlen(map);
 
     for (size_t y = 0; map[y] != 0; ++y) {
         for (size_t x = 0; map[y][x] != '\0'; ++x) {
@@ -62,7 +61,7 @@ void display(game_t *game, player_t *player, maps_t *map)
 {
     //draw with OpenGL
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    draw2Dmap((const char **)map->map);
+    draw2Dmap((const char **)map->map, map->map_size);
     p_draw(player);
     // save OpenGL states
     sfRenderWindow_pushGLStates(game->window);

@@ -33,6 +33,7 @@ typedef struct rays_s {
 typedef struct maps_s {
     const char *map_name;
     char **map;
+    size_t map_size;
     struct map_s *next;
 }maps_t;
 

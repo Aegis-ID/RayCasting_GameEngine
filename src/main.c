@@ -12,6 +12,7 @@
 #include <math.h>
 #include "window.h"
 #include "global.h"
+#include "lib.h"
 
 game_t init_game(void)
 {
@@ -47,10 +48,7 @@ maps_t init_map(const char *filename, const char *map_name)
 
     map.map_name = map_name;
     map.map = get_map(filename);
-
-    for (size_t y = 0; map.map[y] != 0; ++y)
-        printf("%s\n", map.map[y]);
-
+    map.map_size = array_strlen((const char **)map.map);
     map.next = NULL;
     return map;
 }
