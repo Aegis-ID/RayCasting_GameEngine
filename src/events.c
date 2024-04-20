@@ -22,7 +22,7 @@ static void p_movement(sfEvent *event, player_t *player)
         player_pos->y -= 5;
     if (event->key.code == sfKeyS)
         player_pos->y += 5;
-    sfCircleShape_setPosition(player->circle, player->pos);
+    sfRectangleShape_setPosition(player->rect, player->pos);
 }
 
 void events(game_t *game, player_t *player)

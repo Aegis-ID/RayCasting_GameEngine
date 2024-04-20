@@ -12,24 +12,15 @@
 #include "window.h"
 #include "global.h"
 
-sfCircleShape *set_circle(sfVector2f p_pos, float radius, sfColor color)
-{
-    sfCircleShape *circle = sfCircleShape_create();
-
-    sfCircleShape_setRadius(circle, radius);
-    sfCircleShape_setFillColor(circle, color);
-    sfCircleShape_setOrigin(circle, p_pos);
-    return circle;
-}
-
 player_t init_player(void)
 {
     player_t player;
     sfVector2f p_pos = (sfVector2f){WIDTH / 2, HEIGHT / 2};
-    sfCircleShape *circle = set_circle(p_pos, 20, sfWhite);
+    sfVector2f size = (sfVector2f){5, 5};
+    sfRectangleShape *rect = set_rect(p_pos, size, sfYellow);
 
     player.pos = p_pos;
-    player.circle = circle;
+    player.rect = rect;
     return player;
 }
 
@@ -40,6 +31,10 @@ game_t init_game(void)
     sfRenderWindow *window = sfRenderWindow_create(mode, NAME, sfDefaultStyle, NULL);
     sfEvent event = {0};
 
+    //OpenGL
+    glClearColor(0.3, 0.3, 0.3, 0);
+    gluOrtho2D(0, WIDTH, HEIGHT, 0);
+    //SFML
     sfRenderWindow_setFramerateLimit(window, FRAMES);
     sfRenderWindow_setVerticalSyncEnabled(window, VSYNC);
     game.window = window;

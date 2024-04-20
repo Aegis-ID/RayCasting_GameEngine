@@ -14,6 +14,9 @@ LIB		=	mylib.a
 SUBDIRS		=	lib/
 
 SRC		=	$(addprefix src/,	\
+			$(addprefix funcs/,	\
+			set_shape.c 	\
+			)	\
 			main.c	\
 			display.c 	\
 			events.c 	\
@@ -28,7 +31,7 @@ CFLAGS 		=	-Wall -Wextra
 OBJ		=	$(SRC:.c=.o)
 
 #Additional Libraries
-CSFML		=	-lcsfml-graphics -lcsfml-window -lcsfml-system -lGL -lcsfml-audio
+CSFML		=	-lcsfml-graphics -lcsfml-window -lcsfml-system -lGL -lGLU -lcsfml-audio
 MATHS		=	-lm
 
 all: $(NAME)
@@ -48,7 +51,6 @@ fclean: clean
 		$(RM) $(NAME)
 
 re: fclean all
-	$(MAKE) clean
 	$(MAKE) -C $(SUBDIRS) re
 
 debug:	CFLAGS += -g

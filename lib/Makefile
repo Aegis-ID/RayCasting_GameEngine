@@ -43,7 +43,6 @@ fclean: clean
 		$(RM) ../$(NAME)	\
 
 re: fclean all
-	$(MAKE) clean
 
 debug:	CFLAGS += -g
 debug:	$(MAKE) -C $(SUBDIRS) debug
