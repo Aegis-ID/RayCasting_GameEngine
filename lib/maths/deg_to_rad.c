@@ -5,9 +5,9 @@
 ** CSFML
 */
 
- #include <math.h>
+#include <math.h>
 
 float deg_to_rad(float degrees)
 {
-	return M_PI * degrees / 180;
+    return M_PI * degrees / 180;
 }

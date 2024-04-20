@@ -16,6 +16,9 @@ SRC		=	$(addprefix maths/,	\
 			)	\
 			$(addprefix funcs/,	\
 			str_to_word_array.c 	\
+			free_array.c 	\
+			arraylen.c 	\
+			array_strlen.c 	\
 			) 	\
 
 CC	?=	gcc

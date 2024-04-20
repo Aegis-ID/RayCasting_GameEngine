@@ -8,20 +8,27 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include "global.h"
-#include "ray_casting/map.h"
+#include <string.h>
 #include <math.h>
+#include "global.h"
+#include "lib.h"
 
-void draw2Dmap(const int map[], int map_x, int map_y, int map_s)
+static void colorize2Dmap(char cell)
+{
+    if (cell == '1')
+        glColor3f(1, 1, 1);
+    else
+        glColor3f(0, 0, 0);
+}
+
+void draw2Dmap(const char **map)
 {
     sfVector2i origin = {0};
+    size_t map_s = array_strlen(map);
 
-    for (int y = 0; y < map_y; ++y) {
-        for (int x = 0; x < map_x; ++x) {
-            if (map[y * map_x + x] == 1)
-                glColor3f(1, 1, 1);
-            else
-                glColor3f(0, 0, 0);
+    for (size_t y = 0; map[y] != 0; ++y) {
+        for (size_t x = 0; map[y][x] != '\0'; ++x) {
+            colorize2Dmap(map[y][x]);
             origin.x = x * map_s;
             origin.y = y * map_s;
             glBegin(GL_QUADS);
@@ -35,7 +42,7 @@ void draw2Dmap(const int map[], int map_x, int map_y, int map_s)
     return;
 }
 
-static void p_draw(game_t *game, player_t *player)
+static void p_draw(player_t *player)
 {
     glColor3f(1, 1, 0);
     glPointSize(8);
@@ -46,16 +53,17 @@ static void p_draw(game_t *game, player_t *player)
     glLineWidth(3);
     glBegin(GL_LINES);
     glVertex2i(player->pos.x, player->pos.y);
-    glVertex2i(player->pos.x + player->delta.x * 5, player->pos.y + player->delta.y * 5);
+    glVertex2i(player->pos.x + player->delta.x * 5,
+        player->pos.y + player->delta.y * 5);
     glEnd();
 }
 
-void display(game_t *game, player_t *player)
+void display(game_t *game, player_t *player, maps_t *map)
 {
     //draw with OpenGL
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    draw2Dmap(TEST_MAP, MAP_X, MAP_Y, MAP_S);
-    p_draw(game, player);
+    draw2Dmap((const char **)map->map);
+    p_draw(player);
     // save OpenGL states
     sfRenderWindow_pushGLStates(game->window);
     // draw with CSFML here

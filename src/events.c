@@ -29,25 +29,22 @@ static void p_rotation(sfEvent *event, player_t *player)
         player->angle -= 0.1;
         if (player->angle < 0)
             player->angle += 2 * M_PI;
-        player->delta.x = cos(player->angle) * 5;
-        player->delta.y = sin(player->angle) * 5;
     }
     if (event->key.code == sfKeyD) {
         player->angle += 0.1;
         if (player->angle > 2 * M_PI)
             player->angle += 2 * M_PI;
-        player->delta.x = cos(player->angle) * 5;
-        player->delta.y = sin(player->angle) * 5;
     }
+    player->delta.x = cos(player->angle) * 5;
+    player->delta.y = sin(player->angle) * 5;
 }
 
 void events(game_t *game, player_t *player)
 {
     sfRenderWindow *window = game->window;
-    //event copy, not game's event varaible, no need to modify an event
     sfEvent event = game->event;
 
-    if (event.type == sfEvtClosed)
+    if (event.type == sfEvtClosed || event.key.code == sfKeyEscape)
         sfRenderWindow_close(window);
     else if (event.type == sfEvtResized)
         glViewport(0, 0, event.size.width, event.size.height);

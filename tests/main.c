@@ -6,44 +6,15 @@
 */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <SFML/Graphics.h>
-#include <SFML/System.h>
-#include <SFML/OpenGL.h>
-#include <math.h>
-#include "settings.h"
 
-static void analyze_event(sfRenderWindow *window, sfEvent *event)
+char **str_to_word_array(const char *str, const char *delim);
+
+int main()
 {
-    if (event->type == sfEvtClosed)
-        sfRenderWindow_close(window);
-    else if (event->type == sfEvtResized)
-        glViewport(0, 0, event->size.width, event->size.height);
-}
+    char *str = "Je suis Iron Man\n";
+    char **array = str_to_word_array(str, " \n\t");
 
-int main(void)
-{
-    sfVideoMode mode = {WIDTH, HEIGHT, BITS};
-    sfRenderWindow *window = sfRenderWindow_create(mode, NAME, sfDefaultStyle, NULL);
-    sfEvent event = {0};
-    //initialize main variables here
-
-    sfRenderWindow_setFramerateLimit(window, FRAMES);
-    sfRenderWindow_setVerticalSyncEnabled(window, VSYNC);
-
-    while (sfRenderWindow_isOpen(window)) {
-        while (sfRenderWindow_pollEvent(window, &event)) {
-            analyze_event(window, &event);
-            //do some events here
-        }
-        // clear the buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //draw here
-
-        // end the current frame (internally swaps the front and back buffers)
-        sfRenderWindow_display(window);
-    }
-    sfRenderWindow_destroy(window);
-    //free here
+    for (size_t y = 0; array[y] != 0; ++y)
+        printf("%s\n", array[y]);
     return 0;
 }

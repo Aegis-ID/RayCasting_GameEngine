@@ -9,22 +9,9 @@
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
 #include <stdio.h>
+#include <math.h>
 #include "window.h"
 #include "global.h"
-#include <math.h>
-
-player_t init_player(void)
-{
-    player_t player = {0};
-    sfVector2f p_pos = (sfVector2f){WIDTH / 2, HEIGHT / 2};
-    sfVector2f size = (sfVector2f){5, 5};
-    sfRectangleShape *rect = set_rect(p_pos, size, sfYellow);
-
-    player.delta.x = cos(player.angle) * 5;
-    player.pos = p_pos;
-    player.rect = rect;
-    return player;
-}
 
 game_t init_game(void)
 {
@@ -44,10 +31,35 @@ game_t init_game(void)
     return game;
 }
 
+player_t init_player(void)
+{
+    player_t player = {0};
+
+    player.delta.x = cos(player.angle) * 5;
+    player.delta.y = sin(player.angle) * 5;
+    player.pos = (sfVector2f){WIDTH / 2, HEIGHT / 2};
+    return player;
+}
+
+maps_t init_map(const char *filename, const char *map_name)
+{
+    maps_t map = {0};
+
+    map.map_name = map_name;
+    map.map = get_map(filename);
+
+    for (size_t y = 0; map.map[y] != 0; ++y)
+        printf("%s\n", map.map[y]);
+
+    map.next = NULL;
+    return map;
+}
+
 int main(void)
 {
     game_t game = init_game();
     player_t player = init_player();
+    maps_t map = init_map("maps/test_map.txt", "test_map");
 
     while (sfRenderWindow_isOpen(game.window)) {
         while (sfRenderWindow_pollEvent(game.window, &game.event)) {
@@ -55,7 +67,7 @@ int main(void)
             events(&game, &player);
         }
         //display here
-        display(&game, &player);
+        display(&game, &player, &map);
         printf("x: %f -- y: %f\n", player.pos.x, player.pos.y);
     }
     //free here

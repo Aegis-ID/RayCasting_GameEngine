@@ -16,6 +16,7 @@ SUBDIRS		=	lib/
 SRC		=	$(addprefix src/,	\
 			$(addprefix funcs/,	\
 			set_shape.c 	\
+			get_map.c 	\
 			)	\
 			main.c	\
 			display.c 	\
@@ -31,8 +32,9 @@ CFLAGS 		=	-Wall -Wextra
 OBJ		=	$(SRC:.c=.o)
 
 #Additional Libraries
-CSFML		=	-lcsfml-graphics -lcsfml-window -lcsfml-system -lGL -lGLU -lcsfml-audio
-MATHS		=	-lm
+CSFML	=	-lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
+CSFML	+=	-lGL -lGLU
+MATHS	=	-lm
 
 all: $(NAME)
 

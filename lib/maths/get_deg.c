@@ -9,5 +9,5 @@
 
 float get_degrees(float degrees)
 {
-	return (float)(fmod(360 + fmod(degrees, 360), 360));
+    return (float)(fmod(360 + fmod(degrees, 360), 360));
 }
