@@ -15,6 +15,8 @@ SUBDIRS		=	lib/
 
 SRC		=	$(addprefix src/,	\
 			main.c	\
+			display.c 	\
+			events.c 	\
 			)	\
 
 CC		?=	gcc

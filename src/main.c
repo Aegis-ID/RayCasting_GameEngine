@@ -5,94 +5,63 @@
 ** for myrpg
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include <math.h>
-#include "settings.h"
+#include <stdio.h>
+#include "window.h"
+#include "global.h"
 
-typedef struct vector_s {
-    float x;
-    float y;
-} vector_t;
-
-typedef struct player_s {
-    vector_t pos;
-} player_t;
-
-
-
-static void buttons(sfEvent *event, vector_t *player_pos)
+sfCircleShape *set_circle(sfVector2f p_pos, float radius, sfColor color)
 {
-    if (event->key.code == sfKeyQ)
-        player_pos->x -= 5;
-    if (event->key.code == sfKeyD)
-        player_pos->x += 5;
-    if (event->key.code == sfKeyZ)
-        player_pos->y -= 5;
-    if (event->key.code == sfKeyS)
-        player_pos->y += 5;
+    sfCircleShape *circle = sfCircleShape_create();
+
+    sfCircleShape_setRadius(circle, radius);
+    sfCircleShape_setFillColor(circle, color);
+    sfCircleShape_setOrigin(circle, p_pos);
+    return circle;
 }
 
-void drawPlayer(vector_t *player_pos)
+player_t init_player(void)
 {
-    glColor3f(1, 1, 0);
-    glPointSize(8);
-    glBegin(GL_POINTS);
-    glVertex2i(player_pos->x, player_pos->y);
-    glEnd();
+    player_t player;
+    sfVector2f p_pos = (sfVector2f){WIDTH / 2, HEIGHT / 2};
+    sfCircleShape *circle = set_circle(p_pos, 20, sfWhite);
+
+    player.pos = p_pos;
+    player.circle = circle;
+    return player;
 }
 
-void display(sfRenderWindow *window, player_t *player)
+game_t init_game(void)
 {
-    // clear the buffers
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //draw here
-    drawPlayer(&player->pos);
-    /* // end the current frame (internally swaps the front and back buffers) */
-    sfRenderWindow_display(window);
-}
+    game_t game;
+    sfVideoMode mode = {WIDTH, HEIGHT, BITS};
+    sfRenderWindow *window = sfRenderWindow_create(mode, NAME, sfDefaultStyle, NULL);
+    sfEvent event = {0};
 
-void init(sfRenderWindow *window, player_t *player)
-{
     sfRenderWindow_setFramerateLimit(window, FRAMES);
     sfRenderWindow_setVerticalSyncEnabled(window, VSYNC);
-
-    glClearColor(0.3, 0.3, 0.3, 0);
-    player->pos.x = 300;
-    player->pos.y = 300;
-}
-
-static void events(sfRenderWindow *window, sfEvent *event, player_t *player)
-{
-    if (event->type == sfEvtClosed)
-        sfRenderWindow_close(window);
-    else if (event->type == sfEvtResized)
-        glViewport(0, 0, event->size.width, event->size.height);
-    buttons(event, &player->pos);
+    game.window = window;
+    game.event = event;
+    return game;
 }
 
 int main(void)
 {
-    sfVideoMode mode = {WIDTH, HEIGHT, BITS};
-    sfRenderWindow *window = sfRenderWindow_create(mode, NAME, sfDefaultStyle, NULL);
-    sfEvent event = {0};
-    //init here
-    player_t player;
+    game_t game = init_game();
+    player_t player = init_player();
 
-    init(window, &player);
-    while (sfRenderWindow_isOpen(window)) {
-        while (sfRenderWindow_pollEvent(window, &event)) {
+    while (sfRenderWindow_isOpen(game.window)) {
+        while (sfRenderWindow_pollEvent(game.window, &game.event)) {
             //do events here
-            events(window, &event, &player);
+            events(&game, &player);
         }
         //display here
-        display(window, &player);
+        display(&game, &player);
         printf("x: %f -- y: %f\n", player.pos.x, player.pos.y);
     }
     //free here
-    sfRenderWindow_destroy(window);
+    sfRenderWindow_destroy(game.window);
     return 0;
 }
