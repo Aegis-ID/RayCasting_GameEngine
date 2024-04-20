@@ -20,7 +20,7 @@ SRC		=	$(addprefix src/,	\
 			)	\
 			$(addprefix ray_casting/,	\
 			draw2Dmap.c 	\
-			draw3Drays.c	\
+			draw2Drays.c	\
 			)	\
 			main.c	\
 			display.c 	\
@@ -31,7 +31,7 @@ CC		?=	gcc
 
 CPPFLAGS	=	-iquote $(INCLUDE)
 
-CFLAGS 		=	-Wall -Wextra
+CFLAGS 		=	-Wall -Wextra -g3
 
 OBJ		=	$(SRC:.c=.o)
 

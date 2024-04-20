@@ -9,6 +9,9 @@
     #define __GLOBAL__
     #include <SFML/Graphics.h>
 
+    #define DOF 8
+    #define FOV 1
+
 typedef struct game_s {
     sfRenderWindow *window;
     sfEvent event;
@@ -47,7 +50,7 @@ char **get_map(const char *filepath);
 void free_array(char **array);
 
 void draw2Dmap(maps_t *map);
-void draw3Drays(player_t *player, maps_t *map);
+void draw2Drays(player_t *player, maps_t *map);
 
 void events(game_t *game, player_t *player);
 void display(game_t *game, player_t *player, maps_t *map);

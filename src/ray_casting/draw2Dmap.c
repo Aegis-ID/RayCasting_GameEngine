@@ -15,7 +15,7 @@
 
 static void colorizeCell(char cell)
 {
-    if (cell == '1')
+    if (cell == '#')
         glColor3f(1, 1, 1);
     else
         glColor3f(0, 0, 0);
