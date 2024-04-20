@@ -15,7 +15,6 @@ SRC		=	$(addprefix maths/,	\
 			get_deg.c 	\
 			)	\
 			$(addprefix funcs/,	\
-			my_readfile.c 	\
 			str_to_word_array.c 	\
 			) 	\
 
