@@ -18,6 +18,10 @@ SRC		=	$(addprefix src/,	\
 			set_shape.c 	\
 			get_map.c 	\
 			)	\
+			$(addprefix ray_casting/,	\
+			draw2Dmap.c 	\
+			draw3Drays.c	\
+			)	\
 			main.c	\
 			display.c 	\
 			events.c 	\

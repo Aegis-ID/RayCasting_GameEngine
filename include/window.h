@@ -13,7 +13,7 @@
 
     #define WIDTH 1024
     #define HEIGHT 512
-    #define BITS 32
+    #define BITS 64
 
     #define FRAMES 60
     #define VSYNC 1

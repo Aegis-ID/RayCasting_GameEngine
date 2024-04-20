@@ -19,6 +19,7 @@ SRC		=	$(addprefix maths/,	\
 			free_array.c 	\
 			arraylen.c 	\
 			array_strlen.c 	\
+			array_lstrlen.c \
 			) 	\
 
 CC	?=	gcc

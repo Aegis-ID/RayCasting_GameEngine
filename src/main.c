@@ -38,7 +38,7 @@ player_t init_player(void)
 
     player.delta.x = cos(player.angle) * 5;
     player.delta.y = sin(player.angle) * 5;
-    player.pos = (sfVector2f){WIDTH / 2, HEIGHT / 2};
+    player.pos = (sfVector2f){300, 300};
     return player;
 }
 
@@ -66,7 +66,6 @@ int main(void)
         }
         //display here
         display(&game, &player, &map);
-        printf("x: %f -- y: %f\n", player.pos.x, player.pos.y);
     }
     //free here
     sfRenderWindow_destroy(game.window);
