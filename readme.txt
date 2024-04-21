@@ -1,3 +1,4 @@
+**This project uses ONLY the functions included in the CSFML lib, the MATH lib and the C lib**.
 **Ce projet utilise UNIQUEMENT les fonctions incluses dans la lib CSFML, la lib MATH et la lib C**
 
 Sources :
