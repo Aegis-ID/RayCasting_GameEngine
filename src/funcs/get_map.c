@@ -87,18 +87,18 @@ static int *char_to_int_map(const char **char_map)
     return int_map;
 }
 
-maps_t get_map(const char *filepath, const char *map_name)
+maps_t get_map(const char *filepath, const char *map_name, size_t cell_size)
 {
     maps_t map = {0};
     char **char_map = file_to_array(filepath, ",\n\t");
-    int *int_map;
+    int *int_map = NULL;
 
     check_file(char_map);
     int_map = char_to_int_map((const char **)char_map + 2);
     map.m_name = map_name;
-    map.m_height = atoi(char_map[0]);
-    map.m_width = atoi(char_map[1]);
-    map.m_size = map.m_width * map.m_height;
+    map.map_ht = atoi(char_map[0]);
+    map.map_wd = atoi(char_map[1]);
+    map.cell_size = cell_size;
     map.map = int_map;
     map.next = NULL;
     free_array(char_map);

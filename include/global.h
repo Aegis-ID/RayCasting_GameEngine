@@ -11,7 +11,7 @@
 
     #define M_PI_3 3 * M_PI / 2
     #define DOF 8
-    #define FOV 60
+    #define FOV 90
 
 typedef struct game_s {
     sfRenderWindow *window;
@@ -21,9 +21,9 @@ typedef struct game_s {
 typedef struct maps_s {
     const char *m_name;
     int *map;
-    size_t m_height;
-    size_t m_width;
-    size_t m_size;
+    size_t map_ht;
+    size_t map_wd;
+    size_t cell_size;
     struct map_s *next;
 }maps_t;
 
@@ -57,7 +57,7 @@ enum GAME_MODE {
     COMBAT
 };
 //parsing
-maps_t get_map(const char *filepath, const char *map_name);
+maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
 void free_array(char **array);
 //walls
 sfBool is_wall(int cell);

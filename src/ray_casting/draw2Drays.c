@@ -34,8 +34,9 @@ static void draw_rays(player_t *p, rays_t *r, sfColor color)
 static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) >> 6) * m->m_width + ((int)(r->pos.x) >> 6);
-        if ((r->mp > 0) && (r->mp < m->m_size) && is_wall(m->map[r->mp])) {
+        r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
+        if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
+            is_wall(m->map[r->mp])) {
             r->dof = DOF;
             r->h_pos = r->pos;
             r->h_dist = pythagoras(p->pos, r->h_pos);
@@ -51,8 +52,9 @@ static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) >> 6) * m->m_width + ((int)(r->pos.x) >> 6);
-        if ((r->mp > 0) && (r->mp < m->m_size) && is_wall(m->map[r->mp])) {
+        r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
+        if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
+            is_wall(m->map[r->mp])) {
             r->dof = DOF;
             r->v_pos = r->pos;
             r->v_dist = pythagoras(p->pos, r->v_pos);

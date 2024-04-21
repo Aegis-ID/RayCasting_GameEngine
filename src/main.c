@@ -47,7 +47,7 @@ int main(void)
 {
     game_t game = init_game();
     player_t player = init_player();
-    maps_t map = get_map("maps/test_map.txt", "test_map");
+    maps_t map = get_map("maps/test_map.txt", "test_map", 64);
 
     while (sfRenderWindow_isOpen(game.window)) {
         while (sfRenderWindow_pollEvent(game.window, &game.event)) {

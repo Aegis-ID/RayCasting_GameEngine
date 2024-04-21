@@ -29,7 +29,7 @@ static void fix_fisheye(player_t *p, rays_t *r)
 
 void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int rays)
 {
-    float line_height = (m->m_size * (HEIGHT / 2)) / r->dist;
+    float line_height = (m->cell_size * (HEIGHT / 2)) / r->dist;
     float line_offset = 0;
     int space = 8;
 

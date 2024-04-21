@@ -17,10 +17,10 @@ static void drawCell(maps_t *map, sfVector2i *offset)
 {
     glBegin(GL_QUADS);
     glVertex2i(offset->x + 1, offset->y + 1);
-    glVertex2i(offset->x + 1, offset->y + map->m_size - 1);
-    glVertex2i(offset->x + map->m_size - 1,
-        offset->y + map->m_size - 1);
-    glVertex2i(offset->x + map->m_size - 1, offset->y + 1);
+    glVertex2i(offset->x + 1, offset->y + map->cell_size - 1);
+    glVertex2i(offset->x + map->cell_size - 1,
+        offset->y + map->cell_size - 1);
+    glVertex2i(offset->x + map->cell_size - 1, offset->y + 1);
     glEnd();
 }
 
@@ -28,11 +28,11 @@ void draw2Dmap(maps_t *map)
 {
     sfVector2i offset = {0};
 
-    for (size_t y = 0; y < map->m_height; ++y) {
-        for (size_t x = 0; x < map->m_width; ++x) {
-            colorize_cell(map->map[y * map->m_width + x]);
-            offset.x = x * map->m_size;
-            offset.y = y * map->m_size;
+    for (size_t y = 0; y < map->map_ht; ++y) {
+        for (size_t x = 0; x < map->map_wd; ++x) {
+            colorize_cell(map->map[y * map->map_wd + x]);
+            offset.x = x * map->cell_size;
+            offset.y = y * map->cell_size;
             drawCell(map, &offset);
         }
     }
