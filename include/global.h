@@ -52,9 +52,9 @@ maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
 void free_array(char **array);
 
 void draw2Dmap(maps_t *map);
-void draw2Drays(player_t *p, rays_t *r, sfColor color);
-void render2Dmap(player_t *player, maps_t *map);
-void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int rays);
+void draw2Drays(player_t *player, rays_t *rays, sfColor color);
+void draw3Dwalls(player_t *player, maps_t *map, rays_t *rays, int r_iter);
+void ray_casting(player_t *player, maps_t *map);
 
 void events(game_t *game, player_t *player);
 void display(game_t *game, player_t *player, maps_t *map);

@@ -64,7 +64,7 @@ static void reset_check(int *dof, float *dist,
     return;
 }
 
-static void check_line_heights(player_t *p, rays_t *r)
+static void check_h_lines(player_t *p, rays_t *r)
 {
     float aTan = -1 / tan(r->angle);
 
@@ -114,7 +114,7 @@ static void check_v_lines(player_t *p, rays_t *r)
 
 static void update_rays(player_t *p, maps_t *m, rays_t *r)
 {
-    check_line_heights(p, r);
+    check_h_lines(p, r);
     check_h_collisions(p, m, r);
     check_v_lines(p, r);
     check_v_collisions(p, m, r);
@@ -143,17 +143,17 @@ static void update_angles(rays_t *r)
     return;
 }
  
-void render2Dmap(player_t *p, maps_t *m)
+void ray_casting(player_t *p, maps_t *m)
 {
     rays_t r = {0};
 
     r.angle = p->angle - deg_to_rad(FOV / 2);
     update_angles(&r);
-    for (int rays = 0; rays < FOV; ++rays) {
+    for (int r_iter = 0; r_iter < FOV; ++r_iter) {
         update_rays(p, m, &r);
         update_dist(&r);
         draw2Drays(p, &r, sfColor_fromRGB(1, 0, 0));
-        draw3Dwalls(p, m, &r, rays);
+        draw3Dwalls(p, m, &r, r_iter);
         r.angle += deg_to_rad(1);
         update_angles(&r);
     }

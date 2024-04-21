@@ -25,7 +25,7 @@ static void fix_fisheye(player_t *p, rays_t *r)
     return;
 }
 
-void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int rays)
+void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int r_iter)
 {
     float line_height = (m->cell_size * (HEIGHT / 2)) / r->dist;
     float line_offset = 0;
@@ -37,8 +37,8 @@ void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int rays)
     fix_fisheye(p, r);
     glLineWidth(space);
     glBegin(GL_LINES);
-    glVertex2i(rays * space + (WIDTH / 2), line_offset);
-    glVertex2i(rays * space + (WIDTH / 2), line_height + line_offset);
+    glVertex2i(r_iter * space + (WIDTH / 2), line_offset);
+    glVertex2i(r_iter * space + (WIDTH / 2), line_height + line_offset);
     glEnd();
     return;
 }
