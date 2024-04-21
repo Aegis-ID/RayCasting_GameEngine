@@ -36,8 +36,7 @@ typedef struct rays_s {
 
     int dof;
     float angle;
-    sfVector2i m_pos;
-    sfVector2f r_pos;
+    sfVector2f pos;
     sfVector2f offset;
 }rays_t;
 
@@ -47,9 +46,12 @@ enum GAME_MODE {
     EXPLORATION,
     COMBAT
 };
-
+//parsing
 maps_t get_map(const char *filepath, const char *map_name);
 void free_array(char **array);
+//walls
+sfBool is_wall(int cell);
+void colorizeCell(int cell);
 
 void draw2Dmap(maps_t *map);
 void draw2Drays(player_t *player, maps_t *map);

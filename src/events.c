@@ -11,32 +11,32 @@
 #include "global.h"
 #include <math.h>
 
-static void p_movement(sfEvent *event, player_t *player)
+static void p_movement(sfEvent *event, player_t *p)
 {
     if (event->key.code == sfKeyZ) {
-        player->pos.x += player->delta.x;
-        player->pos.y += player->delta.y;
+        p->pos.x += p->delta.x;
+        p->pos.y += p->delta.y;
     }
     if (event->key.code == sfKeyS) {
-        player->pos.x -= player->delta.x;
-        player->pos.y -= player->delta.y;
+        p->pos.x -= p->delta.x;
+        p->pos.y -= p->delta.y;
     }
 }
 
-static void p_rotation(sfEvent *event, player_t *player)
+static void p_rotation(sfEvent *event, player_t *p)
 {
     if (event->key.code == sfKeyQ) {
-        player->angle -= 0.1;
-        if (player->angle < 0)
-            player->angle += 2 * M_PI;
+        p->angle -= 0.1;
+        if (p->angle < 0)
+            p->angle += 2 * M_PI;
     }
     if (event->key.code == sfKeyD) {
-        player->angle += 0.1;
-        if (player->angle > 2 * M_PI)
-            player->angle += 2 * M_PI;
+        p->angle += 0.1;
+        if (p->angle > (2 * M_PI))
+            p->angle -= 2 * M_PI;
     }
-    player->delta.x = cos(player->angle) * 5;
-    player->delta.y = sin(player->angle) * 5;
+    p->delta.x = cos(p->angle) * 5;
+    p->delta.y = sin(p->angle) * 5;
 }
 
 void events(game_t *game, player_t *player)

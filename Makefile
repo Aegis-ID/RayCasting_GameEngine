@@ -21,6 +21,7 @@ SRC		=	$(addprefix src/,	\
 			$(addprefix ray_casting/,	\
 			draw2Dmap.c 	\
 			draw2Drays.c	\
+			walls.c 	\
 			)	\
 			main.c	\
 			display.c 	\

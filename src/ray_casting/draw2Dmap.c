@@ -13,14 +13,6 @@
 #include "global.h"
 #include "lib.h"
 
-static void colorizeCell(int cell)
-{
-    if (cell == 1)
-        glColor3f(1, 1, 1);
-    else
-        glColor3f(0, 0, 0);
-}
-
 static void drawCell(maps_t *map, sfVector2i *offset)
 {
     glBegin(GL_QUADS);
