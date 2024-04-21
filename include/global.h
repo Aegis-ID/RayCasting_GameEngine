@@ -59,9 +59,6 @@ enum GAME_MODE {
 //parsing
 maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
 void free_array(char **array);
-//walls
-sfBool is_wall(int cell);
-void colorize_cell(int cell);
 
 void draw2Dmap(maps_t *map);
 void draw2Drays(player_t *player, maps_t *map);

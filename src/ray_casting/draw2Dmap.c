@@ -24,6 +24,14 @@ static void drawCell(maps_t *map, sfVector2i *offset)
     glEnd();
 }
 
+static void colorize_cell(int cell)
+{
+    if (cell == 1)
+        glColor3f(1, 1, 1);
+    else
+        glColor3f(0, 0, 0);
+}
+
 void draw2Dmap(maps_t *map)
 {
     sfVector2i offset = {0};

@@ -22,7 +22,6 @@ SRC		=	$(addprefix src/,	\
 			draw2Dmap.c 	\
 			draw2Drays.c	\
 			draw3Dwalls.c 	\
-			walls.c 	\
 			)	\
 			main.c	\
 			display.c 	\

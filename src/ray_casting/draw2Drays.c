@@ -22,7 +22,12 @@ static float pythagoras(sfVector2f a, sfVector2f b)
 
 static void draw_rays(player_t *p, rays_t *r, sfColor color)
 {
-    glColor3f(color.r, color.g, color.b);
+    if (r->v_dist < r->h_dist) {
+        glColor3f(color.r, color.g, color.b);
+    }
+    if (r->h_dist < r->v_dist) {
+        glColor3f(color.r - 0.4, color.g - 0.4, color.b - 0.4);
+    }
     glLineWidth(1);
     glBegin(GL_LINES);
     glVertex2i(p->pos.x, p->pos.y);
@@ -36,7 +41,7 @@ static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
     while (r->dof < DOF) {
         r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
         if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
-            is_wall(m->map[r->mp])) {
+            m->map[r->mp] > 0) {
             r->dof = DOF;
             r->h_pos = r->pos;
             r->h_dist = pythagoras(p->pos, r->h_pos);
@@ -54,7 +59,7 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
     while (r->dof < DOF) {
         r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
         if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
-            is_wall(m->map[r->mp])) {
+            m->map[r->mp] > 0) {
             r->dof = DOF;
             r->v_pos = r->pos;
             r->v_dist = pythagoras(p->pos, r->v_pos);

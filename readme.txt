@@ -1,6 +1,6 @@
-Sources :
-
 **Ce projet utilise UNIQUEMENT les fonctions incluses dans la lib CSFML, la lib MATH et la lib C**
+
+Sources :
 
 https://lodev.org/cgtutor/raycasting.html
 https://www.sfml-dev.org/tutorials/2.6/window-opengl.php (SFML x OpenGL)
