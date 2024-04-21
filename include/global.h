@@ -33,11 +33,17 @@ typedef struct player_s {
 } player_t;
 
 typedef struct rays_s {
-
     int dof;
     float angle;
+    size_t mp;
     sfVector2f pos;
     sfVector2f offset;
+
+    float h_dist;
+    sfVector2f h_pos;
+
+    float v_dist;
+    sfVector2f v_pos;
 }rays_t;
 
 enum GAME_MODE {
