@@ -18,9 +18,11 @@ typedef struct game_s {
 }game_t;
 
 typedef struct maps_s {
-    const char *map_name;
-    char **map;
-    size_t map_size;
+    const char *m_name;
+    int *map;
+    size_t m_height;
+    size_t m_width;
+    size_t m_size;
     struct map_s *next;
 }maps_t;
 
@@ -46,7 +48,7 @@ enum GAME_MODE {
     COMBAT
 };
 
-char **get_map(const char *filepath);
+maps_t get_map(const char *filepath, const char *map_name);
 void free_array(char **array);
 
 void draw2Dmap(maps_t *map);

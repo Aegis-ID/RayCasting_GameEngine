@@ -42,22 +42,11 @@ player_t init_player(void)
     return player;
 }
 
-maps_t init_map(const char *filename, const char *map_name)
-{
-    maps_t map = {0};
-
-    map.map_name = map_name;
-    map.map = get_map(filename);
-    map.map_size = array_strlen((const char **)map.map);
-    map.next = NULL;
-    return map;
-}
-
 int main(void)
 {
     game_t game = init_game();
     player_t player = init_player();
-    maps_t map = init_map("maps/test_map.txt", "test_map");
+    maps_t map = get_map("maps/test_map.txt", "test_map");
 
     while (sfRenderWindow_isOpen(game.window)) {
         while (sfRenderWindow_pollEvent(game.window, &game.event)) {

@@ -26,35 +26,27 @@ static void draw_rays(player_t *player, rays_t *rays)
     return;
 }
 
-static sfBool is_wall(char cell)
+static sfBool is_wall(int cell)
 {
-    if (cell == '#')
+    if (cell == 1)
         return sfTrue;
     return sfFalse;
 }
 
-static void check_wall(maps_t *map, rays_t *rays)
-{
-    float mp = rays->m_pos.y * strlen(map->map[rays->m_pos.y]) + rays->m_pos.x;
-
-    if (mp < array_strlen((const char **)map->map) &&
-        is_wall(map->map[rays->m_pos.y][rays->m_pos.x])) {
-        rays->dof = DOF;
-    } else {
-        rays->r_pos.x += rays->offset.x;
-        rays->r_pos.y += rays->offset.y;
-        rays->dof += 1;
-    }
-}
-
 static void check_collisions(maps_t *map, rays_t *rays)
 {
+    size_t mp = 0;
+
     while (rays->dof < DOF) {
         rays->m_pos.y = (int)(rays->r_pos.y) >> 6;
         rays->m_pos.x = (int)(rays->r_pos.x) >> 6;
-        if (rays->m_pos.y < (int)arraylen((const char **)map->map) &&
-            rays->m_pos.x < (int)strlen(map->map[rays->m_pos.y])) {
-            check_wall(map, rays);
+        mp = rays->m_pos.y * map->m_width + rays->m_pos.x;
+        if (mp < map->m_size && is_wall(map->map[mp])) {
+            rays->dof = 8;
+        } else {
+            rays->r_pos.x += rays->offset.x;
+            rays->r_pos.y += rays->offset.y;
+            rays->dof += 1;
         }
     }
     return;
@@ -94,9 +86,6 @@ void draw2Drays(player_t *player, maps_t *map)
         check_h_lines(player, &rays, aTan);
         check_collisions(map, &rays);
         draw_rays(player, &rays);
-//        printf("player angle: %f, ray angle: %f\n", player->angle, rays.angle);
-        printf("p_pos x: %f, p_pos y: %f\n", player->pos.x, player->pos.y);
-        printf("r_pos x: %f, r_pos y: %f\n", rays.r_pos.x, rays.r_pos.y);
     }
     return;
 }
