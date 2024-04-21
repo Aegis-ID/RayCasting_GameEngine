@@ -9,11 +9,9 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include <string.h>
 #include <math.h>
 #include "global.h"
-#include "lib.h"
-#include "window.h"
+#include "settings.h"
 
 static void fix_fisheye(player_t *p, rays_t *r)
 {

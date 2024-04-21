@@ -8,10 +8,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include <string.h>
-#include <math.h>
 #include "global.h"
-#include "lib.h"
 
 static void drawCell(maps_t *map, sfVector2i *offset)
 {

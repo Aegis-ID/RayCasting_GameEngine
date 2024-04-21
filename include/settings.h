@@ -6,8 +6,8 @@
 ** and retrieve info in a config file)
 */
 
-#ifndef __WINDOW__
-    #define __WINDOW__
+#ifndef __SETTINGS__
+    #define __SETTINGS__
 
     #define NAME "Aegis Engine"
 
@@ -18,4 +18,16 @@
     #define FRAMES 60
     #define VSYNC 1
 
-#endif /* !__WINDOW__ */
+typedef struct game_s {
+    sfRenderWindow *window;
+    sfEvent event;
+}game_t;
+
+enum GAME_MODE {
+    MAIN_MENU,
+    REST,
+    EXPLORATION,
+    COMBAT
+};
+
+#endif /* !__SETTINGS__ */

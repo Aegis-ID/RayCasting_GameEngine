@@ -7,16 +7,13 @@
 
 #ifndef __GLOBAL__
     #define __GLOBAL__
+
     #include <SFML/Graphics.h>
+    #include "settings.h"
 
     #define M_PI_3 3 * M_PI / 2
     #define DOF 8
     #define FOV 90
-
-typedef struct game_s {
-    sfRenderWindow *window;
-    sfEvent event;
-}game_t;
 
 typedef struct maps_s {
     const char *m_name;
@@ -50,18 +47,13 @@ typedef struct rays_s {
     float dist;
 }rays_t;
 
-enum GAME_MODE {
-    MAIN_MENU,
-    REST,
-    EXPLORATION,
-    COMBAT
-};
 //parsing
 maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
 void free_array(char **array);
 
 void draw2Dmap(maps_t *map);
-void draw2Drays(player_t *player, maps_t *map);
+void draw2Drays(player_t *p, rays_t *r, sfColor color);
+void render2Dmap(player_t *player, maps_t *map);
 void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int rays);
 
 void events(game_t *game, player_t *player);

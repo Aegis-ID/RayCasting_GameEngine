@@ -8,11 +8,9 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include <stdio.h>
 #include <math.h>
-#include "window.h"
 #include "global.h"
-#include "lib.h"
+#include "settings.h"
 
 game_t init_game(void)
 {

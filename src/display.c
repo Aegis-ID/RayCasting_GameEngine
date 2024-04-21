@@ -8,11 +8,8 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include <string.h>
-#include <math.h>
 #include "global.h"
-#include "lib.h"
-#include "window.h"
+#include "settings.h"
 
 static void p_draw(player_t *player)
 {
@@ -36,7 +33,7 @@ void display(game_t *game, player_t *player, maps_t *map)
     //draw with OpenGL
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw2Dmap(map);
-    draw2Drays(player, map);
+    render2Dmap(player, map);
     p_draw(player);
     // save OpenGL states
     sfRenderWindow_pushGLStates(game->window);
