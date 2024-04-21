@@ -9,9 +9,9 @@
     #define __GLOBAL__
     #include <SFML/Graphics.h>
 
-    #define DOF 8
-    #define FOV 1
     #define M_PI_3 3 * M_PI / 2
+    #define DOF 8
+    #define FOV 60
 
 typedef struct game_s {
     sfRenderWindow *window;
@@ -37,6 +37,7 @@ typedef struct rays_s {
     int dof;
     float angle;
     size_t mp;
+
     sfVector2f pos;
     sfVector2f offset;
 
@@ -45,6 +46,8 @@ typedef struct rays_s {
 
     float v_dist;
     sfVector2f v_pos;
+
+    float dist;
 }rays_t;
 
 enum GAME_MODE {
@@ -62,6 +65,7 @@ void colorize_cell(int cell);
 
 void draw2Dmap(maps_t *map);
 void draw2Drays(player_t *player, maps_t *map);
+void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int rays);
 
 void events(game_t *game, player_t *player);
 void display(game_t *game, player_t *player, maps_t *map);

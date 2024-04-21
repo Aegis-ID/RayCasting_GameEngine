@@ -22,10 +22,6 @@ static float pythagoras(sfVector2f a, sfVector2f b)
 
 static void draw_rays(player_t *p, rays_t *r, sfColor color)
 {
-    if (r->v_dist < r->h_dist)
-        r->pos = r->v_pos;
-    if (r->h_dist < r->v_dist)
-        r->pos = r->h_pos;
     glColor3f(color.r, color.g, color.b);
     glLineWidth(1);
     glBegin(GL_LINES);
@@ -75,9 +71,10 @@ static void reset_check(int *dof, float *dist,
     *dof = 0;
     *dist = 1000000;
     *pos = p_pos;
+    return;
 }
 
-static void check_h_lines(player_t *p, rays_t *r)
+static void check_line_heights(player_t *p, rays_t *r)
 {
     float aTan = -1 / tan(r->angle);
 
@@ -125,17 +122,50 @@ static void check_v_lines(player_t *p, rays_t *r)
     return;
 }
 
+static void update_rays(player_t *p, maps_t *m, rays_t *r)
+{
+    check_line_heights(p, r);
+    check_h_collisions(p, m, r);
+    check_v_lines(p, r);
+    check_v_collisions(p, m, r);
+    return;
+}
+
+static void update_dist(rays_t *r)
+{
+    if (r->v_dist < r->h_dist) {
+        r->pos = r->v_pos;
+        r->dist = r->v_dist;
+    }
+    if (r->h_dist < r->v_dist) {
+        r->pos = r->h_pos;
+        r->dist = r->h_dist;
+    }
+    return;
+}
+
+static void update_angles(rays_t *r)
+{
+    if (r->angle < 0)
+        r->angle += 2 * M_PI;
+    if (r->angle > 2 * M_PI)
+        r->angle -= 2 * M_PI;
+    return;
+}
+ 
 void draw2Drays(player_t *p, maps_t *m)
 {
     rays_t r = {0};
 
-    r.angle = p->angle;
+    r.angle = p->angle - deg_to_rad(FOV / 2);
+    update_angles(&r);
     for (int rays = 0; rays < FOV; ++rays) {
-        check_h_lines(p, &r);
-        check_h_collisions(p, m, &r);
-        check_v_lines(p, &r);
-        check_v_collisions(p, m, &r);
+        update_rays(p, m, &r);
+        update_dist(&r);
         draw_rays(p, &r, sfColor_fromRGB(1, 0, 0));
+        draw3Dwalls(p, m, &r, rays);
+        r.angle += deg_to_rad(1);
+        update_angles(&r);
     }
     return;
 }
