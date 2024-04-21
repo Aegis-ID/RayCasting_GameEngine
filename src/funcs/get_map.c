@@ -100,7 +100,7 @@ maps_t get_map(const char *filepath, const char *map_name)
     map.m_width = atoi(char_map[1]);
     map.m_size = map.m_width * map.m_height;
     map.map = int_map;
-    map.next = NULL; 
+    map.next = NULL;
     free_array(char_map);
     return map;
 }

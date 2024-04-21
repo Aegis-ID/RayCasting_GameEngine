@@ -18,7 +18,8 @@ game_t init_game(void)
 {
     game_t game = {0};
     sfVideoMode mode = {WIDTH, HEIGHT, BITS};
-    sfRenderWindow *window = sfRenderWindow_create(mode, NAME, sfDefaultStyle, NULL);
+    sfRenderWindow *window = sfRenderWindow_create(mode, NAME,
+        sfDefaultStyle, NULL);
     sfEvent event = {0};
 
     //OpenGL

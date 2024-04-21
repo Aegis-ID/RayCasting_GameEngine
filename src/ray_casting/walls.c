@@ -10,7 +10,7 @@
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
 
-void colorizeCell(int cell)
+void colorize_cell(int cell)
 {
     if (cell == 1)
         glColor3f(1, 1, 1);

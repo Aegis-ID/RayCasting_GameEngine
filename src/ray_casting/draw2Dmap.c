@@ -30,7 +30,7 @@ void draw2Dmap(maps_t *map)
 
     for (size_t y = 0; y < map->m_height; ++y) {
         for (size_t x = 0; x < map->m_width; ++x) {
-            colorizeCell(map->map[y * map->m_width + x]);
+            colorize_cell(map->map[y * map->m_width + x]);
             offset.x = x * map->m_size;
             offset.y = y * map->m_size;
             drawCell(map, &offset);
