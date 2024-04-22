@@ -12,40 +12,46 @@
 #include "global.h"
 #include "settings.h"
 
-static void p_movement(sfEvent *event, player_t *p)
+// TO DO
+sfBool isKey_pressed(sfEvent *event, int key);
+sfBool isKey_released(sfEvent *event, int key);
+
+static void p_movement(player_t *p)
 {
-    if (event->key.code == sfKeyZ) {
+    if (sfKeyboard_isKeyPressed(sfKeyZ)) {
         p->pos.x += p->delta.x;
         p->pos.y += p->delta.y;
     }
-    if (event->key.code == sfKeyQ) {
+    if (sfKeyboard_isKeyPressed(sfKeyQ)) {
         p->pos.x += p->delta.y;
         p->pos.y -= p->delta.x;
     }
-    if (event->key.code == sfKeyS) {
+    if (sfKeyboard_isKeyPressed(sfKeyS)) {
         p->pos.x -= p->delta.x;
         p->pos.y -= p->delta.y;
     }
-    if (event->key.code == sfKeyD) {
+    if (sfKeyboard_isKeyPressed(sfKeyD)) {
         p->pos.x -= p->delta.y;
         p->pos.y += p->delta.x;
     }
 }
-
-static void p_rotation(sfEvent *event, player_t *p)
+// Implement Mouse
+static void p_rotation(player_t *p)
 {
-    if (event->key.code == sfKeyA) {
+    if (sfKeyboard_isKeyPressed(sfKeyA)) {
         p->angle -= 0.1;
         if (p->angle < 0)
             p->angle += 2 * M_PI;
+        p->delta.x = cos(p->angle) * 5;
+        p->delta.y = sin(p->angle) * 5;
     }
-    if (event->key.code == sfKeyE) {
+    if (sfKeyboard_isKeyPressed(sfKeyE)) {
         p->angle += 0.1;
         if (p->angle > (2 * M_PI))
             p->angle -= 2 * M_PI;
+        p->delta.x = cos(p->angle) * 5;
+        p->delta.y = sin(p->angle) * 5;
     }
-    p->delta.x = cos(p->angle) * 5;
-    p->delta.y = sin(p->angle) * 5;
 }
 
 void events(game_t *game, player_t *player)
@@ -53,10 +59,10 @@ void events(game_t *game, player_t *player)
     sfRenderWindow *window = game->window;
     sfEvent event = game->event;
 
-    if (event.type == sfEvtClosed || event.key.code == sfKeyEscape)
+    if (event.type == sfEvtClosed || sfKeyboard_isKeyPressed(sfKeyEscape))
         sfRenderWindow_close(window);
     if (event.type == sfEvtResized)
         glViewport(0, 0, event.size.width, event.size.height);
-    p_movement(&event, player);
-    p_rotation(&event, player);
+    p_movement(player);
+    p_rotation(player);
 }
