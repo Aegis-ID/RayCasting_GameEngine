@@ -14,11 +14,6 @@
 #include "lib.h"
 #include "settings.h"
 
-static float pythagoras(sfVector2f a, sfVector2f b)
-{
-    return sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
-}
-
 static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {

@@ -17,6 +17,7 @@ SRC		=	$(addprefix src/,	\
 			$(addprefix funcs/,	\
 			set_shape.c 	\
 			get_map.c 	\
+			pythagoras.c 	\
 			)	\
 			$(addprefix ray_casting/,	\
 			draw2Dmap.c 	\

@@ -11,23 +11,6 @@
 #include "global.h"
 #include "settings.h"
 
-static void p_draw(player_t *player)
-{
-    //draw player body
-    glColor3f(1, 1, 0);
-    glPointSize(8);
-    glBegin(GL_POINTS);
-    glVertex2i(player->pos.x, player->pos.y);
-    glEnd();
-    //draw direction
-    glLineWidth(3);
-    glBegin(GL_LINES);
-    glVertex2i(player->pos.x, player->pos.y);
-    glVertex2i(player->pos.x + player->delta.x * 5,
-        player->pos.y + player->delta.y * 5);
-    glEnd();
-}
-
 void display(game_t *game, player_t *player, maps_t *map)
 {
     //draw with OpenGL

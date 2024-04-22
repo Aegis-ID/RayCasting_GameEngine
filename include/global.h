@@ -51,7 +51,11 @@ typedef struct rays_s {
 maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
 void free_array(char **array);
 
+float pythagoras(sfVector2f a, sfVector2f b);
+
+float fix_angle(float angle);
 void draw2Dmap(maps_t *map);
+void p_draw(player_t *player);
 void draw2Drays(player_t *player, rays_t *rays, sfColor color);
 void draw3Dwalls(player_t *player, maps_t *map, rays_t *rays, int r_iter);
 void ray_casting(player_t *player, maps_t *map);
