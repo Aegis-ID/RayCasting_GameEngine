@@ -18,8 +18,6 @@ SRC		=	$(addprefix maths/,	\
 			str_to_word_array.c 	\
 			free_array.c 	\
 			arraylen.c 	\
-			array_strlen.c 	\
-			array_lstrlen.c \
 			) 	\
 
 CC	?=	gcc
