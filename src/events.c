@@ -17,16 +17,15 @@ static collisions_t get_collisions(player_t *p)
 {
     collisions_t col = {0};
     sfVector2i offset = {0};
-    int dist = 10;
 
     if (p->delta.x < 0)
-        offset.x = -dist;
+        offset.x = -COL_DIST;
     else
-        offset.x = dist;
+        offset.x = COL_DIST;
     if (p->delta.y < 0)
-        offset.y = -dist;
+        offset.y = -COL_DIST;
     else
-        offset.y = dist;
+        offset.y = COL_DIST;
     col.pos.x = p->pos.x / MAP_S;
     col.pos.y = p->pos.y / MAP_S;
     col.offset_add.x = (p->pos.x + offset.x) / MAP_S;
