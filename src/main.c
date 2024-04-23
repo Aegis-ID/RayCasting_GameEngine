@@ -43,7 +43,7 @@ player_t init_player(void)
 {
     player_t player = {0};
 
-    player.pos = (sfVector2f){50, 50};
+    player.pos = (sfVector2f){200, 200};
     player.angle = 90;
     player.delta.x = cos(deg_to_rad(player.angle)) * 5;
     player.delta.y = -sin(deg_to_rad(player.angle)) * 5;
