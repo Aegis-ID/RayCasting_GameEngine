@@ -12,29 +12,20 @@
 #include <math.h>
 #include "global.h"
 #include "settings.h"
+#include "lib.h"
 
-static void fix_fisheye(player_t *p, rays_t *r)
+void draw_walls(player_t *p, maps_t *m, rays_t *r, int r_iter)
 {
-    float cos_angle = p->angle - r->angle;
-
-    if (cos_angle < 0)
-        cos_angle += 2 * M_PI;
-    if (cos_angle > 2 * M_PI)
-        cos_angle -= 2 * M_PI;
-    r->dist *= cos(cos_angle);
-    return;
-}
-
-void draw3Dwalls(player_t *p, maps_t *m, rays_t *r, int r_iter)
-{
-    float line_height = (m->cell_size * (HEIGHT / 2)) / r->dist;
-    float line_offset = 0;
+    int line_height = 0;
+    int line_offset = 0;
     int space = 8;
 
+    r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
+    line_height = (m->cell_size * (HEIGHT / 2)) / r->h_dist;
     if (line_height > (HEIGHT / 2))
         line_height = (HEIGHT / 2);
-    line_offset = (HEIGHT / 4) - line_height / 2;
-    fix_fisheye(p, r);
+    line_offset = (HEIGHT / 4) - (line_height >> 1);
+
     glLineWidth(space);
     glBegin(GL_LINES);
     glVertex2i(r_iter * space + (WIDTH / 2), line_offset);

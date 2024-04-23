@@ -11,6 +11,7 @@
 #include <math.h>
 #include "global.h"
 #include "settings.h"
+#include "lib.h"
 
 game_t init_game(void)
 {
@@ -35,9 +36,10 @@ player_t init_player(void)
 {
     player_t player = {0};
 
-    player.delta.x = cos(player.angle) * 5;
-    player.delta.y = sin(player.angle) * 5;
     player.pos = (sfVector2f){300, 300};
+    player.angle = 90;
+    player.delta.x = cos(deg_to_rad(player.angle)) * 5;
+    player.delta.y = -sin(deg_to_rad(player.angle)) * 5;
     return player;
 }
 

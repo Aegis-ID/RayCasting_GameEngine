@@ -11,47 +11,44 @@
 #include <math.h>
 #include "global.h"
 #include "settings.h"
-
-// TO DO
-sfBool isKey_pressed(sfEvent *event, int key);
-sfBool isKey_released(sfEvent *event, int key);
+#include "lib.h"
 
 static void p_movement(player_t *p)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)) {
-        p->pos.x += p->delta.x;
-        p->pos.y += p->delta.y;
+        p->pos.x += p->delta.x * MVT;
+        p->pos.y += p->delta.y * MVT;
     }
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
-        p->pos.x += p->delta.y;
-        p->pos.y -= p->delta.x;
+        p->pos.x += p->delta.y * MVT;
+        p->pos.y -= p->delta.x * MVT;
     }
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        p->pos.x -= p->delta.x;
-        p->pos.y -= p->delta.y;
+        p->pos.x -= p->delta.x * MVT;
+        p->pos.y -= p->delta.y * MVT;
     }
     if (sfKeyboard_isKeyPressed(sfKeyD)) {
-        p->pos.x -= p->delta.y;
-        p->pos.y += p->delta.x;
+        p->pos.x -= p->delta.y * MVT;
+        p->pos.y += p->delta.x * MVT;
     }
+    return;
 }
-// Implement Mouse
+
 static void p_rotation(player_t *p)
 {
     if (sfKeyboard_isKeyPressed(sfKeyA)) {
-        p->angle -= 0.1;
-        if (p->angle < 0)
-            p->angle += 2 * M_PI;
-        p->delta.x = cos(p->angle) * 5;
-        p->delta.y = sin(p->angle) * 5;
+        p->angle += ROT;
+        p->angle = update_angle(p->angle);
+        p->delta.x = cos(deg_to_rad(p->angle));
+        p->delta.y = -sin(deg_to_rad(p->angle));
     }
     if (sfKeyboard_isKeyPressed(sfKeyE)) {
-        p->angle += 0.1;
-        if (p->angle > (2 * M_PI))
-            p->angle -= 2 * M_PI;
-        p->delta.x = cos(p->angle) * 5;
-        p->delta.y = sin(p->angle) * 5;
+        p->angle -= ROT;
+        p->angle = update_angle(p->angle);
+        p->delta.x = cos(deg_to_rad(p->angle));
+        p->delta.y = -sin(deg_to_rad(p->angle));
     }
+    return;
 }
 
 void events(game_t *game, player_t *player)
@@ -63,6 +60,7 @@ void events(game_t *game, player_t *player)
         sfRenderWindow_close(window);
     if (event.type == sfEvtResized)
         glViewport(0, 0, event.size.width, event.size.height);
-    p_movement(player);
     p_rotation(player);
+    p_movement(player);
+    return;
 }

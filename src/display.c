@@ -15,9 +15,9 @@ void display(game_t *game, player_t *player, maps_t *map)
 {
     //draw with OpenGL
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    draw2Dmap(map);
+    draw_map(map);
+    draw_player(player);
     ray_casting(player, map);
-    p_draw(player);
     // save OpenGL states
     sfRenderWindow_pushGLStates(game->window);
     // draw with CSFML here

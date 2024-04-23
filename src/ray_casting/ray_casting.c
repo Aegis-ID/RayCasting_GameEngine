@@ -14,20 +14,34 @@
 #include "lib.h"
 #include "settings.h"
 
-static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
+float update_angle(float angle)
 {
-    while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
-        if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
-            m->map[r->mp] > 0) {
-            r->dof = DOF;
-            r->h_pos = r->pos;
-            r->h_dist = pythagoras(p->pos, r->h_pos);
-        } else {
-            r->pos.x += r->offset.x;
-            r->pos.y += r->offset.y;
-            r->dof += 1;
-        }
+    if (angle >= 360)
+        angle -= 360;
+    if (angle < 0)
+        angle += 360;
+    return angle;
+}
+
+static void check_v_lines(player_t *p, rays_t *r)
+{
+    float tangent = tan(deg_to_rad(r->angle));
+
+    r->dof = 0;
+    r->v_dist = 100000;
+    if (cos(deg_to_rad(r->angle)) > 0.001) {
+        r->pos.x = (((int)p->pos.x >> 6) << 6) + 64;
+        r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
+        r->offset.x = 64;
+        r->offset.y = -r->offset.x * tangent;
+    } else if (cos(deg_to_rad(r->angle)) < -0.001) {
+        r->pos.x = (((int)p->pos.x >> 6) << 6) - 0.0001;
+        r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
+        r->offset.x = -64;
+        r->offset.y = -r->offset.x * tangent;
+    } else {
+        r->pos = p->pos;
+        r->dof = DOF;
     }
     return;
 }
@@ -39,8 +53,50 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
         if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
             m->map[r->mp] > 0) {
             r->dof = DOF;
-            r->v_pos = r->pos;
-            r->v_dist = pythagoras(p->pos, r->v_pos);
+            r->v_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
+                -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
+        } else {
+            r->pos.x += r->offset.x;
+            r->pos.y += r->offset.y;
+            r->dof += 1;
+        }
+    }
+    r->v_pos = r->pos;
+    return;
+}
+
+static void check_h_lines(player_t *p, rays_t *r)
+{
+    float tangent = 1 / tan(deg_to_rad(r->angle));
+
+    r->dof = 0;
+    r->h_dist = 100000;
+    if (sin(deg_to_rad(r->angle)) < -0.001) {
+        r->pos.y = (((int)p->pos.y >> 6) << 6) + 64;
+        r->pos.x = (p->pos.y - r->pos.y) * tangent + p->pos.x;
+        r->offset.y = 64;
+        r->offset.x = -r->offset.y * tangent;
+    } else if (sin(deg_to_rad(r->angle)) > 0.001) {
+        r->pos.y = (((int)p->pos.y >> 6) << 6) - 0.0001;
+        r->pos.x = (p->pos.y - r->pos.y) * tangent + p->pos.x;
+        r->offset.y = -64;
+        r->offset.x = -r->offset.y * tangent;
+    } else {
+        r->pos = p->pos;
+        r->dof = DOF;
+    }
+    return;
+}
+
+static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
+{
+    while (r->dof < DOF) {
+        r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
+        if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
+            m->map[r->mp] > 0) {
+            r->dof = DOF;
+            r->h_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
+                -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
         } else {
             r->pos.x += r->offset.x;
             r->pos.y += r->offset.y;
@@ -50,107 +106,32 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
     return;
 }
 
-static void reset_check(int *dof, float *dist,
-    sfVector2f *pos, sfVector2f p_pos)
-{
-    *dof = 0;
-    *dist = 1000000;
-    *pos = p_pos;
-    return;
-}
-
-static void check_h_lines(player_t *p, rays_t *r)
-{
-    float aTan = -1 / tan(r->angle);
-
-    reset_check(&r->dof, &r->h_dist, &r->h_pos, p->pos);
-    if (r->angle > M_PI) {
-        r->pos.y = (((int)p->pos.y >> 6) << 6) - 0.0001;
-        r->pos.x = (p->pos.y - r->pos.y) * aTan + p->pos.x;
-        r->offset.y = -64;
-        r->offset.x = -r->offset.y * aTan;
-    }
-    if (r->angle < M_PI) {
-        r->pos.y = (((int)p->pos.y >> 6) << 6) + 64;
-        r->pos.x = (p->pos.y - r->pos.y) * aTan + p->pos.x;
-        r->offset.y = 64;
-        r->offset.x = -r->offset.y * aTan;
-    }
-    if ((r->angle == 0) || (r->angle == M_PI)) {
-        r->pos = p->pos;
-        r->dof = DOF;
-    }
-    return;
-}
-
-static void check_v_lines(player_t *p, rays_t *r)
-{
-    float nTan = -tan(r->angle);
-
-    reset_check(&r->dof, &r->v_dist, &r->v_pos, p->pos);
-    if ((r->angle > M_PI_2) && (r->angle < M_PI_3)) {
-        r->pos.x = (((int)p->pos.x >> 6) << 6) - 0.0001;
-        r->pos.y = (p->pos.x - r->pos.x) * nTan + p->pos.y;
-        r->offset.x = -64;
-        r->offset.y = -r->offset.x * nTan;
-    }
-    if ((r->angle < M_PI_2) || (r->angle > M_PI_3)) {
-        r->pos.x = (((int)p->pos.x >> 6) << 6) + 64;
-        r->pos.y = (p->pos.x - r->pos.x) * nTan + p->pos.y;
-        r->offset.x = 64;
-        r->offset.y = -r->offset.x * nTan;
-    }
-    if ((r->angle == 0) || (r->angle == M_PI)) {
-        r->pos = p->pos;
-        r->dof = DOF;
-    }
-    return;
-}
-
 static void update_rays(player_t *p, maps_t *m, rays_t *r)
 {
-    check_h_lines(p, r);
-    check_h_collisions(p, m, r);
     check_v_lines(p, r);
     check_v_collisions(p, m, r);
-    return;
-}
-
-static void update_dist(rays_t *r)
-{
+    check_h_lines(p, r);
+    check_h_collisions(p, m, r);
+    // ray color
+    glColor3f(0.8, 0, 0);
     if (r->v_dist < r->h_dist) {
+        glColor3f(0.6, 0, 0);
         r->pos = r->v_pos;
-        r->dist = r->v_dist;
-    }
-    if (r->h_dist < r->v_dist) {
-        r->pos = r->h_pos;
-        r->dist = r->h_dist;
+        r->h_dist = r->v_dist;
     }
     return;
 }
 
-static void update_angles(rays_t *r)
-{
-    if (r->angle < 0)
-        r->angle += 2 * M_PI;
-    if (r->angle > 2 * M_PI)
-        r->angle -= 2 * M_PI;
-    return;
-}
- 
 void ray_casting(player_t *p, maps_t *m)
 {
     rays_t r = {0};
 
-    r.angle = p->angle - deg_to_rad(FOV / 2);
-    update_angles(&r);
+    r.angle = update_angle(p->angle + (FOV / 2));
     for (int r_iter = 0; r_iter < FOV; ++r_iter) {
         update_rays(p, m, &r);
-        update_dist(&r);
-        draw2Drays(p, &r, sfColor_fromRGB(1, 0, 0));
-        draw3Dwalls(p, m, &r, r_iter);
-        r.angle += deg_to_rad(1);
-        update_angles(&r);
+        draw_rays(p, &r);
+        draw_walls(p, m, &r, r_iter);
+        r.angle = update_angle(r.angle - 1);
     }
     return;
 }

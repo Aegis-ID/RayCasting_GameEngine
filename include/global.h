@@ -13,7 +13,10 @@
 
     #define M_PI_3 3 * M_PI / 2
     #define DOF 8
-    #define FOV 90
+    #define FOV 60
+
+    #define MVT 1
+    #define ROT 5
 
 typedef struct maps_s {
     const char *m_name;
@@ -25,45 +28,42 @@ typedef struct maps_s {
 }maps_t;
 
 typedef struct player_s {
+    float angle;
     sfVector2f pos;
     sfVector2f delta;
-    float angle;
 } player_t;
 
 typedef struct rays_s {
     int dof;
+    //Ray main infos
     float angle;
-    size_t mp;
-
     sfVector2f pos;
     sfVector2f offset;
-
+    //for horizontal coll
     float h_dist;
     sfVector2f h_pos;
-
+    //for vertical coll
     float v_dist;
     sfVector2f v_pos;
-
-    float dist;
+    //for map position
+    size_t mp;
 }rays_t;
 
 //parsing
 maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
 void free_array(char **array);
-
+//2D part
+void draw_map(maps_t *map);
+void draw_player(player_t *player);
+void draw_rays(player_t *player, rays_t *rays);
+//Some Maths
 float pythagoras(sfVector2f a, sfVector2f b);
-
-float fix_angle(float angle);
-void draw2Dmap(maps_t *map);
-void p_draw(player_t *player);
-void draw2Drays(player_t *player, rays_t *rays, sfColor color);
-void draw3Dwalls(player_t *player, maps_t *map, rays_t *rays, int r_iter);
+float update_angle(float angle);
+//3D part
+void draw_walls(player_t *player, maps_t *map, rays_t *rays, int r_iter);
 void ray_casting(player_t *player, maps_t *map);
-
+//Main functions
 void events(game_t *game, player_t *player);
 void display(game_t *game, player_t *player, maps_t *map);
-
-sfCircleShape *set_circle(sfVector2f p_pos, float radius, sfColor color);
-sfRectangleShape *set_rect(sfVector2f pos, sfVector2f size, sfColor color);
 
 #endif /* !__GLOBAL__ */

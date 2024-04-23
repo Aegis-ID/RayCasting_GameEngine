@@ -15,14 +15,12 @@ SUBDIRS		=	lib/
 
 SRC		=	$(addprefix src/,	\
 			$(addprefix funcs/,	\
-			set_shape.c 	\
 			get_map.c 	\
-			pythagoras.c 	\
 			)	\
 			$(addprefix ray_casting/,	\
-			draw2Dmap.c 	\
-			draw2Drays.c	\
-			draw3Dwalls.c 	\
+			draw_map.c 	\
+			draw_rays.c	\
+			draw_walls.c 	\
 			ray_casting.c 	\
 			)	\
 			main.c	\

@@ -10,32 +10,6 @@
 #include <SFML/OpenGL.h>
 #include "global.h"
 
-float fix_angle(float angle)
-{
-    if (angle > 359)
-        angle -= 360;
-    if (angle < 0)
-        angle += 360;
-    return angle;
-}
-
-void p_draw(player_t *player)
-{
-    //draw player body
-    glColor3f(1, 1, 0);
-    glPointSize(8);
-    glBegin(GL_POINTS);
-    glVertex2i(player->pos.x, player->pos.y);
-    glEnd();
-    //draw direction
-    glLineWidth(3);
-    glBegin(GL_LINES);
-    glVertex2i(player->pos.x, player->pos.y);
-    glVertex2i(player->pos.x + player->delta.x * 5,
-        player->pos.y + player->delta.y * 5);
-    glEnd();
-}
-
 static void drawCell(maps_t *map, sfVector2i *offset)
 {
     glBegin(GL_QUADS);
@@ -55,7 +29,7 @@ static void colorize_cell(int cell)
         glColor3f(0, 0, 0);
 }
 
-void draw2Dmap(maps_t *map)
+void draw_map(maps_t *map)
 {
     sfVector2i offset = {0};
 
@@ -68,4 +42,21 @@ void draw2Dmap(maps_t *map)
         }
     }
     return;
+}
+
+void draw_player(player_t *p)
+{
+    //draw p body
+    glColor3f(1, 1, 0);
+    glPointSize(8);
+    glLineWidth(4);
+    glBegin(GL_POINTS);
+    glVertex2i(p->pos.x, p->pos.y);
+    glEnd();
+    //draw direction
+    glLineWidth(3);
+    glBegin(GL_LINES);
+    glVertex2i(p->pos.x, p->pos.y);
+    glVertex2i(p->pos.x + p->delta.x * 20, p->pos.y + p->delta.y * 20);
+    glEnd();
 }

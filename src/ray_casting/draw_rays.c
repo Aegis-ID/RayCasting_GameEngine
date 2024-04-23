@@ -12,14 +12,8 @@
 #include "global.h"
 #include "settings.h"
 
-void draw2Drays(player_t *p, rays_t *r, sfColor color)
+void draw_rays(player_t *p, rays_t *r)
 {
-    if (r->v_dist < r->h_dist) {
-        glColor3f(color.r, color.g, color.b);
-    }
-    if (r->h_dist < r->v_dist) {
-        glColor3f(color.r - 0.4, color.g - 0.4, color.b - 0.4);
-    }
     glLineWidth(1);
     glBegin(GL_LINES);
     glVertex2i(p->pos.x, p->pos.y);
