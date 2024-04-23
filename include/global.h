@@ -26,7 +26,7 @@ typedef struct maps_s {
     int *map;
     size_t map_ht;
     size_t map_wd;
-    size_t map_size;
+    size_t map_size;    //map_ht * map_wd    ==>  != MAP_S
     struct map_s *next;
 }maps_t;
 
@@ -69,7 +69,7 @@ void draw_rays(player_t *player, rays_t *rays);
 float pythagoras(sfVector2f a, sfVector2f b);
 float update_angle(float angle);
 //3D part
-void draw_walls(player_t *player, maps_t *map, rays_t *rays, int r_iter);
+void draw_walls(player_t *player, rays_t *rays, int r_iter);
 void ray_casting(player_t *player, maps_t *map);
 //Main functions
 void events(game_t *game, player_t *player, maps_t *map);

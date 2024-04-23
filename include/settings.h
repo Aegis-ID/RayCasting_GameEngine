@@ -11,8 +11,8 @@
 
     #define NAME "Aegis Engine"
 
-    #define HEIGHT 512
-    #define WIDTH 1024
+    #define HEIGHT 720
+    #define WIDTH 1280
     #define BITS 64
 
     #define FRAMES 60

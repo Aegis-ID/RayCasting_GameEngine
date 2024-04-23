@@ -14,7 +14,7 @@
 #include "settings.h"
 #include "lib.h"
 
-void draw_walls(player_t *p, maps_t *m, rays_t *r, int r_iter)
+void draw_walls(player_t *p, rays_t *r, int r_iter)
 {
     int line_height = 0;
     int line_offset = 0;

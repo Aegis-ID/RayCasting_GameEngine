@@ -23,18 +23,18 @@ float update_angle(float angle)
     return angle;
 }
 
-static void check_v_lines(player_t *p, maps_t *m, rays_t *r)
+static void check_v_lines(player_t *p, rays_t *r)
 {
     float tangent = tan(deg_to_rad(r->angle));
 
     r->dof = 0;
     r->v_dist = 100000;
-    if (cos(deg_to_rad(r->angle)) > 0.001) {
+    if (cos(deg_to_rad(r->angle)) > 0.0001) {
         r->pos.x = (((int)p->pos.x / MAP_S) * MAP_S) + MAP_S;
         r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
         r->offset.x = MAP_S;
         r->offset.y = -r->offset.x * tangent;
-    } else if (cos(deg_to_rad(r->angle)) < -0.001) {
+    } else if (cos(deg_to_rad(r->angle)) < -0.0001) {
         r->pos.x = (((int)p->pos.x / MAP_S) * MAP_S) - 0.0001;
         r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
         r->offset.x = -MAP_S;
@@ -65,18 +65,18 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
     return;
 }
 
-static void check_h_lines(player_t *p, maps_t *m, rays_t *r)
+static void check_h_lines(player_t *p, rays_t *r)
 {
     float tangent = 1 / tan(deg_to_rad(r->angle));
 
     r->dof = 0;
     r->h_dist = 100000;
-    if (sin(deg_to_rad(r->angle)) < -0.001) {
+    if (sin(deg_to_rad(r->angle)) < -0.0001) {
         r->pos.y = (((int)p->pos.y / MAP_S) * MAP_S) + MAP_S;
         r->pos.x = (p->pos.y - r->pos.y) * tangent + p->pos.x;
         r->offset.y = MAP_S;
         r->offset.x = -r->offset.y * tangent;
-    } else if (sin(deg_to_rad(r->angle)) > 0.001) {
+    } else if (sin(deg_to_rad(r->angle)) > 0.0001) {
         r->pos.y = (((int)p->pos.y / MAP_S) * MAP_S) - 0.0001;
         r->pos.x = (p->pos.y - r->pos.y) * tangent + p->pos.x;
         r->offset.y = -MAP_S;
@@ -108,9 +108,9 @@ static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 
 static void update_rays(player_t *p, maps_t *m, rays_t *r)
 {
-    check_v_lines(p, m, r);
+    check_v_lines(p, r);
     check_v_collisions(p, m, r);
-    check_h_lines(p, m, r);
+    check_h_lines(p, r);
     check_h_collisions(p, m, r);
     // ray color
     glColor3f(0.8, 0, 0);
@@ -130,7 +130,7 @@ void ray_casting(player_t *p, maps_t *m)
     for (int r_iter = 0; r_iter < FOV; ++r_iter) {
         update_rays(p, m, &r);
         draw_rays(p, &r);
-        draw_walls(p, m, &r, r_iter);
+        draw_walls(p, &r, r_iter);
         r.angle = update_angle(r.angle - 1);
     }
     return;
