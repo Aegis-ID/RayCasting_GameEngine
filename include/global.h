@@ -15,7 +15,9 @@
     //View settings
     #define DOF 8
     #define FOV 60
-    //Movement speed & rotation speed of the player
+    #define SHADE 1
+    #define COL_DIST 20
+    //Player settings    ==>    Movement speed & rotation speed of the player
     #define MVT 1
     #define ROT 5
     //Mini map size
@@ -50,7 +52,18 @@ typedef struct rays_s {
     sfVector2f v_pos;
     //for map position
     size_t mp;
+    //
+    float shade;
 }rays_t;
+
+typedef struct textures_s {
+    int wall_ht;
+    int wall_off;
+    sfVector2f pos;
+    sfVector2f offset;
+    sfVector2f step;
+    float color;
+}textures_t;
 
 typedef struct collisions_s {
     sfVector2i pos;

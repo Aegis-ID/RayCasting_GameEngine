@@ -112,10 +112,11 @@ static void update_rays(player_t *p, maps_t *m, rays_t *r)
     check_v_collisions(p, m, r);
     check_h_lines(p, r);
     check_h_collisions(p, m, r);
-    // ray color
     glColor3f(0.8, 0, 0);
+    r->shade = SHADE;
     if (r->v_dist < r->h_dist) {
         glColor3f(0.6, 0, 0);
+        r->shade = 0.6;
         r->pos = r->v_pos;
         r->h_dist = r->v_dist;
     }
