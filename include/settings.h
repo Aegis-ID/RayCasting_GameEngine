@@ -21,6 +21,7 @@
 typedef struct game_s {
     sfRenderWindow *window;
     sfEvent event;
+    sfClock *clock;
 }game_t;
 
 enum GAME_MODE {

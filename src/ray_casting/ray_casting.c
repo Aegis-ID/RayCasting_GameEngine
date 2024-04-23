@@ -23,21 +23,21 @@ float update_angle(float angle)
     return angle;
 }
 
-static void check_v_lines(player_t *p, rays_t *r)
+static void check_v_lines(player_t *p, maps_t *m, rays_t *r)
 {
     float tangent = tan(deg_to_rad(r->angle));
 
     r->dof = 0;
     r->v_dist = 100000;
     if (cos(deg_to_rad(r->angle)) > 0.001) {
-        r->pos.x = (((int)p->pos.x >> 6) << 6) + 64;
+        r->pos.x = (((int)p->pos.x / MAP_S) * MAP_S) + MAP_S;
         r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
-        r->offset.x = 64;
+        r->offset.x = MAP_S;
         r->offset.y = -r->offset.x * tangent;
     } else if (cos(deg_to_rad(r->angle)) < -0.001) {
-        r->pos.x = (((int)p->pos.x >> 6) << 6) - 0.0001;
+        r->pos.x = (((int)p->pos.x / MAP_S) * MAP_S) - 0.0001;
         r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
-        r->offset.x = -64;
+        r->offset.x = -MAP_S;
         r->offset.y = -r->offset.x * tangent;
     } else {
         r->pos = p->pos;
@@ -49,7 +49,7 @@ static void check_v_lines(player_t *p, rays_t *r)
 static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
+        r->mp = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
         if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
             m->map[r->mp] > 0) {
             r->dof = DOF;
@@ -65,21 +65,21 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
     return;
 }
 
-static void check_h_lines(player_t *p, rays_t *r)
+static void check_h_lines(player_t *p, maps_t *m, rays_t *r)
 {
     float tangent = 1 / tan(deg_to_rad(r->angle));
 
     r->dof = 0;
     r->h_dist = 100000;
     if (sin(deg_to_rad(r->angle)) < -0.001) {
-        r->pos.y = (((int)p->pos.y >> 6) << 6) + 64;
+        r->pos.y = (((int)p->pos.y / MAP_S) * MAP_S) + MAP_S;
         r->pos.x = (p->pos.y - r->pos.y) * tangent + p->pos.x;
-        r->offset.y = 64;
+        r->offset.y = MAP_S;
         r->offset.x = -r->offset.y * tangent;
     } else if (sin(deg_to_rad(r->angle)) > 0.001) {
-        r->pos.y = (((int)p->pos.y >> 6) << 6) - 0.0001;
+        r->pos.y = (((int)p->pos.y / MAP_S) * MAP_S) - 0.0001;
         r->pos.x = (p->pos.y - r->pos.y) * tangent + p->pos.x;
-        r->offset.y = -64;
+        r->offset.y = -MAP_S;
         r->offset.x = -r->offset.y * tangent;
     } else {
         r->pos = p->pos;
@@ -91,7 +91,7 @@ static void check_h_lines(player_t *p, rays_t *r)
 static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) >> 6) * m->map_wd + ((int)(r->pos.x) >> 6);
+        r->mp = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
         if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
             m->map[r->mp] > 0) {
             r->dof = DOF;
@@ -108,9 +108,9 @@ static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 
 static void update_rays(player_t *p, maps_t *m, rays_t *r)
 {
-    check_v_lines(p, r);
+    check_v_lines(p, m, r);
     check_v_collisions(p, m, r);
-    check_h_lines(p, r);
+    check_h_lines(p, m, r);
     check_h_collisions(p, m, r);
     // ray color
     glColor3f(0.8, 0, 0);

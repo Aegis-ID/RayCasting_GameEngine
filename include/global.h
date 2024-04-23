@@ -10,20 +10,23 @@
 
     #include <SFML/Graphics.h>
     #include "settings.h"
-
+    //MATHS
     #define M_PI_3 3 * M_PI / 2
+    //View settings
     #define DOF 8
     #define FOV 60
-
+    //Movement speed & rotation speed of the player
     #define MVT 1
     #define ROT 5
+    //Mini map size
+    #define MAP_S 50
 
 typedef struct maps_s {
     const char *m_name;
     int *map;
     size_t map_ht;
     size_t map_wd;
-    size_t cell_size;
+    size_t map_size;
     struct map_s *next;
 }maps_t;
 
@@ -49,8 +52,14 @@ typedef struct rays_s {
     size_t mp;
 }rays_t;
 
+typedef struct collisions_s {
+    sfVector2i pos;
+    sfVector2i offset_add;
+    sfVector2i offset_sub;
+}collisions_t;
+
 //parsing
-maps_t get_map(const char *filepath, const char *map_name, size_t cell_size);
+maps_t get_map(const char *filepath, const char *map_name);
 void free_array(char **array);
 //2D part
 void draw_map(maps_t *map);
@@ -63,7 +72,7 @@ float update_angle(float angle);
 void draw_walls(player_t *player, maps_t *map, rays_t *rays, int r_iter);
 void ray_casting(player_t *player, maps_t *map);
 //Main functions
-void events(game_t *game, player_t *player);
+void events(game_t *game, player_t *player, maps_t *map);
 void display(game_t *game, player_t *player, maps_t *map);
 
 #endif /* !__GLOBAL__ */

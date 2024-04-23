@@ -16,5 +16,5 @@ size_t arraylen(const char **array);
 size_t array_strlen(const char **array);
 size_t array_lstrlen(const char **array);
 char **str_to_word_array(const char *str, const char *delim);
-
+char **file_to_array(const char *filepath, const char *delim);
 #endif /* !__LIB__ */

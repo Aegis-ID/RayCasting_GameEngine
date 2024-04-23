@@ -21,7 +21,7 @@ void draw_walls(player_t *p, maps_t *m, rays_t *r, int r_iter)
     int space = 8;
 
     r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
-    line_height = (m->cell_size * (HEIGHT / 2)) / r->h_dist;
+    line_height = (MAP_S * (HEIGHT / 2)) / r->h_dist;
     if (line_height > (HEIGHT / 2))
         line_height = (HEIGHT / 2);
     line_offset = (HEIGHT / 4) - (line_height >> 1);

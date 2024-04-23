@@ -10,14 +10,14 @@
 #include <SFML/OpenGL.h>
 #include "global.h"
 
-static void draw_cell(maps_t *map, sfVector2i *offset)
+static void draw_cell(sfVector2i *offset)
 {
     glBegin(GL_QUADS);
     glVertex2i(offset->x + 1, offset->y + 1);
-    glVertex2i(offset->x + 1, offset->y + map->cell_size - 1);
-    glVertex2i(offset->x + map->cell_size - 1,
-        offset->y + map->cell_size - 1);
-    glVertex2i(offset->x + map->cell_size - 1, offset->y + 1);
+    glVertex2i(offset->x + 1, offset->y + MAP_S - 1);
+    glVertex2i(offset->x + MAP_S - 1,
+        offset->y + MAP_S - 1);
+    glVertex2i(offset->x + MAP_S - 1, offset->y + 1);
     glEnd();
 }
 
@@ -36,9 +36,9 @@ void draw_map(maps_t *map)
     for (size_t y = 0; y < map->map_ht; ++y) {
         for (size_t x = 0; x < map->map_wd; ++x) {
             colorize_cell(map->map[y * map->map_wd + x]);
-            offset.x = x * map->cell_size;
-            offset.y = y * map->cell_size;
-            draw_cell(map, &offset);
+            offset.x = x * MAP_S;
+            offset.y = y * MAP_S;
+            draw_cell(&offset);
         }
     }
     return;
