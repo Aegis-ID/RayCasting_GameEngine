@@ -25,7 +25,6 @@ void draw_walls(player_t *p, maps_t *m, rays_t *r, int r_iter)
     if (line_height > (HEIGHT / 2))
         line_height = (HEIGHT / 2);
     line_offset = (HEIGHT / 4) - (line_height >> 1);
-
     glLineWidth(space);
     glBegin(GL_LINES);
     glVertex2i(r_iter * space + (WIDTH / 2), line_offset);

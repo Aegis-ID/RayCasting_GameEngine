@@ -10,7 +10,7 @@
 #include <SFML/OpenGL.h>
 #include "global.h"
 
-static void drawCell(maps_t *map, sfVector2i *offset)
+static void draw_cell(maps_t *map, sfVector2i *offset)
 {
     glBegin(GL_QUADS);
     glVertex2i(offset->x + 1, offset->y + 1);
@@ -38,7 +38,7 @@ void draw_map(maps_t *map)
             colorize_cell(map->map[y * map->map_wd + x]);
             offset.x = x * map->cell_size;
             offset.y = y * map->cell_size;
-            drawCell(map, &offset);
+            draw_cell(map, &offset);
         }
     }
     return;
