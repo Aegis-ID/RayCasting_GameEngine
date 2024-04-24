@@ -26,9 +26,8 @@ typedef struct game_s {
 
 enum GAME_MODE {
     MAIN_MENU,
-    REST,
-    EXPLORATION,
-    COMBAT
+    MANAGEMENT,
+    EXPLORATION
 };
 
 #endif /* !__SETTINGS__ */

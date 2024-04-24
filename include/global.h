@@ -15,7 +15,7 @@
     //View settings
     #define DOF 8
     #define FOV 60
-    #define SHADE 1
+    #define SHADE 0.8
     #define COL_DIST 20
     //Player settings    ==>    Movement speed & rotation speed of the player
     #define MVT 1
@@ -26,6 +26,8 @@
 typedef struct maps_s {
     const char *m_name;
     int *map;
+    int *map_floor;
+    int *map_ceil;
     size_t map_ht;
     size_t map_wd;
     size_t map_size;    //map_ht * map_wd    ==>  != MAP_S
@@ -57,8 +59,8 @@ typedef struct rays_s {
 }rays_t;
 
 typedef struct textures_s {
-    int wall_ht;
-    int wall_off;
+    size_t wall_ht;
+    size_t wall_off;
     sfVector2f pos;
     sfVector2f offset;
     sfVector2f step;
@@ -82,7 +84,7 @@ void draw_rays(player_t *player, rays_t *rays);
 float pythagoras(sfVector2f a, sfVector2f b);
 float update_angle(float angle);
 //3D part
-void draw_walls(player_t *player, rays_t *rays, int r_iter);
+void draw_walls(maps_t *map, player_t *player, rays_t *rays, size_t r_iter);
 void ray_casting(player_t *player, maps_t *map);
 //Main functions
 void events(game_t *game, player_t *player, maps_t *map);

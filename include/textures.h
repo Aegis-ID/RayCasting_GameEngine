@@ -8,7 +8,7 @@
 #ifndef __TEXTURES__
     #define __TEXTURES__
 
-int All_Textures[]=               //all 32x32 textures
+const int All_Textures[]=               //all 32x32 textures
 {
  //Checkerboard
  0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1,

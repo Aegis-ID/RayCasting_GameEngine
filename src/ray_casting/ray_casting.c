@@ -128,10 +128,10 @@ void ray_casting(player_t *p, maps_t *m)
     rays_t r = {0};
 
     r.angle = update_angle(p->angle + (FOV / 2));
-    for (int r_iter = 0; r_iter < FOV; ++r_iter) {
+    for (size_t r_iter = 0; r_iter < FOV; ++r_iter) {
         update_rays(p, m, &r);
         draw_rays(p, &r);
-        draw_walls(p, &r, r_iter);
+        draw_walls(m, p, &r, r_iter);
         r.angle = update_angle(r.angle - 1);
     }
     return;
