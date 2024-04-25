@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "lib.h"
 
 static off_t get_size(const char *filepath)
 {
@@ -35,7 +36,7 @@ char **file_to_array(const char *filepath, const char *delim)
         dprintf(2, "File opening failed\n");
         return NULL;
     }
-    buffer = (char *) malloc(sizeof(char) * (file_size + 1))
+    buffer = (char *) malloc(sizeof(char) * (file_size + 1));
     size = read(fd, buffer, (file_size - 1));
     buffer[size] = '\0';
     array = str_to_word_array(buffer, delim);
