@@ -38,23 +38,20 @@ static bool check_file_chars(const char **file)
 
 static bool check_file_lines(const char **file)
 {
-    size_t size = arraylen((const char **)file);
+    size_t size = arraylen(file);
     size_t m_width = atoi(file[1]);
     size_t m_height = atoi(file[0]);
 
     if ((m_width * m_height) != (size - 2))
         return false;
-/*     for (size_t y = 0; file[y] != 0; ++y)
-        if (strlen(file[y]) != m_width)
-            return false; */
     return true;
 }
 
-static void check_file(char **file)
+static void check_file(const char **file)
 {
-    if (!check_file_chars((const char **)file))
+    if (!check_file_chars(file))
         exit_failure(file, "Only digits and ',' are accepted in the map\n");
-    if (!check_file_lines((const char **)file))
+    if (!check_file_lines(file))
         exit_failure(file, "Map lines differ from specified\n");
     return;
 }
@@ -75,11 +72,10 @@ maps_t get_map(const char *filepath, const char *map_name)
     int *int_map = NULL;
 
     check_file(char_map);
-    int_map = char_to_int_map((const char **)char_map + 2);
+    int_map = char_to_int_map(char_map + 2);
     map.m_name = map_name;
     map.map_ht = atoi(char_map[0]);
     map.map_wd = atoi(char_map[1]);
-    map.map_size = map.map_ht * map.map_wd;
     map.map = int_map;
     map.next = NULL;
     free_array(char_map);
