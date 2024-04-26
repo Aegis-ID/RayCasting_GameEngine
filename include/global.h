@@ -14,24 +14,22 @@
     #define M_PI_3 3 * M_PI / 2
     //View settings
     #define DOF 8
-    #define FOV 60
     #define SHADE 0.8f
     #define COL_DIST 20
-    //Player settings    ==>    Movement speed & rotation speed of the player
-    #define MVT 1
-    #define ROT 5
-    //Mini map size
-    #define MAP_S 50
+    #define FOV 60 // Temporary --> in settings
+    //Player settings
+    #define MVT 1 // Temporary --> in gameplay
+    //Mini map sizee
     #define TEXTURES_S 32
+    #define MAP_S 50 // Temporary --> in settings
 
 typedef struct maps_s {
     const char *m_name;
+    size_t map_ht;
+    size_t map_wd;
     int *map;
     int *map_floor;
     int *map_ceil;
-    size_t map_ht;
-    size_t map_wd;
-    size_t map_size;    //map_ht * map_wd    ==>  != MAP_S
     struct map_s *next;
 }maps_t;
 
@@ -43,30 +41,16 @@ typedef struct player_s {
 
 typedef struct rays_s {
     int dof;
-    //Ray main infos
     float angle;
     sfVector2f pos;
     sfVector2f offset;
-    //for horizontal coll
     float h_dist;
     sfVector2f h_pos;
-    //for vertical coll
     float v_dist;
     sfVector2f v_pos;
-    //for map position
-    size_t mp;
-    //
+    size_t m_pos;
     float shade;
 }rays_t;
-
-typedef struct textures_s {
-    size_t wall_ht;
-    size_t wall_ht_off;
-    sfVector2f pos;
-    sfVector2f offset;
-    sfVector2f step;
-    float color;
-}textures_t;
 
 typedef struct collisions_s {
     sfVector2i pos;
@@ -74,16 +58,18 @@ typedef struct collisions_s {
     sfVector2i offset_sub;
 }collisions_t;
 
-typedef struct keybinds_s {
-    //player movement
-    int move_forward;
-    int move_backward;
-    int move_left;
-    int move_right;
-    //player rotation
-    int look_left;
-    int look_right;
-}keybinds_t;
+typedef struct walls_s {
+    size_t wall_ht;
+    size_t wall_ht_off;
+    sfVector2f pos;
+    sfVector2f offset;
+    sfVector2f step;
+}walls_t;
+
+typedef struct textures_s {
+    const char *texture;
+    struct textures_s *next;
+}textures_t;
 
 //parsing
 maps_t get_map(const char *filepath, const char *map_name);
