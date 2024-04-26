@@ -36,7 +36,7 @@ MATHS		=	-lm
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-		ar rcs $(NAME) $(OBJ) $(MATHS) && cp $(NAME) ../
+		$(AR) rcs $(NAME) $(OBJ) $(MATHS) && cp $(NAME) ../
 
 clean:
 		$(RM) $(OBJ)	\
@@ -47,12 +47,10 @@ fclean: clean
 
 re: fclean all
 
-debug:	CFLAGS += -g
-debug:	$(MAKE) -C $(SUBDIRS) debug
-debug:	re
+debug:	CFLAGS += -g3
+debug:	$(NAME)
 
 asan:	CC = clang -fsanitize=address
-asan:	$(MAKE) -C $(SUBDIRS) asan
-asan: 	re
+asan: 	$(NAME)
 
 .PHONY: all clean fclean re debug asan

@@ -32,7 +32,7 @@ CC		?=	gcc
 
 CPPFLAGS	=	-iquote $(INCLUDE)
 
-CFLAGS 		=	-Wall -Wextra -g3
+CFLAGS 		=	-Wall -Wextra
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -45,7 +45,7 @@ all: $(NAME)
 
 $(NAME):	CFLAGS += $(CSFML)
 $(NAME):	$(OBJ)
-		$(MAKE) -C $(SUBDIRS) all
+		$(MAKE) -C $(SUBDIRS)
 		$(CC) -o $(NAME) $(OBJ) $(LIB) $(CSFML) $(MATHS)
 
 clean:
@@ -59,13 +59,14 @@ fclean: clean
 
 re: fclean all
 	$(MAKE) -C $(SUBDIRS) re
+	$(MAKE)
 
 debug:	CFLAGS += -g
 debug:	$(MAKE) -C $(SUBDIRS) debug
-debug:	re
+debug:	$(NAME)
 
 asan:	CC = clang -fsanitize=address
 asan:	$(MAKE) -C $(SUBDIRS) asan
-asan: 	re
+asan: 	$(NAME)
 
 .PHONY: all clean fclean re debug asan

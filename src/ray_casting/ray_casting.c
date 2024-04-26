@@ -112,11 +112,11 @@ static void update_rays(player_t *p, maps_t *m, rays_t *r)
     check_v_collisions(p, m, r);
     check_h_lines(p, r);
     check_h_collisions(p, m, r);
-    glColor3f(0.8, 0, 0);
     r->shade = SHADE;
+    glColor3f(r->shade, r->shade, r->shade);
     if (r->v_dist < r->h_dist) {
-        glColor3f(0.6, 0, 0);
-        r->shade = 0.6;
+        r->shade /= 1.75;
+        glColor3f(r->shade, r->shade, r->shade);
         r->pos = r->v_pos;
         r->h_dist = r->v_dist;
     }
@@ -131,7 +131,7 @@ void ray_casting(player_t *p, maps_t *m)
     for (size_t r_iter = 0; r_iter < FOV; ++r_iter) {
         update_rays(p, m, &r);
         draw_rays(p, &r);
-        draw_walls(m, p, &r, r_iter);
+        draw_walls(p, &r, r_iter);
         r.angle = update_angle(r.angle - 1);
     }
     return;
