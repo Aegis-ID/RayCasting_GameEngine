@@ -49,9 +49,9 @@ static void check_v_lines(player_t *p, rays_t *r)
 static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
-        if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
-            m->map[r->mp] > 0) {
+        r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
+        if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
+            m->map[r->m_pos] > 0) {
             r->dof = DOF;
             r->v_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
                 -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
@@ -91,9 +91,9 @@ static void check_h_lines(player_t *p, rays_t *r)
 static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->mp = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
-        if ((r->mp > 0) && (r->mp < (m->map_ht * m->map_wd)) &&
-            m->map[r->mp] > 0) {
+        r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
+        if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
+            m->map[r->m_pos] > 0) {
             r->dof = DOF;
             r->h_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
                 -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
