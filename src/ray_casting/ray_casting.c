@@ -53,6 +53,7 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
             + ((int)(r->pos.x) / MAP_S);
         if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
             m->map[r->m_pos] > 0) {
+            r->w_text_pos.y = m->map[r->m_pos] - 1;
             r->dof = DOF;
             r->v_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
                 -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
@@ -96,6 +97,7 @@ static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
             + ((int)(r->pos.x) / MAP_S);
         if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
             m->map[r->m_pos] > 0) {
+            r->w_text_pos.x = m->map[r->m_pos] - 1;
             r->dof = DOF;
             r->h_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
                 -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
@@ -115,8 +117,10 @@ static void update_rays(player_t *p, maps_t *m, rays_t *r)
     check_h_lines(p, r);
     check_h_collisions(p, m, r);
     r->shade = SHADE;
+    r->wall_type =  r->w_text_pos.x;
     glColor3f(r->shade, r->shade, r->shade);
     if (r->v_dist < r->h_dist) {
+        r->wall_type = r->w_text_pos.y;
         r->shade /= 1.75;
         glColor3f(r->shade, r->shade, r->shade);
         r->pos = r->v_pos;
@@ -129,6 +133,7 @@ void ray_casting(player_t *p, maps_t *m)
 {
     rays_t r = {0};
 
+    r.wall_type = 0;
     r.angle = update_angle(p->angle + (FOV / 2));
     for (size_t r_iter = 0; r_iter < FOV; ++r_iter) {
         update_rays(p, m, &r);

@@ -10,11 +10,6 @@
 
     #define TEXTURES_S 32
 
-typedef struct textures_s {
-    const char *texture;
-    struct textures_s *next;
-}textures_t;
-
 const int CHECKERBOARD[]=
 {
     0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1,
@@ -166,6 +161,13 @@ const int DOOR[] = {
     0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
     0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
     0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+};
+
+const int *ALL_TEXTURES[] = {
+    CHECKERBOARD,
+    BRICK,
+    WINDOW,
+    DOOR
 };
 
 #endif /* !__TEXTURES__ */

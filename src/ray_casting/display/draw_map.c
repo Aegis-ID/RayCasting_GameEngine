@@ -9,6 +9,7 @@
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
 #include "ray_casting.h"
+#include "settings/settings.h"
 
 static void draw_cell(sfVector2i *offset)
 {
@@ -23,7 +24,7 @@ static void draw_cell(sfVector2i *offset)
 
 static void colorize_cell(int cell)
 {
-    if (cell == 1)
+    if (cell > 0)
         glColor3f(1, 1, 1);
     else
         glColor3f(0, 0, 0);

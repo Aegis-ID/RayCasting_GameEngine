@@ -13,15 +13,17 @@
     #define NAME "Aegis Engine"
     #define BITS 64
 
-    #define HEIGHT 720 // Temporary --> in settings
-    #define WIDTH 1280 // Temporary --> in settings
+    // [DISPLAY] --> temporary (in config file)
+    #define HEIGHT 720
+    #define WIDTH 1280
+    #define FRAMES 60
+    #define VSYNC 1
+    #define FOV 60
+    // [GAMEPLAY] --> temporary (in config file)
+    #define MAP_S 50
+    #define ROT 5
 
-    #define FRAMES 60 // Temporary --> in settings
-    #define VSYNC 1 // Temporary --> in settings
-
-    #define ROT 5 // Temporary --> in settings
-
-// Settings struct
+// Settings structs
 
 typedef struct display_s {
     sfVector2i resolution;
@@ -40,6 +42,8 @@ typedef struct audio_s {
 
 typedef struct gameplay_s {
     size_t mini_map_size;
+    // Camera sensitivity (mouse + keyboard)
+    float sensitivity;
 }gameplay_t;
 
 typedef struct keybinds_s {
@@ -52,8 +56,6 @@ typedef struct keybinds_s {
     //Camera rotation (Keyboard)
     size_t look_left;
     size_t look_right;
-    // Camera sensitivity (mouse + keyboard)
-    float sensitivity;
     //Hotbar
     size_t hotkey_1;
     size_t hotkey_2;
@@ -65,7 +67,7 @@ typedef struct keybinds_s {
     size_t shield;
     size_t torch;
     /*----- MANAGEMENT MODE -----*/
-
+    // ...
 }keybinds_t;
 
 // Global settings struct

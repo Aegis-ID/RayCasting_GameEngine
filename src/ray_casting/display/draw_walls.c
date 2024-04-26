@@ -68,6 +68,6 @@ void draw_walls(player_t *p, rays_t *r, size_t r_iter)
     r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
     calculate_walls(r, &walls);
     display_textures(r, &walls);
-    colorize_wall(r, &walls, r_iter, BRICK);
+    colorize_wall(r, &walls, r_iter, ALL_TEXTURES[r->wall_type]);
     return;
 }

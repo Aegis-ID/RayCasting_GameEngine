@@ -14,11 +14,9 @@
     #define DOF 8
     #define SHADE 0.8f
     #define COL_DIST 20
-    #define FOV 60 // Temporary --> in settings
-    //Player settings
-    #define MVT 1 // Temporary --> in gameplay
-    //Mini map size
-    #define MAP_S 50 // Temporary --> in settings
+
+    //Player settings --> Temporary (in player_stats)
+    #define MVT 1
 
 // Main ray casting structs
 
@@ -39,16 +37,23 @@ typedef struct player_s {
 } player_t;
 
 typedef struct rays_s {
+    // depth of field
     int dof;
+    // rays infos
     float angle;
     sfVector2f pos;
     sfVector2f offset;
+    // rays wall collisions infos
     float h_dist;
     sfVector2f h_pos;
     float v_dist;
     sfVector2f v_pos;
+    // map position
     size_t m_pos;
+    // walls infos
     float shade;
+    sfVector2i w_text_pos;
+    size_t wall_type;
 }rays_t;
 
 // For rays functions && calculations 
@@ -84,7 +89,7 @@ void draw_player(player_t *player);
 void draw_rays(player_t *player, rays_t *rays);
 //3D part
 float update_angle(float angle);
-void draw_walls(player_t *player, rays_t *rays, size_t r_iter);
+void draw_walls(player_t *p, rays_t *r, size_t r_iter);
 void ray_casting(player_t *player, maps_t *map);
 //Gameplay
 void player_movement(player_t *player, maps_t *map);
