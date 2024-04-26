@@ -10,9 +10,9 @@
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
 #include <math.h>
-#include "global.h"
 #include "lib.h"
-#include "settings.h"
+#include "ray_casting.h"
+#include "settings/settings.h"
 
 float update_angle(float angle)
 {
@@ -49,7 +49,8 @@ static void check_v_lines(player_t *p, rays_t *r)
 static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
+        r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd
+            + ((int)(r->pos.x) / MAP_S);
         if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
             m->map[r->m_pos] > 0) {
             r->dof = DOF;
@@ -91,7 +92,8 @@ static void check_h_lines(player_t *p, rays_t *r)
 static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
 {
     while (r->dof < DOF) {
-        r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd + ((int)(r->pos.x) / MAP_S);
+        r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd
+            + ((int)(r->pos.x) / MAP_S);
         if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
             m->map[r->m_pos] > 0) {
             r->dof = DOF;

@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
-#include "global.h"
+#include "ray_casting.h"
 #include "lib.h"
 
 static void exit_failure(char **file, const char *error_msg)

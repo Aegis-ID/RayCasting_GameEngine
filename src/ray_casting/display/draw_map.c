@@ -8,7 +8,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include "global.h"
+#include "ray_casting.h"
 
 static void draw_cell(sfVector2i *offset)
 {
@@ -42,21 +42,4 @@ void draw_map(maps_t *map)
         }
     }
     return;
-}
-
-void draw_player(player_t *p)
-{
-    //draw p body
-    glColor3f(1, 1, 0);
-    glPointSize(8);
-    glLineWidth(4);
-    glBegin(GL_POINTS);
-    glVertex2i(p->pos.x, p->pos.y);
-    glEnd();
-    //draw direction
-    glLineWidth(3);
-    glBegin(GL_LINES);
-    glVertex2i(p->pos.x, p->pos.y);
-    glVertex2i(p->pos.x + p->delta.x * 20, p->pos.y + p->delta.y * 20);
-    glEnd();
 }

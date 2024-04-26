@@ -10,10 +10,10 @@
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
 #include <math.h>
-#include "global.h"
-#include "settings.h"
 #include "lib.h"
-#include "textures.h"
+#include "ray_casting.h"
+#include "settings/settings.h"
+#include "textures/textures.h"
 
 static void colorize_wall(rays_t *r, walls_t *w,
     size_t r_iter, const int *texture)

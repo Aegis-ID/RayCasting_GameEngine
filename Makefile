@@ -13,19 +13,37 @@ LIB		=	mylib.a
 
 SUBDIRS		=	lib/
 
+GAME_FUNCS 	=	$(addprefix funcs/,	\
+				get_map.c 	\
+				get_settings.c 	\
+				keybinds_to_sfkeys.c 	\
+				)	\
+
+GAME_INITS 	=	$(addprefix inits/,	\
+				init_game.c 	\
+				init_rc_mode.c 	\
+				)	\
+
+RAY_CASTING	=	$(addprefix ray_casting/,	\
+				$(addprefix display/,	\
+				draw_map.c 	\
+				draw_player.c 	\
+				draw_rays.c	\
+				draw_walls.c 	\
+				)	\
+				$(addprefix events/,	\
+				player_movement.c \
+				)	\
+				ray_casting.c 	\
+				)	\
+
 SRC		=	$(addprefix src/,	\
-			$(addprefix funcs/,	\
-			get_map.c 	\
-			)	\
-			$(addprefix ray_casting/,	\
-			draw_map.c 	\
-			draw_rays.c	\
-			draw_walls.c 	\
-			ray_casting.c 	\
-			)	\
-			main.c	\
+			$(GAME_FUNCS)	\
+			$(GAME_INITS)	\
+			$(RAY_CASTING)	\
 			display.c 	\
 			events.c 	\
+			main.c	\
 			)	\
 
 CC		?=	gcc

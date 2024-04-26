@@ -7,6 +7,7 @@
 
 #ifndef __LIB__
     #define __LIB__
+    #include <stddef.h>
 
 float deg_to_rad(float degrees);
 float get_degrees(float degrees);

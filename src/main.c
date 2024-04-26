@@ -7,62 +7,20 @@
 
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
-#include <SFML/OpenGL.h>
-#include <math.h>
-#include "global.h"
-#include "settings.h"
-#include "lib.h"
-
-sfRenderWindow *init_game_window(void)
-{
-    sfVideoMode mode = {WIDTH, HEIGHT, BITS};
-    sfRenderWindow *window = sfRenderWindow_create(mode, NAME,
-        sfTitlebar | sfClose, NULL);
-    //OpenGL
-    glClearColor(0.3, 0.3, 0.3, 0);
-    gluOrtho2D(0, WIDTH, HEIGHT, 0);
-    //SFML
-    sfRenderWindow_setFramerateLimit(window, FRAMES);
-    sfRenderWindow_setVerticalSyncEnabled(window, VSYNC);
-    return window;
-}
-
-game_t init_game(void)
-{
-    game_t game = {0};
-    sfRenderWindow *window = init_game_window();
-    sfEvent event = {0};
-    sfClock *clock = sfClock_create();
-    game.window = window;
-    game.event = event;
-    game.clock = clock;
-    return game;
-}
-
-player_t init_player(void)
-{
-    player_t player = {0};
-
-    player.pos = (sfVector2f){225, 225};
-    player.angle = 90;
-    player.delta.x = cos(deg_to_rad(player.angle)) * 5;
-    player.delta.y = -sin(deg_to_rad(player.angle)) * 5;
-    return player;
-}
+#include "game.h"
 
 int main(void)
 {
     game_t game = init_game();
-    player_t player = init_player();
-    maps_t map = get_map("maps/test_map.txt", "test_map");
+    ray_casting_t rc_mode = init_rc_mode();
 
     while (sfRenderWindow_isOpen(game.window)) {
         while (sfRenderWindow_pollEvent(game.window, &game.event)) {
             //do events here
-            events(&game, &player, &map);
+            events(&game, &rc_mode);
         }
         //display here
-        display(&game, &player, &map);
+        display(&game, &rc_mode);
     }
     //free here
     sfRenderWindow_destroy(game.window);
