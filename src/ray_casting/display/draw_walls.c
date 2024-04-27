@@ -15,6 +15,13 @@
 #include "settings/settings.h"
 #include "textures/textures.h"
 
+bool is_wall(int map_position)
+{
+    if ((map_position > 0) && (map_position < TEXTURES_NB))
+        return true;
+    return false;
+}
+
 static void colorize_wall(rays_t *r, walls_t *w,
     size_t r_iter, const int *texture)
 {

@@ -52,7 +52,7 @@ static void check_v_collisions(player_t *p, maps_t *m, rays_t *r)
         r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd
             + ((int)(r->pos.x) / MAP_S);
         if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
-            m->map[r->m_pos] > 0) {
+            is_wall(m->map[r->m_pos])) {
             r->w_text_pos.y = m->map[r->m_pos] - 1;
             r->dof = DOF;
             r->v_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
@@ -96,7 +96,7 @@ static void check_h_collisions(player_t *p, maps_t *m, rays_t *r)
         r->m_pos = ((int)(r->pos.y) / MAP_S) * m->map_wd
             + ((int)(r->pos.x) / MAP_S);
         if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
-            m->map[r->m_pos] > 0) {
+            is_wall(m->map[r->m_pos])) {
             r->w_text_pos.x = m->map[r->m_pos] - 1;
             r->dof = DOF;
             r->h_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)

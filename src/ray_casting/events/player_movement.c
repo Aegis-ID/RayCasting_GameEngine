@@ -35,15 +35,15 @@ static collisions_t get_collisions(player_t *p)
 static void p_vertical_mvt(player_t *p, maps_t *m, collisions_t *col)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)) {
-        if (m->map[col->pos.y * m->map_wd + col->offset_add.x] == 0)
+        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_add.x]))
             p->pos.x += p->delta.x * MVT;
-        if (m->map[col->offset_add.y * m->map_wd + col->pos.x] == 0)
+        if (!is_wall(m->map[col->offset_add.y * m->map_wd + col->pos.x]))
             p->pos.y += p->delta.y * MVT;
     }
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        if (m->map[col->pos.y * m->map_wd + col->offset_sub.x] == 0)
+        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_sub.x]))
             p->pos.x -= p->delta.x * MVT;
-        if (m->map[col->offset_sub.y * m->map_wd + col->pos.x] == 0)
+        if (!is_wall(m->map[col->offset_sub.y * m->map_wd + col->pos.x]))
             p->pos.y -= p->delta.y * MVT;
     }
     return;
@@ -52,15 +52,15 @@ static void p_vertical_mvt(player_t *p, maps_t *m, collisions_t *col)
 static void p_horizontal_mvt(player_t *p, maps_t *m, collisions_t *col)
 {
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
-        if (m->map[col->pos.y * m->map_wd + col->offset_add.x] == 0)
+        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_add.x]))
             p->pos.x += p->delta.y * MVT;
-        if (m->map[col->offset_sub.y * m->map_wd + col->pos.x] == 0)
+        if (!is_wall(m->map[col->offset_sub.y * m->map_wd + col->pos.x]))
             p->pos.y -= p->delta.x * MVT;
     }
     if (sfKeyboard_isKeyPressed(sfKeyD)) {
-        if (m->map[col->pos.y * m->map_wd + col->offset_sub.x] == 0)
+        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_sub.x]))
             p->pos.x -= p->delta.y * MVT;
-        if (m->map[col->offset_add.y * m->map_wd + col->pos.x] == 0)
+        if (!is_wall(m->map[col->offset_add.y * m->map_wd + col->pos.x]))
             p->pos.y += p->delta.x * MVT;
     }
     return;
@@ -68,13 +68,13 @@ static void p_horizontal_mvt(player_t *p, maps_t *m, collisions_t *col)
 
 static void p_rotation(player_t *p)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyA)) {
+    if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
         p->angle += ROT;
         p->angle = update_angle(p->angle);
         p->delta.x = cos(deg_to_rad(p->angle));
         p->delta.y = -sin(deg_to_rad(p->angle));
     }
-    if (sfKeyboard_isKeyPressed(sfKeyE)) {
+    if (sfKeyboard_isKeyPressed(sfKeyRight)) {
         p->angle -= ROT;
         p->angle = update_angle(p->angle);
         p->delta.x = cos(deg_to_rad(p->angle));

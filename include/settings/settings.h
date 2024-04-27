@@ -63,6 +63,7 @@ typedef struct keybinds_s {
     size_t hotkey_4;
     size_t hotkey_5;
     //Gameplay
+    size_t interact;
     size_t attack;
     size_t shield;
     size_t torch;

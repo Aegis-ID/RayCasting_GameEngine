@@ -24,7 +24,7 @@ static void draw_cell(sfVector2i *offset)
 
 static void colorize_cell(int cell)
 {
-    if (cell > 0)
+    if (is_wall(cell))
         glColor3f(1, 1, 1);
     else
         glColor3f(0, 0, 0);

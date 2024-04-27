@@ -9,6 +9,7 @@
     #define __TEXTURES__
 
     #define TEXTURES_S 32
+    #define TEXTURES_NB 4
 
 const int CHECKERBOARD[]=
 {

@@ -12,9 +12,9 @@
 
 enum GAME_MODE {
     MAIN_MENU,
+    LEVEL_EDITOR,
     MANAGEMENT,
-    EXPLORATION,
-    DEATH_MENU
+    EXPLORATION
 };
 
 typedef struct game_s {
