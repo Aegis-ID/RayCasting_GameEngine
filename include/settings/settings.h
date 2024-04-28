@@ -8,6 +8,7 @@
 
 #ifndef __SETTINGS__
     #define __SETTINGS__
+    #include <SFML/System.h>
     #include <stdbool.h>
 
     #define NAME "Aegis Engine"
@@ -27,10 +28,10 @@
 
 typedef struct display_s {
     sfVector2i resolution;
-    bool windowed;
     bool fullscreen;
-    size_t frames;
+    bool windowed;
     bool vsync;
+    size_t frames;
     size_t fov;
 }display_t;
 
@@ -49,24 +50,24 @@ typedef struct gameplay_s {
 typedef struct keybinds_s {
     /*----- EXPLORATION MODE -----*/
     //Movement
-    size_t move_forward;
-    size_t move_backward;
-    size_t move_left;
-    size_t move_right;
+    char *move_forward;
+    char *move_backward;
+    char *move_left;
+    char *move_right;
     //Camera rotation (Keyboard)
-    size_t look_left;
-    size_t look_right;
+    char *look_left;
+    char *look_right;
     //Hotbar
-    size_t hotkey_1;
-    size_t hotkey_2;
-    size_t hotkey_3;
-    size_t hotkey_4;
-    size_t hotkey_5;
+    char *hotkey_1;
+    char *hotkey_2;
+    char *hotkey_3;
+    char *hotkey_4;
+    char *hotkey_5;
     //Gameplay
-    size_t interact;
-    size_t attack;
-    size_t shield;
-    size_t torch;
+    char *interact;
+    char *right_hand;
+    char *left_hand;
+    char *torch;
     /*----- MANAGEMENT MODE -----*/
     // ...
 }keybinds_t;
@@ -79,5 +80,12 @@ typedef struct settings_s {
     gameplay_t gameplay;
     keybinds_t keybinds;
 }settings_t;
+
+// Funcs
+
+int get_idata(const char *data, const char **file);
+float get_fdata(const char *data, const char **file);
+int *get_sdata(const char *data, const char **file);
+
 
 #endif /* !__SETTINGS__ */

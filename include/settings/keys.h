@@ -8,7 +8,7 @@
 #ifndef __KEYS__
     #define __KEYS__
 
-const char *keys_code[] = {
+const char *KEYS_CODE[] = {
     "A",
     "B",
     "C",
@@ -111,6 +111,16 @@ const char *keys_code[] = {
     "F15",
     "Pause",
     "Count",
+    NULL
+};
+
+const char *MOUSE_BUTTONS[] = {
+    "LMB",
+    "RMB",
+    "MMB",
+    "MB1",
+    "MB2",
+    "ButtonCount",
     NULL
 };
 
