@@ -33,6 +33,10 @@ CFLAGS	=	-Wall -Wextra
 
 OBJ	=	$(SRC:.c=.o)
 
+DEBUG 	=	-g3
+
+ASAN 	=	-fsanitize=address
+
 #Additional Libraries
 CSFML		=	-lcsfml-graphics -lcsfml-system -lcsfml-audio -lcsfml-window
 MATHS		=	-lm
@@ -51,10 +55,10 @@ fclean: clean
 
 re: fclean all
 
-debug:	CFLAGS += -g3
+debug:	$(CFLAGS) += $(DEBUG)
 debug:	$(NAME)
 
-asan:	CC = clang -fsanitize=address
+asan:	$(CFLAGS) += $(ASAN)
 asan: 	$(NAME)
 
 .PHONY: all clean fclean re debug asan
