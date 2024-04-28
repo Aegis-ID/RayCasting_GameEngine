@@ -1,6 +1,7 @@
 /*
 ** EPITECH PROJECT, 2024
-** keybinds_to_sfkeys
+** free_settings
 ** File description:
-** RPG
+** CSFML
 */
+

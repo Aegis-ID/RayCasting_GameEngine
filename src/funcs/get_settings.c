@@ -5,11 +5,8 @@
 ** RPG
 */
 
-#include <string.h>
-#include <stdbool.h>
 #include "lib.h"
 #include "settings/settings.h"
-#include "settings/bindings.h"
 
 static display_t get_display(const char **file)
 {
@@ -22,6 +19,7 @@ static display_t get_display(const char **file)
     display.vsync = get_idata("bVsync", file);
     display.frames = get_idata("iFrames", file);
     display.fov = get_idata("iFOV", file);
+    check_display(&display);
     return display;
 }
 
@@ -32,6 +30,7 @@ static audio_t get_audio(const char **file)
     audio.master = get_fdata("fMaster", file);
     audio.vfx = get_fdata("fVfx", file);
     audio.music = get_fdata("fMusic", file);
+    check_audio(&audio);
     return audio;
 }
 
@@ -41,6 +40,7 @@ static gameplay_t get_gameplay(const char **file)
 
     gameplay.mini_map_size = get_idata("iMiniMapSize", file);
     gameplay.sensitivity = get_fdata("fSensitivity", file);
+    check_gameplay(&gameplay);
     return gameplay;
 }
 
@@ -63,6 +63,7 @@ static keybinds_t get_keybinds(const char **file)
     keybinds.right_hand = get_sdata("sRightHand", file);
     keybinds.left_hand = get_sdata("sLeftHand", file);
     keybinds.torch = get_sdata("sTorch", file);
+    check_keybinds(&keybinds);
     return keybinds;
 }
 

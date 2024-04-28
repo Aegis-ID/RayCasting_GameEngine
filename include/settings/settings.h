@@ -9,7 +9,6 @@
 #ifndef __SETTINGS__
     #define __SETTINGS__
     #include <SFML/System.h>
-    #include <stdbool.h>
 
     #define NAME "Aegis Engine"
     #define BITS 64
@@ -23,6 +22,8 @@
     // [GAMEPLAY] --> temporary (in config file)
     #define MAP_S 50
     #define ROT 5
+
+    #define INVALID -1
 
 // Settings structs
 
@@ -83,9 +84,16 @@ typedef struct settings_s {
 
 // Funcs
 
+// get_data.c
 int get_idata(const char *data, const char **file);
 float get_fdata(const char *data, const char **file);
 int *get_sdata(const char *data, const char **file);
-
+//check_settings.c
+void check_display(display_t *display);
+void check_audio(audio_t *audio);
+void check_gameplay(gameplay_t *gameplay);
+void check_keybinds(keybinds_t *keybinds);
+// get_settings.c
+settings_t get_settings(void);
 
 #endif /* !__SETTINGS__ */

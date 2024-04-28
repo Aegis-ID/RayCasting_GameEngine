@@ -15,8 +15,9 @@ SUBDIRS		=	lib/
 
 GAME_FUNCS 	=	$(addprefix funcs/,	\
 				get_map.c 	\
-				get_settings.c 	\
 				get_data.c 	\
+				check_settings.c 	\
+				get_settings.c 	\
 				)	\
 
 GAME_INITS 	=	$(addprefix inits/,	\

@@ -5,11 +5,12 @@
 ** CSFML
 */
 
-#include <string.h>
 #include <stdbool.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include "lib.h"
+#include "settings/settings.h"
 
 static bool is_strdigit(const char *str)
 {
@@ -64,7 +65,7 @@ int get_idata(const char *data, const char **file)
         }
     if (!is_strdigit(formated_data))
         return atoi(formated_data);
-    return -1;
+    return INVALID;
 }
 
 float get_fdata(const char *data, const char **file)
@@ -79,7 +80,7 @@ float get_fdata(const char *data, const char **file)
         }
     if (!is_strfloat(formated_data))
         return atof(formated_data);
-    return -1;
+    return INVALID;
 }
 
 char *get_sdata(const char *data, const char **file)
