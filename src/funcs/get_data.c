@@ -21,9 +21,14 @@ static bool is_strdigit(const char *str)
 
 static bool is_strfloat(const char *str)
 {
-    for (size_t x = 0; str[i] != '\0'; ++i)
-        if (!isdigit(str[i]))
+    size_t check = 0;
+
+    for (size_t x = 0; str[i] != '\0'; ++i) {
+        if (str[i] == '.')
+            check += 1;
+        if (!isdigit(str[i]) && (str[i] != '.') || (check > 1))
             return false;
+    }
     return true;
 }
 
