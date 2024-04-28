@@ -19,6 +19,10 @@ SRC		=	$(addprefix maths/,	\
 			free_array.c 	\
 			arraylen.c 	\
 			file_to_array.c 	\
+			clean_str.c 	\
+			is_str_digit.c 	\
+			is_str_float.c 	\
+			my_strlen_delim.c 	\
 			) 	\
 
 CC	?=	gcc
