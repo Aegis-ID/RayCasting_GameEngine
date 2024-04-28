@@ -8,89 +8,84 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include "lib.h"
 #include "settings/settings.h"
 
-static bool is_strdigit(const char *str)
+static char *format_data(char *data_line)
 {
-    for (size_t x = 0; str[i] != '\0'; ++i)
-        if (!isdigit(str[i]))
-            return false;
-    return true;
+    data_line = clean_str(data_line, ' ');
+    return data_line + my_strlen_delim(data_line, '=');
 }
 
-static bool is_strfloat(const char *str)
+static bool check_data(const char *data, const char *data_line)
 {
-    size_t check = 0;
+    size_t n = my_strlen_delim(data_line, '=');
 
-    for (size_t x = 0; str[i] != '\0'; ++i) {
-        if (str[i] == '.')
-            check += 1;
-        if (!isdigit(str[i]) && (str[i] != '.') || (check > 1))
-            return false;
-    }
-    return true;
+    if (strncmp(data, data_line, n) == 0)
+        return true;
+    return false;
 }
 
-static size_t my_strlen_delim(const char *str, const char delim)
+bool get_bdata(const char *data, char **file)
 {
-    size_t len = 0;
-
-    for (size_t x = 0; str[x] != '\0'; ++x)
-        if (str[x] == delim)
-            return len + 1;
-        else
-            len += 1;
-    return len;
-}
-
-static const char *format_data(const char *data)
-{
-    for (size_t x = 0; data[x] != '\0'; ++x)
-        if (data[x] != ' ')
-            return (data + x);
-    return data;
-}
-
-int get_idata(const char *data, const char **file)
-{
-    const char *formated_data = NULL;
+    char *data_line = NULL;
 
     for (size_t y = 0; file[y] != 0; ++y)
-        if (strcmp(str, array[y]) == 0) {
-            formated_data = array[y] + my_strlen_delim(array[y], '=');
-            formated_data = format_data(formated_data);
+        if (check_data(data, clean_str(file[y], ' '))) {
+            data_line = format_data(file[y]);
             break;
         }
-    if (!is_strdigit(formated_data))
-        return atoi(formated_data);
+    if (atoi(data_line) == 1)
+        return true;
+    return false;
+}
+
+int get_idata(const char *data, char **file)
+{
+    char *data_line = NULL;
+
+    for (size_t y = 0; file[y] != 0; ++y)
+        if (check_data(data, clean_str(file[y], ' '))) {
+            data_line = format_data(file[y]);
+            break;
+        }
+    if (!is_strdigit(data_line))
+        return atoi(data_line);
     return INVALID;
 }
 
-float get_fdata(const char *data, const char **file)
+float get_fdata(const char *data, char **file)
 {
-    const char *formated_data = NULL;
+    char *data_line = NULL;
 
     for (size_t y = 0; file[y] != 0; ++y)
-        if (strcmp(str, array[y]) == 0) {
-            formated_data = array[y] + my_strlen_delim(array[y], '=');
-            formated_data = format_data(formated_data);
+        if (check_data(data, clean_str(file[y], ' '))) {
+            data_line = format_data(file[y]);
             break;
         }
-    if (!is_strfloat(formated_data))
-        return atof(formated_data);
+    if (!is_strfloat(data_line))
+        return atof(data_line);
     return INVALID;
 }
 
-char *get_sdata(const char *data, const char **file)
+static int sdata_return_value(const char *data_line)
 {
-    const char *formated_data = NULL;
+    int sfmouse = get_sfmouse(data_line);
+    int sfkey = get_sfkey(data_line);
+
+    if (sfmouse == INVALID)
+        return sfkey;
+    return sfmouse;
+}
+
+int get_sdata(const char *data, char **file)
+{
+    char *data_line = NULL;
 
     for (size_t y = 0; file[y] != 0; ++y)
-        if (strcmp(str, array[y]) == 0) {
-            formated_data = array[y] + my_strlen_delim(array[y], '=');
-            return strdup(format_data(formated_data));
+        if (check_data(data, clean_str(file[y], ' '))) {
+            data_line = format_data(file[y]);
+            return sdata_return_value(data_line);
         }
-    return NULL;
+    return INVALID;
 }

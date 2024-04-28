@@ -9,6 +9,7 @@
 #ifndef __SETTINGS__
     #define __SETTINGS__
     #include <SFML/System.h>
+    #include <stdbool.h>
 
     #define NAME "Aegis Engine"
     #define BITS 64
@@ -32,8 +33,8 @@ typedef struct display_s {
     bool fullscreen;
     bool windowed;
     bool vsync;
-    size_t frames;
-    size_t fov;
+    int frames;
+    int fov;
 }display_t;
 
 typedef struct audio_s {
@@ -43,7 +44,7 @@ typedef struct audio_s {
 }audio_t;
 
 typedef struct gameplay_s {
-    size_t mini_map_size;
+    int mini_map_size;
     // Camera sensitivity (mouse + keyboard)
     float sensitivity;
 }gameplay_t;
@@ -87,9 +88,10 @@ typedef struct settings_s {
 int get_sfkey(const char *str);
 int get_sfmouse(const char *str);
 // get_data.c
-int get_idata(const char *data, const char **file);
-float get_fdata(const char *data, const char **file);
-int get_sdata(const char *data, const char **file);
+bool get_bdata(const char *data, char **file);
+int get_idata(const char *data, char **file);
+float get_fdata(const char *data, char **file);
+int get_sdata(const char *data, char **file);
 //check_settings.c
 void check_display(display_t *display);
 void check_audio(audio_t *audio);

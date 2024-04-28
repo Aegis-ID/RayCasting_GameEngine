@@ -8,43 +8,40 @@
 #include "lib.h"
 #include "settings/settings.h"
 
-static display_t get_display(const char **file)
+static display_t get_display(char **file)
 {
     display_t display = {0};
 
     display.resolution.y = get_idata("iScreenHeight", file);
     display.resolution.x = get_idata("iScreenWidth", file);
-    display.fullscreen = get_idata("bFullScreen", file);
-    display.windowed = get_idata("bWindowed", file);
-    display.vsync = get_idata("bVsync", file);
+    display.fullscreen = get_bdata("bFullScreen", file);
+    display.windowed = get_bdata("bWindowed", file);
+    display.vsync = get_bdata("bVsync", file);
     display.frames = get_idata("iFrames", file);
     display.fov = get_idata("iFOV", file);
-    check_display(&display);
     return display;
 }
 
-static audio_t get_audio(const char **file)
+static audio_t get_audio(char **file)
 {
     audio_t audio = {0};
 
     audio.master = get_fdata("fMaster", file);
     audio.vfx = get_fdata("fVfx", file);
     audio.music = get_fdata("fMusic", file);
-    check_audio(&audio);
     return audio;
 }
 
-static gameplay_t get_gameplay(const char **file)
+static gameplay_t get_gameplay(char **file)
 {
     gameplay_t gameplay = {0};
 
     gameplay.mini_map_size = get_idata("iMiniMapSize", file);
     gameplay.sensitivity = get_fdata("fSensitivity", file);
-    check_gameplay(&gameplay);
     return gameplay;
 }
 
-static keybinds_t get_keybinds(const char **file)
+static keybinds_t get_keybinds(char **file)
 {
     keybinds_t keybinds = {0};
 
@@ -63,7 +60,6 @@ static keybinds_t get_keybinds(const char **file)
     keybinds.right_hand = get_sdata("sRightHand", file);
     keybinds.left_hand = get_sdata("sLeftHand", file);
     keybinds.torch = get_sdata("sTorch", file);
-    check_keybinds(&keybinds);
     return keybinds;
 }
 
@@ -76,6 +72,10 @@ settings_t get_settings(void)
     settings.audio = get_audio(file);
     settings.gameplay = get_gameplay(file);
     settings.keybinds = get_keybinds(file);
+    check_display(&settings.display);
+    check_audio(&settings.audio);
+    check_gameplay(&settings.gameplay);
+    check_keybinds(&settings.keybinds);
     free_array(file);
     return settings;
 }

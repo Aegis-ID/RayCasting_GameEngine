@@ -14,10 +14,11 @@ LIB		=	mylib.a
 SUBDIRS		=	lib/
 
 GAME_FUNCS 	=	$(addprefix funcs/,	\
+				check_settings.c 	\
 				get_map.c 	\
 				get_data.c 	\
-				check_settings.c 	\
 				get_settings.c 	\
+				get_bindings.c 	\
 				)	\
 
 GAME_INITS 	=	$(addprefix inits/,	\
