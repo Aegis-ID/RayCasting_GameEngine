@@ -80,10 +80,10 @@ const char *KEYS_CODE[] = {
     "Subtract",
     "Multiply",
     "Divide",
-    "Left",
-    "Right",
-    "Up",
-    "Down",
+    "LeftKey",
+    "RightKey",
+    "UpKey",
+    "DownKey",
     "Numpad0",
     "Numpad1",
     "Numpad2",
@@ -114,7 +114,7 @@ const char *KEYS_CODE[] = {
     NULL
 };
 
-const char *MOUSE_BUTTONS[] = {
+const char *MOUSE_CODE[] = {
     "LMB",
     "RMB",
     "MMB",

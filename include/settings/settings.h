@@ -51,24 +51,24 @@ typedef struct gameplay_s {
 typedef struct keybinds_s {
     /*----- EXPLORATION MODE -----*/
     //Movement
-    char *move_forward;
-    char *move_backward;
-    char *move_left;
-    char *move_right;
+    int move_forward;
+    int move_backward;
+    int move_left;
+    int move_right;
     //Camera rotation (Keyboard)
-    char *look_left;
-    char *look_right;
+    int look_left;
+    int look_right;
     //Hotbar
-    char *hotkey_1;
-    char *hotkey_2;
-    char *hotkey_3;
-    char *hotkey_4;
-    char *hotkey_5;
+    int hotkey_1;
+    int hotkey_2;
+    int hotkey_3;
+    int hotkey_4;
+    int hotkey_5;
     //Gameplay
-    char *interact;
-    char *right_hand;
-    char *left_hand;
-    char *torch;
+    int interact;
+    int right_hand;
+    int left_hand;
+    int torch;
     /*----- MANAGEMENT MODE -----*/
     // ...
 }keybinds_t;
@@ -82,12 +82,14 @@ typedef struct settings_s {
     keybinds_t keybinds;
 }settings_t;
 
-// Funcs
-
+/* ----- FUNCS ----- */
+//get_bindings.c
+int get_sfkey(const char *str);
+int get_sfmouse(const char *str);
 // get_data.c
 int get_idata(const char *data, const char **file);
 float get_fdata(const char *data, const char **file);
-int *get_sdata(const char *data, const char **file);
+int get_sdata(const char *data, const char **file);
 //check_settings.c
 void check_display(display_t *display);
 void check_audio(audio_t *audio);
