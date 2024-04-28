@@ -30,7 +30,7 @@ game_t init_game(void)
 
     game.settings = get_settings();
     game.window = init_game_window();
-    game.event = {0};
+    game.event = (sfEvent){0};
     game.clock = sfClock_create();
     return game;
 }
