@@ -27,11 +27,10 @@ static sfRenderWindow *init_game_window(void)
 game_t init_game(void)
 {
     game_t game = {0};
-    sfRenderWindow *window = init_game_window();
-    sfEvent event = {0};
-    sfClock *clock = sfClock_create();
-    game.window = window;
-    game.event = event;
-    game.clock = clock;
+
+    game.settings = get_settings();
+    game.window = init_game_window();
+    game.event = {0};
+    game.clock = sfClock_create();
     return game;
 }
