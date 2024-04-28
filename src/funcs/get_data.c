@@ -68,24 +68,20 @@ float get_fdata(const char *data, char **file)
     return INVALID;
 }
 
-static int sdata_return_value(const char *data_line)
-{
-    int sfmouse = get_sfmouse(data_line);
-    int sfkey = get_sfkey(data_line);
-
-    if (sfmouse == INVALID)
-        return sfkey;
-    return sfmouse;
-}
-
 int get_sdata(const char *data, char **file)
 {
     char *data_line = NULL;
+    int sfmouse = 0;
+    int sfkey = 0;
 
     for (size_t y = 0; file[y] != 0; ++y)
         if (check_data(data, clean_str(file[y], ' '))) {
             data_line = format_data(file[y]);
-            return sdata_return_value(data_line);
+            break;
         }
-    return INVALID;
+    sfmouse = get_sfmouse(data_line);
+    sfkey = get_sfkey(data_line);
+    if (sfmouse != INVALID)
+        return sfmouse;
+    return sfkey;
 }
