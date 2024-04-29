@@ -13,12 +13,12 @@
 // Main ray casting structs
 
 typedef struct maps_s {
-    const char *m_name;
-    size_t map_ht;
-    size_t map_wd;
-    int *map;
-    int *map_floor;
-    int *map_ceil;
+    const char *name;
+    size_t height;
+    size_t width;
+    int *walls;
+    int *floor;
+    int *ceil;
     struct map_s *next;
 }maps_t;
 
