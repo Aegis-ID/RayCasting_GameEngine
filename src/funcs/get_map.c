@@ -34,7 +34,7 @@ static bool check_file_lines(const char **file)
     size_t m_width = atoi(file[1]);
     size_t m_height = atoi(file[0]);
 
-    if ((m_width * m_height) != (size - 2))
+    if ((m_width * m_height * 3) != (size - 2))
         return false;
     return true;
 }
@@ -48,11 +48,11 @@ static void check_file(char **file)
     return;
 }
 
-static int *char_to_int_map(const char **char_map, size_t start, size_t end)
+static int *char_to_int_map(const char **char_map, size_t size)
 {
-    int *int_map = malloc(sizeof(int) * (end - start));
+    int *int_map = malloc(sizeof(int) * (size));
 
-    for (size_t y = start; y < end; ++y)
+    for (size_t y = 0; y < size; ++y)
         int_map[y] = atoi(char_map[y]);
     return int_map;
 }
@@ -60,22 +60,20 @@ static int *char_to_int_map(const char **char_map, size_t start, size_t end)
 maps_t get_map(const char *filepath, const char *map_name)
 {
     maps_t map = {0};
-    char **char_map = file_to_array(filepath, ",\n\t");
-    int *int_map = NULL;
-    int *int_map_floor = NULL;
-    int *int_map_ceil = NULL;
+    char **char_map = file_to_array(filepath, " ,\n\t");
+    size_t size = 0;
 
     check_file(char_map);
     map.name = map_name;
     map.height = atoi(char_map[0]);
-    map.widht = atoi(char_map[1]);
-    char_map += 2;
-    map.walls = char_to_int_map((const char **)char_map,
-        0, map.map_ht);
-    map.floor = char_to_int_map((const char **)char_map,
-        map.height * 2, map.map_ht * 2);
-    map.map_ceil = char_to_int_map((const char **)char_map,
-        map.map_ht * 3, map.map_ht * 3);
+    map.width = atoi(char_map[1]);
+    size = map.height * map.width;
+    map.walls = char_to_int_map(
+        (const char **)char_map + 2, size);
+    map.floor = char_to_int_map(
+        (const char **)char_map + 2 + size, size);
+    map.ceil = char_to_int_map(
+        (const char **)char_map + 2 + size * 2, size);
     free_array(char_map);
     return map;
 }

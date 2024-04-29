@@ -33,9 +33,9 @@ void draw_map(maps_t *map, int map_s)
 {
     sfVector2i offset = {0};
 
-    for (size_t y = 0; y < map->map_ht; ++y) {
-        for (size_t x = 0; x < map->map_wd; ++x) {
-            colorize_cell(map->map[y * map->map_wd + x]);
+    for (size_t y = 0; y < map->height; ++y) {
+        for (size_t x = 0; x < map->width; ++x) {
+            colorize_cell(map->walls[y * map->width + x]);
             offset.x = x * map_s;
             offset.y = y * map_s;
             draw_cell(&offset, map_s);

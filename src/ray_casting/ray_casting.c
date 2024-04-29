@@ -50,11 +50,11 @@ static void check_v_lines(player_t *p, rays_t *r, gameplay_t *gp)
 static void check_v_collisions(player_t *p, maps_t *m, rays_t *r, gameplay_t *gp)
 {
     while (r->dof < DOF) {
-        r->m_pos = ((int)(r->pos.y) / gp->map_s) * m->map_wd
+        r->m_pos = ((int)(r->pos.y) / gp->map_s) * m->width
             + ((int)(r->pos.x) / gp->map_s);
-        if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
-            is_wall(m->map[r->m_pos])) {
-            r->w_text_pos.y = m->map[r->m_pos] - 1;
+        if ((r->m_pos > 0) && (r->m_pos < (m->height * m->width)) &&
+            is_wall(m->walls[r->m_pos])) {
+            r->w_text_pos.y = m->walls[r->m_pos] - 1;
             r->dof = DOF;
             r->v_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
                 -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);
@@ -94,11 +94,11 @@ static void check_h_lines(player_t *p, rays_t *r, gameplay_t *gp)
 static void check_h_collisions(player_t *p, maps_t *m, rays_t *r, gameplay_t *gp)
 {
     while (r->dof < DOF) {
-        r->m_pos = ((int)(r->pos.y) / gp->map_s) * m->map_wd
+        r->m_pos = ((int)(r->pos.y) / gp->map_s) * m->width
             + ((int)(r->pos.x) / gp->map_s);
-        if ((r->m_pos > 0) && (r->m_pos < (m->map_ht * m->map_wd)) &&
-            is_wall(m->map[r->m_pos])) {
-            r->w_text_pos.x = m->map[r->m_pos] - 1;
+        if ((r->m_pos > 0) && (r->m_pos < (m->height * m->width)) &&
+            is_wall(m->walls[r->m_pos])) {
+            r->w_text_pos.x = m->walls[r->m_pos] - 1;
             r->dof = DOF;
             r->h_dist = cos(deg_to_rad(r->angle)) * (r->pos.x - p->pos.x)
                 -sin(deg_to_rad(r->angle)) * (r->pos.y - p->pos.y);

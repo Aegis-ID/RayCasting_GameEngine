@@ -36,15 +36,15 @@ static void p_vertical_mvt(player_t *p, maps_t *m, collisions_t *col,
     keybinds_t *k)
 {
     if (sfKeyboard_isKeyPressed(k->move_forward)) {
-        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_add.x]))
+        if (!is_wall(m->walls[col->pos.y * m->width + col->offset_add.x]))
             p->pos.x += p->delta.x * MVT;
-        if (!is_wall(m->map[col->offset_add.y * m->map_wd + col->pos.x]))
+        if (!is_wall(m->walls[col->offset_add.y * m->width + col->pos.x]))
             p->pos.y += p->delta.y * MVT;
     }
     if (sfKeyboard_isKeyPressed(k->move_backward)) {
-        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_sub.x]))
+        if (!is_wall(m->walls[col->pos.y * m->width + col->offset_sub.x]))
             p->pos.x -= p->delta.x * MVT;
-        if (!is_wall(m->map[col->offset_sub.y * m->map_wd + col->pos.x]))
+        if (!is_wall(m->walls[col->offset_sub.y * m->width + col->pos.x]))
             p->pos.y -= p->delta.y * MVT;
     }
     return;
@@ -54,15 +54,15 @@ static void p_horizontal_mvt(player_t *p, maps_t *m, collisions_t *col,
     keybinds_t *k)
 {
     if (sfKeyboard_isKeyPressed(k->move_left)) {
-        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_add.x]))
+        if (!is_wall(m->walls[col->pos.y * m->width + col->offset_add.x]))
             p->pos.x += p->delta.y * MVT;
-        if (!is_wall(m->map[col->offset_sub.y * m->map_wd + col->pos.x]))
+        if (!is_wall(m->walls[col->offset_sub.y * m->width + col->pos.x]))
             p->pos.y -= p->delta.x * MVT;
     }
     if (sfKeyboard_isKeyPressed(k->move_right)) {
-        if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_sub.x]))
+        if (!is_wall(m->walls[col->pos.y * m->width + col->offset_sub.x]))
             p->pos.x -= p->delta.y * MVT;
-        if (!is_wall(m->map[col->offset_add.y * m->map_wd + col->pos.x]))
+        if (!is_wall(m->walls[col->offset_add.y * m->width + col->pos.x]))
             p->pos.y += p->delta.x * MVT;
     }
     return;
@@ -85,13 +85,13 @@ static void p_rotation(player_t *p, gameplay_t *gp, keybinds_t *k)
     return;
 }
 
-void player_movement(game_t *game, player_t *player, maps_t *map)
+void player_movement(game_t *game, player_t *player, maps_t *walls)
 {
     collisions_t col = get_collisions(player,
         game->settings.gameplay.map_s);
 
     p_rotation(player, &game->settings.gameplay, &game->settings.keybinds);
-    p_vertical_mvt(player, map, &col, &game->settings.keybinds);
-    p_horizontal_mvt(player, map, &col, &game->settings.keybinds);
+    p_vertical_mvt(player, walls, &col, &game->settings.keybinds);
+    p_horizontal_mvt(player, walls, &col, &game->settings.keybinds);
     return;
 }
