@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "lib.h"
-#include "settings/settings.h"
+#include "settings/funcs.h"
 
 static char *format_data(char *data_line)
 {

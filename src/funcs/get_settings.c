@@ -6,7 +6,7 @@
 */
 
 #include "lib.h"
-#include "settings/settings.h"
+#include "settings/funcs.h"
 
 static display_t get_display(char **file)
 {
@@ -36,7 +36,7 @@ static gameplay_t get_gameplay(char **file)
 {
     gameplay_t gameplay = {0};
 
-    gameplay.mini_map_size = get_idata("iMiniMapSize", file);
+    gameplay.map_s = get_idata("iMiniMapSize", file);
     gameplay.sensitivity = get_fdata("fSensitivity", file);
     return gameplay;
 }

@@ -7,7 +7,7 @@
 
 #include <string.h>
 #include "settings/keys.h"
-#include "settings/settings.h"
+#include "settings/funcs.h"
 
 int get_sfkey(const char *str)
 {

@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include "lib.h"
 #include "settings/bindings.h"
-#include "settings/settings.h"
+#include "settings/funcs.h"
 
 void check_display(display_t *dp)
 {
@@ -37,8 +37,8 @@ void check_audio(audio_t *audio)
 
 void check_gameplay(gameplay_t *gameplay)
 {
-    if (gameplay->mini_map_size == INVALID)
-        gameplay->mini_map_size = 25;
+    if (gameplay->map_s == INVALID)
+        gameplay->map_s = 25;
     if (gameplay->sensitivity == INVALID)
         gameplay->sensitivity = 1;
     return;
