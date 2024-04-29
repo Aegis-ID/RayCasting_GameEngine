@@ -56,6 +56,8 @@ char **str_to_word_array(const char *str, const char *delim)
     size_t str_pos = 0;
     size_t str_size = 0;
 
+    if (array == NULL)
+        return NULL;
     for (size_t y = 0; y < array_size; ++y) {
         format_str(str, delim, &str_pos);
         str_size = get_str_size(str, delim, str_pos);

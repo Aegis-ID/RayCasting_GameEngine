@@ -37,6 +37,8 @@ char **file_to_array(const char *filepath, const char *delim)
         return NULL;
     }
     buffer = (char *) malloc(sizeof(char) * (file_size + 1));
+    if (buffer == NULL)
+        return NULL;
     size = read(fd, buffer, (file_size - 1));
     buffer[size] = '\0';
     array = str_to_word_array(buffer, delim);
