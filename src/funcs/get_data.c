@@ -14,7 +14,7 @@
 static char *format_data(char *data_line)
 {
     data_line = clean_str(data_line, ' ');
-    return data_line + my_strlen_delim(data_line, '=');
+    return data_line + my_strlen_delim(data_line, '=') + 1;
 }
 
 static bool check_data(const char *data, const char *data_line)

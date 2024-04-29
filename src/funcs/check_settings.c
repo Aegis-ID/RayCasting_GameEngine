@@ -12,6 +12,7 @@
 
 void check_display(display_t *dp)
 {
+    printf("res y: %i, res x:%i\n", dp->resolution.y, dp->resolution.x);
     if ((dp->resolution.y == INVALID) || (dp->resolution.x == INVALID))
         dp->resolution = (sfVector2i){800, 600};
     if (dp->frames == INVALID)
@@ -39,7 +40,7 @@ void check_gameplay(gameplay_t *gameplay)
     if (gameplay->map_s == INVALID)
         gameplay->map_s = 25;
     if (gameplay->sensitivity == INVALID)
-        gameplay->sensitivity = 1;
+        gameplay->sensitivity = 5;
     return;
 }
 

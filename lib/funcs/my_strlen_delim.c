@@ -13,7 +13,7 @@ size_t my_strlen_delim(const char *str, const char delim)
 
     for (size_t x = 0; str[x] != '\0'; ++x)
         if (str[x] == delim)
-            return len + 1;
+            return len;
         else
             len += 1;
     return len;
