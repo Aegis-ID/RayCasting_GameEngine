@@ -5,19 +5,10 @@
 ** CSFML
 */
 
-#ifndef __RAY_CASTING__
-    #define __RAY_CASTING__
+#ifndef __RAY_CASTING_STRUCTS__
+    #define __RAY_CASTING_STRUCTS__
 
     #include <SFML/Graphics.h>
-    #include <stdbool.h>
-
-    //View settings
-    #define DOF 8
-    #define SHADE 0.8f
-    #define COL_DIST 20
-
-    //Player settings --> Temporary (in player_stats)
-    #define MVT 1
 
 // Main ray casting structs
 
@@ -81,20 +72,4 @@ typedef struct ray_casting_s {
     rays_t rays;
 }ray_casting_t;
 
-//Parsing
-maps_t get_map(const char *filepath, const char *map_name);
-void free_array(char **array);
-//2D part
-void draw_map(maps_t *map);
-void draw_player(player_t *player);
-void draw_rays(player_t *player, rays_t *rays);
-//3D part
-float update_angle(float angle);
-void draw_walls(player_t *p, rays_t *r, size_t r_iter);
-void ray_casting(player_t *player, maps_t *map);
-//Gameplay
-void player_movement(player_t *player, maps_t *map);
-// Walls
-bool is_wall(int map_position);
-
-#endif /* !__RAY_CASTING__ */
+#endif /* !__RAY_CASTING_STRUCTS__ */

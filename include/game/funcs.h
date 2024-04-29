@@ -7,22 +7,12 @@
 
 #ifndef __GAME__
     #define __GAME__
-    #include "settings/settings.h"
-    #include "ray_casting.h"
 
-enum GAME_MODE {
-    MAIN_MENU,
-    LEVEL_EDITOR,
-    MANAGEMENT,
-    EXPLORATION
-};
+    #include "game/game_structs.h"
+    #include "ray_casting/ray_casting_structs.h"
 
-typedef struct game_s {
-    settings_t settings;
-    sfRenderWindow *window;
-    sfEvent event;
-    sfClock *clock;
-}game_t;
+    #define NAME "Aegis Engine"
+    #define BITS 64
 
 //inits
 game_t init_game(void);
