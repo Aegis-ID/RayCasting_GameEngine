@@ -7,10 +7,10 @@
 
 #include <math.h>
 #include "lib.h"
-#include "ray_casting.h"
-#include "settings/settings.h"
+#include "ray_casting/funcs.h"
+#include "settings/structs.h"
 
-static collisions_t get_collisions(player_t *p)
+static collisions_t get_collisions(player_t *p, int map_s)
 {
     collisions_t col = {0};
     sfVector2i offset = {0};
@@ -23,24 +23,25 @@ static collisions_t get_collisions(player_t *p)
         offset.y = -COL_DIST;
     else
         offset.y = COL_DIST;
-    col.pos.x = p->pos.x / MAP_S;
-    col.pos.y = p->pos.y / MAP_S;
-    col.offset_add.x = (p->pos.x + offset.x) / MAP_S;
-    col.offset_add.y = (p->pos.y + offset.y) / MAP_S;
-    col.offset_sub.x = (p->pos.x - offset.x) / MAP_S;
-    col.offset_sub.y = (p->pos.y - offset.y) / MAP_S;
+    col.pos.x = p->pos.x / map_s;
+    col.pos.y = p->pos.y / map_s;
+    col.offset_add.x = (p->pos.x + offset.x) / map_s;
+    col.offset_add.y = (p->pos.y + offset.y) / map_s;
+    col.offset_sub.x = (p->pos.x - offset.x) / map_s;
+    col.offset_sub.y = (p->pos.y - offset.y) / map_s;
     return col;
 }
 
-static void p_vertical_mvt(player_t *p, maps_t *m, collisions_t *col)
+static void p_vertical_mvt(player_t *p, maps_t *m, collisions_t *col,
+    keybinds_t *k)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyZ)) {
+    if (sfKeyboard_isKeyPressed(k->move_forward)) {
         if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_add.x]))
             p->pos.x += p->delta.x * MVT;
         if (!is_wall(m->map[col->offset_add.y * m->map_wd + col->pos.x]))
             p->pos.y += p->delta.y * MVT;
     }
-    if (sfKeyboard_isKeyPressed(sfKeyS)) {
+    if (sfKeyboard_isKeyPressed(k->move_backward)) {
         if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_sub.x]))
             p->pos.x -= p->delta.x * MVT;
         if (!is_wall(m->map[col->offset_sub.y * m->map_wd + col->pos.x]))
@@ -49,15 +50,16 @@ static void p_vertical_mvt(player_t *p, maps_t *m, collisions_t *col)
     return;
 }
 
-static void p_horizontal_mvt(player_t *p, maps_t *m, collisions_t *col)
+static void p_horizontal_mvt(player_t *p, maps_t *m, collisions_t *col,
+    keybinds_t *k)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyQ)) {
+    if (sfKeyboard_isKeyPressed(k->move_left)) {
         if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_add.x]))
             p->pos.x += p->delta.y * MVT;
         if (!is_wall(m->map[col->offset_sub.y * m->map_wd + col->pos.x]))
             p->pos.y -= p->delta.x * MVT;
     }
-    if (sfKeyboard_isKeyPressed(sfKeyD)) {
+    if (sfKeyboard_isKeyPressed(k->move_right)) {
         if (!is_wall(m->map[col->pos.y * m->map_wd + col->offset_sub.x]))
             p->pos.x -= p->delta.y * MVT;
         if (!is_wall(m->map[col->offset_add.y * m->map_wd + col->pos.x]))
@@ -66,16 +68,16 @@ static void p_horizontal_mvt(player_t *p, maps_t *m, collisions_t *col)
     return;
 }
 
-static void p_rotation(player_t *p)
+static void p_rotation(player_t *p, gameplay_t *gp, keybinds_t *k)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
-        p->angle += ROT;
+    if (sfKeyboard_isKeyPressed(k->look_left)) {
+        p->angle += gp->sensitivity;
         p->angle = update_angle(p->angle);
         p->delta.x = cos(deg_to_rad(p->angle));
         p->delta.y = -sin(deg_to_rad(p->angle));
     }
-    if (sfKeyboard_isKeyPressed(sfKeyRight)) {
-        p->angle -= ROT;
+    if (sfKeyboard_isKeyPressed(k->look_right)) {
+        p->angle -= gp->sensitivity;
         p->angle = update_angle(p->angle);
         p->delta.x = cos(deg_to_rad(p->angle));
         p->delta.y = -sin(deg_to_rad(p->angle));
@@ -83,12 +85,13 @@ static void p_rotation(player_t *p)
     return;
 }
 
-void player_movement(player_t *player, maps_t *map)
+void player_movement(game_t *game, player_t *player, maps_t *map)
 {
-    collisions_t col = get_collisions(player);
+    collisions_t col = get_collisions(player,
+        game->settings.gameplay.map_s);
 
-    p_rotation(player);
-    p_vertical_mvt(player, map, &col);
-    p_horizontal_mvt(player, map, &col);
+    p_rotation(player, &game->settings.gameplay, &game->settings.keybinds);
+    p_vertical_mvt(player, map, &col, &game->settings.keybinds);
+    p_horizontal_mvt(player, map, &col, &game->settings.keybinds);
     return;
 }

@@ -7,7 +7,7 @@
 
 #include <math.h>
 #include "lib.h"
-#include "ray_casting.h"
+#include "ray_casting/funcs.h"
 
 static player_t init_player(void)
 {
@@ -15,8 +15,8 @@ static player_t init_player(void)
 
     player.pos = (sfVector2f){225, 225};
     player.angle = 90;
-    player.delta.x = cos(deg_to_rad(player.angle)) * 5;
-    player.delta.y = -sin(deg_to_rad(player.angle)) * 5;
+    player.delta.x = cos(deg_to_rad(player.angle));
+    player.delta.y = -sin(deg_to_rad(player.angle));
     return player;
 }
 

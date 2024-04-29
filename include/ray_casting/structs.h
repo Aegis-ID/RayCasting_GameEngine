@@ -32,6 +32,7 @@ typedef struct rays_s {
     // depth of field
     int dof;
     // rays infos
+    size_t r_iter;
     float angle;
     sfVector2f pos;
     sfVector2f offset;

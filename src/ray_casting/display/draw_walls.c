@@ -11,9 +11,10 @@
 #include <SFML/OpenGL.h>
 #include <math.h>
 #include "lib.h"
-#include "ray_casting.h"
-#include "settings/settings.h"
 #include "textures/textures.h"
+#include "ray_casting/funcs.h"
+#include "settings/structs.h"
+#include "game/structs.h"
 
 bool is_wall(int map_position)
 {
@@ -22,8 +23,7 @@ bool is_wall(int map_position)
     return false;
 }
 
-static void colorize_wall(rays_t *r, walls_t *w,
-    size_t r_iter, const int *texture)
+static void colorize_wall(rays_t *r, walls_t *w, display_t *d, const int *texture)
 {
     float color = 0;
 
@@ -33,7 +33,7 @@ static void colorize_wall(rays_t *r, walls_t *w,
         glColor3f(color, color, color);
         glPointSize(DOF);
         glBegin(GL_POINTS);
-        glVertex2i(r_iter * DOF + (WIDTH / 2), y + w->wall_ht_off);
+        glVertex2i(r->r_iter * DOF + (d->resolution.x / 2), y + w->wall_ht_off);
         glEnd();
         w->pos.y += w->step.y;
     }
@@ -55,26 +55,27 @@ static void display_textures(rays_t *r, walls_t *w)
     return;
 }
 
-static void calculate_walls(rays_t *r, walls_t *w)
+static void calculate_walls(rays_t *r, walls_t *w, display_t *d, int map_s)
 {
-    w->wall_ht = (MAP_S * (HEIGHT / 2)) / r->h_dist;
+    w->wall_ht = (map_s * (d->resolution.y / 2)) / r->h_dist;
     w->step.y = TEXTURES_S / (float)w->wall_ht;
     w->offset.y = 0;
-    if (w->wall_ht > (HEIGHT / 2)) {
-        w->offset.y = (w->wall_ht - (HEIGHT / 2)) / 2;
-        w->wall_ht = (HEIGHT / 2);
+    if ((int)w->wall_ht > (d->resolution.y / 2)) {
+        w->offset.y = (w->wall_ht - (d->resolution.y / 2)) / 2;
+        w->wall_ht = (d->resolution.y / 2);
     }
-    w->wall_ht_off = (HEIGHT / 4) - (w->wall_ht >> 1);
+    w->wall_ht_off = (d->resolution.y / 4) - (w->wall_ht >> 1);
     return;
 }
 
-void draw_walls(player_t *p, rays_t *r, size_t r_iter)
+void draw_walls(game_t *g, player_t *p, rays_t *r)
 {
     walls_t walls = {0};
 
     r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
-    calculate_walls(r, &walls);
+    calculate_walls(r, &walls, &g->settings.display,
+        g->settings.gameplay.map_s);
     display_textures(r, &walls);
-    colorize_wall(r, &walls, r_iter, ALL_TEXTURES[r->wall_type]);
+    colorize_wall(r, &walls, &g->settings.display, ALL_TEXTURES[r->wall_type]);
     return;
 }

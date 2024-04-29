@@ -8,7 +8,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include "ray_casting.h"
+#include "ray_casting/structs.h"
 
 void draw_player(player_t *p)
 {

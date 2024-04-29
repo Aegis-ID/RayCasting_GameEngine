@@ -8,8 +8,8 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include "ray_casting.h"
-#include "game.h"
+#include "ray_casting/funcs.h"
+#include "game/structs.h"
 
 void events(game_t *game, ray_casting_t *rc_mode)
 {
@@ -20,6 +20,6 @@ void events(game_t *game, ray_casting_t *rc_mode)
         sfRenderWindow_close(window);
     if (event.type == sfEvtResized)
         glViewport(0, 0, event.size.width, event.size.height);
-    player_movement(&rc_mode->player, &rc_mode->maps);
+    player_movement(game, &rc_mode->player, &rc_mode->maps);
     return;
 }

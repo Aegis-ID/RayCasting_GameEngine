@@ -8,7 +8,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "lib.h"
-#include "settings/bindings.h"
 #include "settings/funcs.h"
 
 void check_display(display_t *dp)

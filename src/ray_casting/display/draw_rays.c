@@ -9,7 +9,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include "ray_casting.h"
+#include "ray_casting/structs.h"
 
 void draw_rays(player_t *p, rays_t *r)
 {

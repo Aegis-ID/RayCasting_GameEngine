@@ -8,8 +8,8 @@
 #ifndef __GAME__
     #define __GAME__
 
-    #include "game/game_structs.h"
-    #include "ray_casting/ray_casting_structs.h"
+    #include "game/structs.h"
+    #include "ray_casting/structs.h"
 
     #define NAME "Aegis Engine"
     #define BITS 64

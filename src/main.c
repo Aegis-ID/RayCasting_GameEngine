@@ -7,7 +7,8 @@
 
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
-#include "game.h"
+#include "game/funcs.h"
+#include "ray_casting/structs.h"
 
 int main(void)
 {
