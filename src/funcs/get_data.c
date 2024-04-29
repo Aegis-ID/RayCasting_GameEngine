@@ -53,7 +53,7 @@ int get_idata(const char *data, char **file)
             check = true;
             break;
         }
-    if (check && !is_strdigit(data_line))
+    if (check && is_strdigit(data_line))
         return atoi(data_line);
     return INVALID;
 }
@@ -69,7 +69,7 @@ float get_fdata(const char *data, char **file)
             check = true;
             break;
         }
-    if (check && !is_strfloat(data_line))
+    if (check && is_strfloat(data_line))
         return atof(data_line);
     return INVALID;
 }

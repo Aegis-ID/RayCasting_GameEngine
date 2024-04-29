@@ -12,7 +12,6 @@
 
 void check_display(display_t *dp)
 {
-    printf("res y: %i, res x:%i\n", dp->resolution.y, dp->resolution.x);
     if ((dp->resolution.y == INVALID) || (dp->resolution.x == INVALID))
         dp->resolution = (sfVector2i){800, 600};
     if (dp->frames == INVALID)
