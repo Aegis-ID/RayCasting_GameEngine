@@ -31,7 +31,7 @@ RAY_CASTING	=	$(addprefix ray_casting/,	\
 				draw_map.c 	\
 				draw_player.c 	\
 				draw_rays.c	\
-				draw_walls.c 	\
+				display_rc.c 	\
 				)	\
 				$(addprefix gameplay/,	\
 				get_collisions.c 	\
