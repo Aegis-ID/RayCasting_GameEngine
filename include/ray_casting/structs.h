@@ -57,14 +57,6 @@ typedef struct collisions_s {
     sfVector2i offset_sub;
 }collisions_t;
 
-typedef struct walls_s {
-    size_t wall_ht;
-    size_t wall_ht_off;
-    sfVector2f pos;
-    sfVector2f offset;
-    sfVector2f step;
-}walls_t;
-
 // Global struct for ray casting "EXPLORATION GAME MODE" also named rc_mode
 
 typedef struct ray_casting_s {

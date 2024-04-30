@@ -29,7 +29,7 @@ void draw_player(player_t *player);
 void draw_rays(player_t *player, rays_t *rays);
 //3D part
 float update_angle(float angle);
-void draw_walls(game_t *g, player_t *p, rays_t *r);
+void display_rc(game_t *g, player_t *p, rays_t *r);
 void ray_casting(game_t *game, player_t *player, maps_t *map);
 //Gameplay
 collisions_t get_collisions(player_t *p, int map_s);

@@ -16,4 +16,12 @@ enum texture_type {
     DOOR
 };
 
+typedef struct textures_s {
+    size_t wall_ht;
+    size_t wall_ht_off;
+    sfVector2f pos;
+    sfVector2f offset;
+    sfVector2f step;
+}textures_t;
+
 #endif /* !__TEXTURES_STRUCTS__ */

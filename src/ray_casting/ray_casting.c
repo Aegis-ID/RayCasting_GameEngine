@@ -141,7 +141,7 @@ void ray_casting(game_t *g, player_t *p, maps_t *m)
         rays.r_iter = r_iter;
         update_rays(&g->settings, p, m, &rays);
         draw_rays(p, &rays);
-        draw_walls(g, p, &rays);
+        display_rc(g, p, &rays);
         rays.angle = update_angle(rays.angle - 1);
     }
     return;
