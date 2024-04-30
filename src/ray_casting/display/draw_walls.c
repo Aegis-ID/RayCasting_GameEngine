@@ -57,7 +57,23 @@ static void texture_wall(rays_t *r, walls_t *w, display_t *d, const int *texture
     return;
 }
 
-static void display_textures(rays_t *r, walls_t *w)
+/* static void texture_floor(rays_t *r, walls_t *w, display_t *d, const int *texture)
+{
+    float dy = 0;
+    float deg = 0;
+    float ra_fix
+
+    for (size_t y = 0; w->wall_ht_off + wall_ht; y < d->resolution.y; ++y) {
+
+    }
+}
+
+static void texture_ceil(rays_t *r, walls_t *w, display_t *d, const int *texture)
+{
+
+}
+ */
+static void calculate_textures(rays_t *r, walls_t *w)
 {
     w->pos.y = w->offset.y * w->step.y;
     if (r->shade == SHADE) {
@@ -92,7 +108,9 @@ void draw_walls(game_t *g, player_t *p, rays_t *r)
     r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
     calculate_walls(r, &walls, &g->settings.display,
         g->settings.gameplay.map_s);
-    display_textures(r, &walls);
+    calculate_textures(r, &walls);
     texture_wall(r, &walls, &g->settings.display, ALL_TEXTURES[r->wall_type]);
+/*     texture_floor(r, &walls, &g->settings.display, ALL_TEXTURES[r->wall_type]);
+    texture_ceil(r, &walls, &g->settings.display, ALL_TEXTURES[r->wall_type]); */
     return;
 }
