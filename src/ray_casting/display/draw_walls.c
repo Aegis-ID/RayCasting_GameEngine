@@ -12,6 +12,7 @@
 #include <math.h>
 #include "lib.h"
 #include "textures/textures.h"
+#include "textures/structs.h"
 #include "ray_casting/funcs.h"
 #include "settings/structs.h"
 #include "game/structs.h"
@@ -23,14 +24,30 @@ bool is_wall(int map_position)
     return false;
 }
 
-static void colorize_wall(rays_t *r, walls_t *w, display_t *d, const int *texture)
+static void colorize_wall(int wall_type, float color)
+{
+    enum texture_type;
+
+    wall_type += 1;
+    if (wall_type == CHECKERBOARD)
+        glColor3f(color, color / 2, color / 2);
+    if (wall_type == BRICK)
+        glColor3f(color, color, color / 2);
+    if (wall_type == WINDOW)
+        glColor3f(color / 2, color / 2, color);
+    if (wall_type == DOOR)
+        glColor3f(color / 2, color, color / 2);
+    return;
+}
+
+static void texture_wall(rays_t *r, walls_t *w, display_t *d, const int *texture)
 {
     float color = 0;
 
     for (size_t y = 0; y < w->wall_ht; ++y) {
         color =
             texture[(int)(w->pos.y) * TEXTURES_S + (int)(w->pos.x)] * r->shade;
-        glColor3f(color, color, color);
+        colorize_wall(r->wall_type, color);
         glPointSize(DOF);
         glBegin(GL_POINTS);
         glVertex2i(r->r_iter * DOF + (d->resolution.x / 2), y + w->wall_ht_off);
@@ -76,6 +93,6 @@ void draw_walls(game_t *g, player_t *p, rays_t *r)
     calculate_walls(r, &walls, &g->settings.display,
         g->settings.gameplay.map_s);
     display_textures(r, &walls);
-    colorize_wall(r, &walls, &g->settings.display, ALL_TEXTURES[r->wall_type]);
+    texture_wall(r, &walls, &g->settings.display, ALL_TEXTURES[r->wall_type]);
     return;
 }
