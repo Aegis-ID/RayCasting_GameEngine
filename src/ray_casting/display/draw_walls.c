@@ -18,7 +18,7 @@
 
 bool is_wall(int map_position)
 {
-    if ((map_position > 0) && (map_position < TEXTURES_NB))
+    if ((map_position > 0) && (map_position <= TEXTURES_NB))
         return true;
     return false;
 }
