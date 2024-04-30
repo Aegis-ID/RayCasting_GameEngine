@@ -15,7 +15,7 @@
     //View settings
     #define DOF 8
     #define SHADE 0.8f
-    #define COL_DIST 5
+    #define COL_DIST 10
 
     //Player settings --> Temporary (put in player_stats)
     #define MVT 1

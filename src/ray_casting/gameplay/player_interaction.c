@@ -15,8 +15,6 @@ void player_interactions(game_t *game, player_t *player, maps_t *m)
     int interact = game->settings.keybinds.interact;
 
     if (sfKeyboard_isKeyPressed(interact)) {
-        printf("Interaction\n");
-        printf("%d\n", m->walls[col.offset_add.y * m->width + col.offset_add.x]);
         if (m->walls[col.offset_add.y * m->width + col.offset_add.x] == DOOR) {
             m->walls[col.offset_add.y * m->width + col.offset_add.x] = 0;
         }
