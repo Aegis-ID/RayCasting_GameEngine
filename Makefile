@@ -33,7 +33,7 @@ RAY_CASTING	=	$(addprefix ray_casting/,	\
 				draw_rays.c	\
 				draw_walls.c 	\
 				)	\
-				$(addprefix events/,	\
+				$(addprefix gameplay/,	\
 				player_movement.c \
 				)	\
 				ray_casting.c 	\
