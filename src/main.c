@@ -16,14 +16,10 @@ int main(void)
     ray_casting_t rc_mode = init_rc_mode();
 
     while (sfRenderWindow_isOpen(game.window)) {
-        while (sfRenderWindow_pollEvent(game.window, &game.event)) {
-            //do events here
+        while (sfRenderWindow_pollEvent(game.window, &game.event))
             events(&game, &rc_mode);
-        }
-        //display here
         display(&game, &rc_mode);
     }
-    //free here
     sfRenderWindow_destroy(game.window);
     return 0;
 }

@@ -12,14 +12,16 @@
 
 void draw_player(player_t *p)
 {
-    //draw p body
     glColor3f(1, 1, 0);
     glPointSize(8);
     glLineWidth(4);
     glBegin(GL_POINTS);
     glVertex2i(p->pos.x, p->pos.y);
     glEnd();
-    //draw direction
+}
+
+void draw_player_direction(player_t *p)
+{
     glLineWidth(3);
     glBegin(GL_LINES);
     glVertex2i(p->pos.x, p->pos.y);

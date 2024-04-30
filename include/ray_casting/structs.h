@@ -41,7 +41,8 @@ typedef struct rays_s {
     sfVector2f h_pos;
     float v_dist;
     sfVector2f v_pos;
-    // map position
+    float dist;
+    // player pos in int map array
     size_t m_pos;
     // walls infos
     float shade;
@@ -49,7 +50,7 @@ typedef struct rays_s {
     size_t wall_type;
 }rays_t;
 
-// For rays functions && calculations 
+// For rays functions && calculations
 
 typedef struct collisions_s {
     sfVector2i pos;

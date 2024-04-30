@@ -16,10 +16,9 @@ static sfRenderWindow *init_game_window(display_t *display)
     sfVideoMode mode = {display->resolution.x, display->resolution.y, BITS};
     sfRenderWindow *window = sfRenderWindow_create(mode, NAME,
         sfTitlebar | sfClose, NULL);
-    //OpenGL
+
     glClearColor(0.3, 0.3, 0.3, 0);
     gluOrtho2D(0, display->resolution.x, display->resolution.y, 0);
-    //SFML
     sfRenderWindow_setVerticalSyncEnabled(window, display->vsync);
     sfRenderWindow_setFramerateLimit(window, display->frames);
     return window;

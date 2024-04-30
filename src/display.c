@@ -17,6 +17,7 @@ void display(game_t *game, ray_casting_t *rc_mode)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw_map(&rc_mode->maps, game->settings.gameplay.map_s);
     draw_player(&rc_mode->player);
+    draw_player_direction(&rc_mode->player);
     ray_casting(game, &rc_mode->player, &rc_mode->maps);
     // save OpenGL states
     sfRenderWindow_pushGLStates(game->window);

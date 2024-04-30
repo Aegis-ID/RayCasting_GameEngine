@@ -26,6 +26,7 @@ void free_array(char **array);
 //2D part
 void draw_map(maps_t *map, int mini_map_size);
 void draw_player(player_t *player);
+void draw_player_direction(player_t *p);
 void draw_rays(player_t *player, rays_t *rays);
 //3D part
 float update_angle(float angle);

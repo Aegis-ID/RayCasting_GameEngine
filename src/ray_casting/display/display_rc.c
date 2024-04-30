@@ -40,26 +40,62 @@ static void colorize_texture(int wall_type, float color)
     return;
 }
 
-static void texture_wall(rays_t *r, textures_t *t, display_t *d, const int *texture)
+static void draw_walls(rays_t *r, textures_t *t, display_t *d)
 {
     float color = 0;
 
     for (size_t y = 0; y < t->wall_ht; ++y) {
         color =
-            texture[(int)(t->pos.y) * TEXTURES_S + (int)(t->pos.x)] * r->shade;
+            ALL_TEXTURES[r->wall_type][(int)(t->pos.y) *
+            TEXTURES_S + (int)(t->pos.x)] * r->shade;
         colorize_texture(r->wall_type, color);
         glPointSize(DOF);
         glBegin(GL_POINTS);
-        glVertex2i(r->r_iter * DOF + (d->resolution.x / 2), y + t->wall_ht_off);
+        glVertex2i(r->r_iter * DOF + (d->resolution.x / 2),
+            y + t->wall_ht_off);
         glEnd();
         t->pos.y += t->step.y;
     }
     return;
 }
 
-static void texture_floor(rays_t *r, textures_t *t, display_t *d, const int *texture);
+static void display_floor(rays_t *r, display_t *d, float color, size_t y)
+{
+    colorize_texture(BRICK, color);
+    glPointSize(DOF);
+    glBegin(GL_POINTS);
+    glVertex2i(r->r_iter * DOF + (d->resolution.x / 2), y);
+    glEnd();
+    return;
+}
 
-static void texture_ceil(rays_t *r, textures_t *t, display_t *d, const int *texture);
+static void draw_floor(player_t *p, rays_t *r, textures_t *t, display_t *d)
+{
+    enum texture_type;
+    float dy = 0;
+    float deg = deg_to_rad(r->angle);
+    float ra_fix = cos(deg_to_rad(update_angle(p->angle - r->angle)));
+    size_t dp_height = (d->resolution.y / 2);
+    float color = 0;
+
+    for (size_t y = t->wall_ht_off + t->wall_ht; y < dp_height; ++y) {
+        dy = y - (dp_height / 2);
+        t->pos.x = (p->pos.x / 2) + cos(deg) * (dp_height / 2) *
+            TEXTURES_S / dy / ra_fix;
+        t->pos.y = (p->pos.y / 2) - sin(deg) * (dp_height / 2) *
+            TEXTURES_S / dy / ra_fix;
+        color =
+            ALL_TEXTURES[BRICK][((int)(t->pos.y) & (TEXTURES_S - 1)) *
+            TEXTURES_S + ((int)(t->pos.x) & (TEXTURES_S - 1))] * 0.7;
+        display_floor(r, d, color, y);
+    }
+    return;
+}
+
+static void texture_ceil(rays_t *r, textures_t *t, display_t *d)
+{
+    return;
+}
 
 static void setup_textures(rays_t *r, textures_t *t)
 {
@@ -94,9 +130,9 @@ void display_rc(game_t *g, player_t *p, rays_t *r)
     textures_t text = {0};
 
     r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
-    setup_display(r, &text, &g->settings.display,
-        g->settings.gameplay.map_s);
+    setup_display(r, &text, &g->settings.display, g->settings.gameplay.map_s);
     setup_textures(r, &text);
-    texture_wall(r, &text, &g->settings.display, ALL_TEXTURES[r->wall_type]);
+    draw_walls(r, &text, &g->settings.display);
+    draw_floor(p, r, &text, &g->settings.display);
     return;
 }

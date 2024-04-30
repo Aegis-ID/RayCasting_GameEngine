@@ -47,7 +47,8 @@ static void check_v_lines(player_t *p, rays_t *r, gameplay_t *gp)
     return;
 }
 
-static void check_v_collisions(player_t *p, maps_t *m, rays_t *r, gameplay_t *gp)
+static void check_v_collisions(player_t *p, maps_t *m, rays_t *r,
+    gameplay_t *gp)
 {
     while (r->dof < DOF) {
         r->m_pos = ((int)(r->pos.y) / gp->map_s) * m->width
@@ -91,7 +92,8 @@ static void check_h_lines(player_t *p, rays_t *r, gameplay_t *gp)
     return;
 }
 
-static void check_h_collisions(player_t *p, maps_t *m, rays_t *r, gameplay_t *gp)
+static void check_h_collisions(player_t *p, maps_t *m, rays_t *r,
+    gameplay_t *gp)
 {
     while (r->dof < DOF) {
         r->m_pos = ((int)(r->pos.y) / gp->map_s) * m->width
@@ -118,7 +120,7 @@ static void update_rays(settings_t *s, player_t *p, maps_t *m, rays_t *r)
     check_h_lines(p, r, &s->gameplay);
     check_h_collisions(p, m, r, &s->gameplay);
     r->shade = SHADE;
-    r->wall_type =  r->w_text_pos.x;
+    r->wall_type = r->w_text_pos.x;
     glColor3f(r->shade, r->shade, r->shade);
     if (r->v_dist < r->h_dist) {
         r->wall_type = r->w_text_pos.y;
