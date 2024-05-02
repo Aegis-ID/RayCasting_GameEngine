@@ -17,11 +17,13 @@ enum texture_type {
 };
 
 typedef struct textures_s {
-    size_t wall_ht;
-    size_t wall_ht_off;
+    size_t line_ht;
+    size_t line_off;
     sfVector2f pos;
     sfVector2f offset;
     sfVector2f step;
 }textures_t;
+
+// TO IMPLEMENT
 
 #endif /* !__TEXTURES_STRUCTS__ */

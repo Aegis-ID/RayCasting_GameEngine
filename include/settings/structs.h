@@ -30,13 +30,13 @@ typedef struct audio_s {
 }audio_t;
 
 typedef struct gameplay_s {
+    // Mini map size (may be optionnal)
     int map_s;
     // Camera sensitivity (mouse + keyboard)
     float sensitivity;
 }gameplay_t;
 
 typedef struct keybinds_s {
-    /*----- EXPLORATION MODE -----*/
     //Movement
     int move_forward;
     int move_backward;
@@ -56,8 +56,6 @@ typedef struct keybinds_s {
     int right_hand;
     int left_hand;
     int torch;
-    /*----- MANAGEMENT MODE -----*/
-    // ...
 }keybinds_t;
 
 // Global settings struct
