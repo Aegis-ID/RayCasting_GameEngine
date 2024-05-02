@@ -40,17 +40,12 @@ static void colorize_texture(int wall_type, float color)
     return;
 }
 
-static void draw_ceil(player_t *p, rays_t *r, textures_t *t, display_t *d)
-{
-    return;
-}
-
-static void setup_floor(player_t *p, rays_t *r, textures_t *t, float dy)
+static void setup_texture_pos(player_t *p, rays_t *r, textures_t *t, float dy)
 {
     float deg = deg_to_rad(r->angle);
     float ra_fix = cos(deg_to_rad(update_angle(p->angle - r->angle)));
     size_t size = 158;
-
+    // Size is supposed to be (Line width / 2) / tan(fov / 2)
     t->pos.x = (p->pos.x / 2) + cos(deg) * size *
         TEXTURES_S / dy / ra_fix;
      t->pos.y = (p->pos.y / 2) - sin(deg) * size *
@@ -58,23 +53,47 @@ static void setup_floor(player_t *p, rays_t *r, textures_t *t, float dy)
     return;
 }
 
-static void draw_floor(player_t *p, rays_t *r, textures_t *t, display_t *d)
+static void draw_ceil(rays_t *r, textures_t *t, display_t *d, int texture_type)
 {
-    enum texture_type;
-    float color = 0;
     size_t dp_height = (d->resolution.y / 2);
     size_t dp_width = (d->resolution.x / 2);
+    float color =
+        ALL_TEXTURES[texture_type][((int)(t->pos.y) & (TEXTURES_S - 1)) *
+        TEXTURES_S + ((int)(t->pos.x) & (TEXTURES_S - 1))] * 0.7;
+
+    colorize_texture(texture_type, color);
+    glPointSize(LINE_WIDTH);
+    glBegin(GL_POINTS);
+    glVertex2i(r->r_iter * LINE_WIDTH + dp_width, dp_height - t->t_iter);
+    glEnd();
+    return;
+}
+
+static void draw_floor(rays_t *r, textures_t *t, display_t *d, int texture_type)
+{
+    size_t dp_width = (d->resolution.x / 2);
+    float color =
+        ALL_TEXTURES[texture_type][((int)(t->pos.y) & (TEXTURES_S - 1)) *
+        TEXTURES_S + ((int)(t->pos.x) & (TEXTURES_S - 1))] * 0.7;
+
+    colorize_texture(texture_type, color);
+    glPointSize(LINE_WIDTH);
+    glBegin(GL_POINTS);
+    glVertex2i(r->r_iter * LINE_WIDTH + dp_width, t->t_iter);
+    glEnd();
+    return;
+}
+
+static void draw_fc(player_t *p, rays_t *r, textures_t *t, display_t *d)
+{
+    enum texture_type;
+    size_t dp_height = (d->resolution.y / 2);
 
     for (size_t y = t->line_off + t->line_ht; y < dp_height; ++y) {
-        setup_floor(p, r, t, y - (dp_height / 2));
-        color =
-            ALL_TEXTURES[BRICK][((int)(t->pos.y) & (TEXTURES_S - 1)) *
-            TEXTURES_S + ((int)(t->pos.x) & (TEXTURES_S - 1))] * 0.7;
-        colorize_texture(BRICK, color);
-        glPointSize(LINE_WIDTH);
-        glBegin(GL_POINTS);
-        glVertex2i(r->r_iter * LINE_WIDTH + dp_width, y);
-        glEnd();
+        t->iter = y;
+        setup_texture_pos(p, r, t, y - (dp_height / 2));
+        draw_floor(r, t, d, BRICK);
+        draw_ceil(r, t, d, BRICK);
     }
     return;
 }
@@ -134,7 +153,6 @@ void display_rc(game_t *g, player_t *p, rays_t *r)
     r->dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
     setup_display(r, &text, &g->settings.display, g->settings.gameplay.map_s);
     draw_walls(r, &text, &g->settings.display);
-    draw_floor(p, r, &text, &g->settings.display);
-    draw_ceil(p, r, &text, &g->settings.display);
+    draw_fc(p, r, &text, &g->settings.display);
     return;
 }

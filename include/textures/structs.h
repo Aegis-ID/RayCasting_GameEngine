@@ -22,6 +22,7 @@ typedef struct textures_s {
     sfVector2f pos;
     sfVector2f offset;
     sfVector2f step;
+    size_t t_iter;
 }textures_t;
 
 // TO IMPLEMENT

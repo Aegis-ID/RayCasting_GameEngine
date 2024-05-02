@@ -42,7 +42,7 @@ typedef struct rays_s {
     float v_dist;
     sfVector2f v_pos;
     float dist;
-    // player pos in int map array
+    // ray pos in int map array
     size_t m_pos;
     // walls infos
     float shade;
