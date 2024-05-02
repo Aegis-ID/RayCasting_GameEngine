@@ -134,7 +134,7 @@ static void get_wall_dist(rays_t *r)
         r->pos = r->v_pos;
         r->shade /= 1.75;
         glColor3f(r->shade, r->shade, r->shade);
-    } 
+    }
     return;
 }
 

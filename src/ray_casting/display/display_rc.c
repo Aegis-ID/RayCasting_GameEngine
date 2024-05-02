@@ -46,14 +46,16 @@ static void setup_texture_pos(player_t *p, rays_t *r, textures_t *t, float dy)
     float ra_fix = cos(deg_to_rad(update_angle(p->angle - r->angle)));
     size_t size = 158;
     // Size is supposed to be (Line width / 2) / tan(fov / 2)
+
     t->pos.x = (p->pos.x / 2) + cos(deg) * size *
         TEXTURES_S / dy / ra_fix;
-     t->pos.y = (p->pos.y / 2) - sin(deg) * size *
+    t->pos.y = (p->pos.y / 2) - sin(deg) * size *
         TEXTURES_S / dy / ra_fix;
     return;
 }
 
-static void draw_ceil(rays_t *r, textures_t *t, display_t *d, int texture_type)
+static void draw_ceil(rays_t *r, textures_t *t, display_t *d,
+    int texture_type)
 {
     size_t dp_height = (d->resolution.y / 2);
     size_t dp_width = (d->resolution.x / 2);
@@ -69,7 +71,8 @@ static void draw_ceil(rays_t *r, textures_t *t, display_t *d, int texture_type)
     return;
 }
 
-static void draw_floor(rays_t *r, textures_t *t, display_t *d, int texture_type)
+static void draw_floor(rays_t *r, textures_t *t, display_t *d,
+    int texture_type)
 {
     size_t dp_width = (d->resolution.x / 2);
     float color =
