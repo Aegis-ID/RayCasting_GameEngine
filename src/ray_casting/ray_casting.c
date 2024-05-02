@@ -119,16 +119,22 @@ static void update_rays(settings_t *s, player_t *p, maps_t *m, rays_t *r)
     check_v_collisions(p, m, r, &s->gameplay);
     check_h_lines(p, r, &s->gameplay);
     check_h_collisions(p, m, r, &s->gameplay);
-    r->shade = SHADE;
+    return;
+}
+
+static void get_wall_dist(rays_t *r)
+{
+    r->dist = r->h_dist;
     r->wall_type = r->w_text_pos.x;
+    r->shade = SHADE;
     glColor3f(r->shade, r->shade, r->shade);
     if (r->v_dist < r->h_dist) {
+        r->dist = r->v_dist;
         r->wall_type = r->w_text_pos.y;
+        r->pos = r->v_pos;
         r->shade /= 1.75;
         glColor3f(r->shade, r->shade, r->shade);
-        r->pos = r->v_pos;
-        r->h_dist = r->v_dist;
-    }
+    } 
     return;
 }
 
@@ -142,6 +148,7 @@ void ray_casting(game_t *g, player_t *p, maps_t *m)
     for (size_t r_iter = 0; (int)r_iter < fov; ++r_iter) {
         rays.r_iter = r_iter;
         update_rays(&g->settings, p, m, &rays);
+        get_wall_dist(&rays);
         draw_rays(p, &rays);
         display_rc(g, p, &rays);
         rays.angle = update_angle(rays.angle - 1);

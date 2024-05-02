@@ -116,7 +116,7 @@ static void draw_walls(rays_t *r, textures_t *t, display_t *d)
 
 static void setup_display(rays_t *r, textures_t *t, display_t *d, int map_s)
 {
-    t->line_ht = (map_s * (d->resolution.y / 2)) / r->h_dist;
+    t->line_ht = (map_s * (d->resolution.y / 2)) / r->dist;
     t->step.y = TEXTURES_S / (float)t->line_ht;
     t->offset.y = 0;
     if ((int)t->line_ht > (d->resolution.y / 2)) {
@@ -131,7 +131,7 @@ void display_rc(game_t *g, player_t *p, rays_t *r)
 {
     textures_t text = {0};
 
-    r->h_dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
+    r->dist *= cos(deg_to_rad(update_angle(p->angle - r->angle)));
     setup_display(r, &text, &g->settings.display, g->settings.gameplay.map_s);
     draw_walls(r, &text, &g->settings.display);
     draw_floor(p, r, &text, &g->settings.display);
