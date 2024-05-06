@@ -13,7 +13,9 @@ enum texture_type {
     CHECKERBOARD,
     BRICK,
     WINDOW,
-    DOOR
+    DOOR,
+    FLOOR,
+    CEIL
 };
 
 typedef struct textures_s {

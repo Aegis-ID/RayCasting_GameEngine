@@ -47,7 +47,7 @@ typedef struct rays_s {
     // walls infos
     float shade;
     sfVector2i w_text_pos;
-    size_t wall_type;
+    size_t text_type;
 }rays_t;
 
 // For rays functions && calculations

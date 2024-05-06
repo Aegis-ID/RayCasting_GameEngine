@@ -125,12 +125,12 @@ static void update_rays(settings_t *s, player_t *p, maps_t *m, rays_t *r)
 static void get_wall_dist(rays_t *r)
 {
     r->dist = r->h_dist;
-    r->wall_type = r->w_text_pos.x;
+    r->text_type = r->w_text_pos.x;
     r->shade = SHADE;
     glColor3f(r->shade, r->shade, r->shade);
     if (r->v_dist < r->h_dist) {
         r->dist = r->v_dist;
-        r->wall_type = r->w_text_pos.y;
+        r->text_type = r->w_text_pos.y;
         r->pos = r->v_pos;
         r->shade /= 1.75;
         glColor3f(r->shade, r->shade, r->shade);
@@ -143,7 +143,7 @@ void ray_casting(game_t *g, player_t *p, maps_t *m)
     rays_t rays = {0};
     int fov = g->settings.display.fov;
 
-    rays.wall_type = 0;
+    rays.text_type = 0;
     rays.angle = update_angle(p->angle + (fov / 2));
     for (size_t r_iter = 0; (int)r_iter < fov; ++r_iter) {
         rays.r_iter = r_iter;

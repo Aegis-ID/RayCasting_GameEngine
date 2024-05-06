@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** display
 ** File description:
-** C'est là que commence la vraie magie noire...
+** Magie noire 2.0
 ** CSFML
 */
 
@@ -24,19 +24,23 @@ bool is_wall(int map_position)
     return false;
 }
 
-static void colorize_texture(int wall_type, float color)
+static void colorize_texture(int text_type, float color)
 {
     enum texture_type;
 
-    wall_type += 1;
-    if (wall_type == CHECKERBOARD)
+    text_type += 1;
+    if (text_type == CHECKERBOARD)
         glColor3f(color, color / 2, color / 2);
-    if (wall_type == BRICK)
+    if (text_type == BRICK)
         glColor3f(color, color, color / 2);
-    if (wall_type == WINDOW)
+    if (text_type == WINDOW)
         glColor3f(color / 2, color / 2, color);
-    if (wall_type == DOOR)
+    if (text_type == DOOR)
         glColor3f(color / 2, color, color / 2);
+    if (text_type == FLOOR)
+        glColor3f(color, color, color);
+    if (text_type == CEIL)
+        glColor3f(color / 2, color / 2, color / 2);
     return;
 }
 
@@ -93,7 +97,7 @@ static void draw_fc(player_t *p, rays_t *r, textures_t *t, display_t *d)
     size_t dp_height = (d->resolution.y / 2);
 
     for (size_t y = t->line_off + t->line_ht; y < dp_height; ++y) {
-        t->iter = y;
+        t->t_iter = y;
         setup_texture_pos(p, r, t, y - (dp_height / 2));
         draw_floor(r, t, d, BRICK);
         draw_ceil(r, t, d, BRICK);
@@ -123,9 +127,9 @@ static void draw_walls(rays_t *r, textures_t *t, display_t *d)
     setup_wall(r, t);
     for (size_t y = 0; y < t->line_ht; ++y) {
         color =
-            ALL_TEXTURES[r->wall_type][(int)(t->pos.y) *
+            ALL_TEXTURES[r->text_type][(int)(t->pos.y) *
             TEXTURES_S + (int)(t->pos.x)] * r->shade;
-        colorize_texture(r->wall_type, color);
+        colorize_texture(r->text_type, color);
         glPointSize(LINE_WIDTH);
         glBegin(GL_POINTS);
         glVertex2i(r->r_iter * LINE_WIDTH + (d->resolution.x / 2),
