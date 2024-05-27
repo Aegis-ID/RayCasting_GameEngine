@@ -3,9 +3,10 @@
 
 Sources :
 
-https://lodev.org/cgtutor/raycasting.html
 https://www.sfml-dev.org/tutorials/2.6/window-opengl.php (SFML x OpenGL)
-https://www.youtube.com/watch?v=g8p7nAbDz6Y (WeirdDevers)
+https://lodev.org/cgtutor/raycasting.html (Lode Vandevenne)
+https://www.youtube.com/watch?v=yJXuvK_eLrQ (Coder Space)
 https://www.youtube.com/watch?v=LUYxLjic0Bc (Kofybrek)
 https://www.youtube.com/watch?v=gYRrGTC7GtA (3DSage)
 https://youtu.be/NbSee-XM7WA?si=OJF5jhUekod6foxu (javidx9)
+https://www.youtube.com/watch?v=g8p7nAbDz6Y (WeirdDevers)

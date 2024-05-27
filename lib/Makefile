@@ -9,12 +9,7 @@ NAME	=	mylib.a
 
 INCLUDE	=	../include/
 
-SRC		=	$(addprefix maths/,	\
-			deg_to_rad.c	\
-			rad_to_deg.c 	\
-			get_deg.c 	\
-			)	\
-			$(addprefix funcs/,	\
+FUNCS 	=	$(addprefix funcs/,	\
 			str_to_word_array.c 	\
 			free_array.c 	\
 			arraylen.c 	\
@@ -24,6 +19,23 @@ SRC		=	$(addprefix maths/,	\
 			is_str_float.c 	\
 			my_strlen_delim.c 	\
 			) 	\
+
+MATHS 	=	$(addprefix maths/,	\
+			deg_to_rad.c	\
+			rad_to_deg.c 	\
+			get_deg.c 	\
+			)	\
+
+CSFML 	=	$(addprefix csfml/, 	\
+			funcs.c 	\
+			sprite.c 	\
+			sprite_funcs.c 	\
+			sprite_modifier.c 	\
+			)	\
+
+SRC		=	$(FUNCS) 	\
+			$(MATHS)	\
+			$(CSFML)
 
 CC	?=	gcc
 
@@ -37,21 +49,17 @@ DEBUG 	=	-g3
 
 ASAN 	=	-fsanitize=address
 
-#Additional Libraries
-CSFML		=	-lcsfml-graphics -lcsfml-system -lcsfml-audio -lcsfml-window
-MATHS		=	-lm
-
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-		$(AR) rcs $(NAME) $(OBJ) $(MATHS) && cp $(NAME) ../
+		$(AR) rcs $(NAME) $(OBJ) && cp $(NAME) ../
 
 clean:
 		$(RM) $(OBJ)	\
 
 fclean: clean
 		$(RM) $(NAME)	\
-		$(RM) ../$(NAME)	\
+		$(RM) ../$(NAME)
 
 re: fclean all
 

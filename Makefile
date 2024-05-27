@@ -5,7 +5,7 @@
 ## A Base Makefile
 ##
 
-NAME		=	myrpg
+NAME		=	my_game
 
 INCLUDE 	=	./include/
 
@@ -13,42 +13,61 @@ LIB		=	mylib.a
 
 SUBDIRS		=	lib/
 
-GAME_FUNCS 	=	$(addprefix funcs/,	\
-				check_settings.c 	\
-				get_map.c 	\
-				get_data.c 	\
-				get_settings.c 	\
-				get_bindings.c 	\
-				)	\
+TOOLS 	=	$(addprefix tools/, 	\
+			get_time.c 	\
+			get_fov.c 	\
+			get_ratio.c 	\
+			animations.c 	\
+			) 	\
 
-GAME_INITS 	=	$(addprefix inits/,	\
-				init_game.c 	\
-				init_rc_mode.c 	\
-				)	\
+INITS 	=	$(addprefix inits/, 	\
+			init_settings.c 	\
+			init_game.c 	\
+			init_entities.c 	\
+			init_graphics.c 	\
+			init_gameplay.c 	\
+			init_interface.c 	\
+			init_map.c 	\
+			) 	\
 
-RAY_CASTING	=	$(addprefix ray_casting/,	\
-				$(addprefix display/,	\
-				draw_map.c 	\
-				draw_player.c 	\
-				draw_rays.c	\
-				display_rc.c 	\
-				)	\
-				$(addprefix gameplay/,	\
-				get_collisions.c 	\
-				player_movement.c \
-				player_interaction.c 	\
-				)	\
-				ray_casting.c 	\
-				)	\
+SETTINGS 	=	$(addprefix settings/, 	\
+			check_settings.c 	\
+			get_bindings.c 	\
+			get_data.c 	\
+			) 	\
+
+ENTITIES 	=	$(addprefix entities/, 	\
+			) 	\
+
+GRAPHICS 	=	$(addprefix graphics/, 	\
+			display_exploration.c 	\
+			display_hud.c 	\
+			display_minimap.c 	\
+			draw_ray.c 	\
+			ray_casting.c 	\
+			) 	\
+
+GAMEPLAY 	=	$(addprefix gameplay/, 	\
+			collisions.c 	\
+			interactions.c 	\
+			movements.c 	\
+			) 	\
+
+INTERFACE 	=	$(addprefix interface/, 	\
+			) 	\
 
 SRC		=	$(addprefix src/,	\
-			$(GAME_FUNCS)	\
-			$(GAME_INITS)	\
-			$(RAY_CASTING)	\
+			$(TOOLS)	\
+			$(INITS)	\
+			$(SETTINGS)	\
+			$(ENTITIES)	\
+			$(GRAPHICS)	\
+			$(GAMEPLAY)	\
+			$(INTERFACE)	\
 			display.c 	\
 			events.c 	\
-			main.c	\
 			)	\
+			main.c
 
 CC		?=	gcc
 
@@ -75,13 +94,14 @@ $(NAME):	$(OBJ)
 		$(CC) -o $(NAME) $(OBJ) $(LIB) $(CSFML) $(MATHS)
 
 clean:
-		$(MAKE) -C $(SUBDIRS) clean
 		$(RM) $(OBJ)
 		$(RM) *log
+		$(MAKE) -C $(SUBDIRS) clean
 
 fclean: clean
-		$(MAKE) -C $(SUBDIRS) fclean
+		$(RM) -r $(ASSETS)
 		$(RM) $(NAME)
+		$(MAKE) -C $(SUBDIRS) fclean
 
 re: fclean all
 	$(MAKE) -C $(SUBDIRS) re

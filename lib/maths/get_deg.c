@@ -2,12 +2,14 @@
 ** EPITECH PROJECT, 2024
 ** get_deg
 ** File description:
-** CSFML
+** math
 */
 
-#include <math.h>
-
-float get_degrees(float degrees)
+float get_deg(float angle)
 {
-    return (float)(fmod(360 + fmod(degrees, 360), 360));
+    if (angle >= 360)
+        angle -= 360;
+    if (angle < 0)
+        angle += 360;
+    return angle;
 }

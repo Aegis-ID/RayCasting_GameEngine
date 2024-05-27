@@ -8,19 +8,34 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 #include <SFML/OpenGL.h>
-#include "ray_casting/funcs.h"
-#include "game/structs.h"
 
-void events(game_t *game, ray_casting_t *rc_mode)
+#include "game.h"
+#include "gameplay.h"
+
+static void exploration_events(game_t *game)
 {
-    sfRenderWindow *window = game->window;
-    sfEvent event = game->event;
+    window_t *game_window = &game->game_window;
 
-    if (event.type == sfEvtClosed || sfKeyboard_isKeyPressed(sfKeyEscape))
+    sfRenderWindow_setMouseCursorVisible(game_window->window, false);
+    game_window->elapsed_time = get_time_as_seconds(game_window->clock);
+    if (game_window->elapsed_time >= TICKS) {
+        sfClock_restart(game_window->clock);
+        player_movement(game);
+        player_interactions(game);
+    }
+    return;
+}
+
+void events(game_t *game)
+{
+    sfRenderWindow *window = game->game_window.window;
+    sfEvent *event = game->game_window.event;
+
+    if (sfKeyboard_isKeyPressed(sfKeyEscape))
         sfRenderWindow_close(window);
-    if (event.type == sfEvtResized)
-        glViewport(0, 0, event.size.width, event.size.height);
-    player_movement(game, &rc_mode->player, &rc_mode->maps);
-    player_interactions(game, &rc_mode->player, &rc_mode->maps);
+    if (event->type == sfEvtResized)
+        glViewport(0, 0, event->size.width, event->size.height);
+    if (game->game_state == EXPLORATION)
+        exploration_events(game);
     return;
 }
