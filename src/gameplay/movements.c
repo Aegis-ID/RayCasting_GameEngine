@@ -8,8 +8,8 @@
 #include <math.h>
 
 #include "lib.h"
-
 #include "game.h"
+#include "entities.h"
 
 static void p_vertical_mvt(keybinds_t *k, collisions_t *col, entity_t *p)
 {
@@ -62,13 +62,11 @@ static void p_rotation(keybinds_t *k, entity_t *p)
     return;
 }
 
-static void mouse_rotation(game_t *game, entity_t *p, keybinds_t *k)
+void mouse_rotation(window_t *game_window, keybinds_t *k, entity_t *p, const float fov)
 {
-    sfRenderWindow *window = &game->game_window.window;
-    sfVector2i res = game->settings.display.res;
-    sfVector2i mouse_pos =
-        sfMouse_getPositionRenderWindow(window);
-    float fov = game->settings.display.fov;
+    sfRenderWindow *window = &game_window->window;
+    sfVector2u res = sfRenderWindow_getSize(window);
+    sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(window);
     float m_rotation = fov * (res.x / 2 - mouse_pos.x) / res.x;
 
     res.x /= 2;
@@ -78,19 +76,16 @@ static void mouse_rotation(game_t *game, entity_t *p, keybinds_t *k)
         p->angle = get_deg(p->angle);
         p->delta.x = cos(deg_to_rad(p->angle));
         p->delta.y = -sin(deg_to_rad(p->angle));
-        sfMouse_setPositionRenderWindow(res, window);
+        sfMouse_setPositionRenderWindow((sfVector2i){res.x, res.y},
+            window);
     }
     return;
 }
 
-void player_movement(game_t *game, graphics_t *rays)
+void player_movement(window_t *game_window, keybinds_t *keybinds, entity_t *player)
 {
-    collisions_t *col = game->gameplay;
-    keybinds_t *k = &game->settings.keybinds;
-
-    mouse_rotation(game, &rays->player, k);
-    p_rotation(k, &rays->player);
-    p_vertical_mvt(k, &col, &rays->player);
-    p_horizontal_mvt(k, &col, &rays->player);
+    p_rotation(keybinds, player);
+    p_vertical_mvt(keybinds, &player->collisions, player);
+    p_horizontal_mvt(keybinds, &player->collisions, player);
     return;
 }

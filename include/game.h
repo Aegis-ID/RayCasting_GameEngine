@@ -58,4 +58,8 @@ float get_time_as_miliseconds(window_t *game_window);
 float get_ratio(sfVector2i vector);
 float get_fov(sfVector2i res, float default_fov);
 
+// Player Movements
+void player_movement(window_t *game_window, keybinds_t *keybinds, entity_t *player);
+void mouse_rotation(window_t *game_window, keybinds_t *k, entity_t *p, const float fov);
+
 #endif /* !__GAME__ */
