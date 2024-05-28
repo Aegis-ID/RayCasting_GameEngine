@@ -9,7 +9,6 @@
 
 
 #include "game.h"
-#include "lib_csfml.h"
 #include "entities.h"
 
 static void interactions_display(game_t *game, graphics_t *rays)

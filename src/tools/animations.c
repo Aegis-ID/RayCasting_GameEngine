@@ -11,7 +11,6 @@
 
 #include "lib.h"
 #include "entities.h"
-#include "lib_csfml.h"
 
 void animate(sfRenderWindow *window, entity_t *entity, float fps)
 {

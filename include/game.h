@@ -58,4 +58,14 @@ float get_time_as_miliseconds(window_t *game_window);
 float get_ratio(sfVector2i vector);
 float get_fov(sfVector2i res, float default_fov);
 
+sfVector2f get_rand_pos(sfVector2u vector);
+
+sfBool sfMouse_isButtonReleased(sfEvent *event, sfMouseButton button);
+sfBool sfSprite_isSpriteClicked(sfVector2u mouse, sfSprite *sprite, sfEvent *event);
+
+void sfSpriteMoveRand(sfSprite *sprite, sfVector2u bounds,
+    const float speed, const float near_dist);
+void sfSprite_centerOrigin(sfSprite *sprite);
+
+
 #endif /* !__GAME__ */

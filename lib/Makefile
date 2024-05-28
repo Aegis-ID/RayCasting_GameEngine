@@ -26,16 +26,8 @@ MATHS 	=	$(addprefix maths/,	\
 			get_deg.c 	\
 			)	\
 
-CSFML 	=	$(addprefix csfml/, 	\
-			funcs.c 	\
-			sprite.c 	\
-			sprite_funcs.c 	\
-			sprite_modifier.c 	\
-			)	\
-
 SRC		=	$(FUNCS) 	\
-			$(MATHS)	\
-			$(CSFML)
+			$(MATHS)
 
 CC	?=	gcc
 
