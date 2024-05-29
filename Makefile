@@ -18,6 +18,9 @@ TOOLS 	=	$(addprefix tools/, 	\
 			get_fov.c 	\
 			get_ratio.c 	\
 			animations.c 	\
+			get_rand_pos.c 	\
+			sfmouse.c 	\
+			sprite_tools.c 	\
 			) 	\
 
 INITS 	=	$(addprefix inits/, 	\

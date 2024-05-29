@@ -8,7 +8,6 @@
 #include <stdlib.h>
 
 #include "lib.h"
-#include "lib_csfml.h"
 #include "entities.h"
 #include "const/entities.h"
 
@@ -36,7 +35,7 @@ entity_t init_entity(const char **frames, int entity_type)
     entity.frames = frames;
     entity.size = arraylen(frames);
     entity.clock = sfClock_create();
-    entity.sprite = set_sprite(frames[0]);
+    entity.sprite = sfSprite_init_with_texture(frames[0]);
     entity.textures = malloc(sizeof(sfTexture *) * (entity.size + 1));
     for (size_t y = 0; y < entity.size; ++y)
         entity.textures[y] = sfTexture_createFromFile(frames[y], NULL);

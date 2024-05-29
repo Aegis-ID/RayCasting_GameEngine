@@ -6,7 +6,6 @@
 */
 
 #include <SFML/System.h>
-
 #include "game.h"
 
 float get_time_as_seconds(window_t *game_window)

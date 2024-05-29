@@ -7,7 +7,6 @@
 
 #include "game.h"
 
-#include "lib_csfml.h"
 #include "entities.h"
 
 static bool is_anim_over(entity_t *entity)
