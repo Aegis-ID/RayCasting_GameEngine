@@ -7,7 +7,9 @@
 
 #include <stdio.h>
 
-
+#include "entities.h"
+#include "graphics.h"
+#include "gameplay.h"
 
 static void dist_by_angle(ray_t *ray, collisions_t *col)
 {
@@ -33,7 +35,6 @@ collisions_t get_collisions(entity_t *p, map_t *m)
     ray.angle = get_deg(p->angle + (360 / 2));
     for (ray.iter = 0; (int)ray.iter < 360; ++ray.iter) {
         perform_dda(p, m, &ray);
-        get_wall_dist(&ray);
         dist_by_angle(&ray, &col);
         ray.angle = get_deg(ray.angle - 1);
     }
