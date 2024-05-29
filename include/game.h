@@ -62,4 +62,8 @@ float get_fov(sfVector2i res, float default_fov);
 void player_movement(window_t *game_window, keybinds_t *keybinds, entity_t *player);
 void mouse_rotation(window_t *game_window, keybinds_t *k, entity_t *p, const float fov);
 
+// Player Actions
+void player_actions(keybinds_t *keybinds, gameplay_t *gameplay, entity_t *player);
+
+
 #endif /* !__GAME__ */

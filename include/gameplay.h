@@ -32,8 +32,4 @@ typedef struct gameplay_s {
 gameplay_t init_gameplay(void);
 map_t init_map(const char *filepath);
 
-// Gameplay
-void player_movement(game_t *game);
-void player_interactions(game_t *game);
-
 #endif /* !__GAMEPLAY__ */

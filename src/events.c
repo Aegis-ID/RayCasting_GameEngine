@@ -21,7 +21,7 @@ static void exploration_events(game_t *game)
     if (game_window->elapsed_time >= TICKS) {
         sfClock_restart(game_window->clock);
         player_movement(game);
-        player_interactions(game);
+        player_actions(game);
     }
     return;
 }
