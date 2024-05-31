@@ -7,25 +7,26 @@
 
 #include <stdio.h>
 
-
 #include "game.h"
 #include "entities.h"
 
-static void interactions_display(game_t *game, graphics_t *rays)
+static void interactions_display(
+    const gameplay_t *gameplay, const entity_t *player)
 {
-    gameplay_t *gameplay = &game->gameplay;
-
-    if (gameplay->mini_map)
-        draw_minimap(rays);
+    if (gameplay->minimap)
+        draw_minimap(gameplay->map, player);
     return;
 }
 
-void display_exploration(game_t *game, graphics_t *rays)
+void display_exploration(game_t *game, graphics_t *graphics)
 {
-    draw_sky(game->settings.display.res, rays->player.angle,
-        CONST_SHADE * BRIGHTNESS);
-    ray_casting(rays, game->settings.display.res,
-        game->settings.display.fov);
-    interactions_display(game, rays);
+    entity_t *player = game->entities[PLAYER];
+    map_t *map = &game->gameplay.map;
+    float fov = game->settings.display.fov;
+
+    graphics->res = game->settings.display.res;
+    draw_sky(graphics->res, player->angle, CONST_SHADE * BRIGHTNESS);
+    ray_casting(graphics, player, map, fov);
+    interactions_display(&game->gameplay, player);
     return;
 }

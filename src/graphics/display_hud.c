@@ -11,13 +11,14 @@
 
 static bool is_anim_over(entity_t *entity)
 {
-    if (entity->current_frame == entity->size - 1)
+    if (entity->current_frame == entity->nb_frames - 1)
         return true;
     return false;
 }
 
+/*
 static void right_hand_display(sfRenderWindow *window,
-    entity_t *r_hand, gameplay_t *gameplay, sfVector2i res)
+    entity_t *r_hand, gameplay_t *gameplay, sfVector2u res)
 {
     sfSprite *sprite = r_hand->sprite;
     sfFloatRect global = sfSprite_getGlobalBounds(sprite);
@@ -36,13 +37,14 @@ static void right_hand_display(sfRenderWindow *window,
         gameplay->r_hand = false;
     return;
 }
+ */
 
 void display_exploration_hud(game_t *game)
 {
     entity_t *entities = game->entities;
     gameplay_t *gameplay = &game->gameplay;
-    sfVector2i res = game->settings.display.res;
+    sfVector2u res = game->settings.display.res;
 
-    right_hand_display(game->window, &entities[R_HAND], gameplay, res);
+//    right_hand_display(game->window, &entities[R_HAND], gameplay, res);
     return;
 }

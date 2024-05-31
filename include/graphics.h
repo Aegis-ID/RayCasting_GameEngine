@@ -13,15 +13,11 @@
 
     #define DEPTH_BUFFER 100
 
-    #define RENDER_DIST 15
+    #define BRIGHTNESS 1
+
+    #define SHADE_DIST 15
 
     #define CONST_SHADE 0.1f
-
-    #define PIXEL_S 1
-
-    #define MAP_RATIO 24
-
-    #define BRIGHTNESS 1
 
 enum texture_list {
     FLOOR,
@@ -33,16 +29,14 @@ enum texture_list {
 
 typedef struct textures_s {
     int iter;
-    int line_ht;
-    int line_off;
-    sfVector2f pos;
-    float step;
+    int height;
+    int offset;
+    sfVector2u pos;
+    int step;
     float shade;
 }textures_t;
 
 typedef struct ray_s {
-    // fov
-    float fov;
     // depth buffer
     int depth_buffer;
     // ray infos
@@ -57,15 +51,15 @@ typedef struct ray_s {
     float v_dist;
     float h_dist;
     float dist;
-    // hit position in map
+    // ray hit
     sfVector2i m_pos;
     int wall_pos;
-    // textures infos
     sfVector2i t_pos;
     int t_type;
 }ray_t;
 
 typedef struct graphics_s {
+    sfVector2u res;
     ray_t ray;
     textures_t textures;
 }graphics_t;
@@ -76,12 +70,5 @@ graphics_t init_graphics(void);
 bool is_wall(int m_pos);
 // Algorithm
 void perform_dda(entity_t *p, map_t *m, ray_t *r);
-// Display
-void draw_minimap(graphics_t *);
-void draw_ray(graphics_t *rays, sfVector2i res);
-void ray_casting(graphics_t *rays, const sfVector2i res, const float fov);
-void draw_sky(const sfVector2i res, const float p_angle, const float shade);
-void display_exploration(game_t *game);
-void display_exploration_hud(game_t *game);
 
 #endif /* !__RAY_CASTING_STRUCTS__ */

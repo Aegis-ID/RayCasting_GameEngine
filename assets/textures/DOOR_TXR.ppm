@@ -1,4 +1,4 @@
-const size_t DOOR_TEXT[] = {
+const size_t DOOR_TXR[] = {
     255,
     29,
     26,

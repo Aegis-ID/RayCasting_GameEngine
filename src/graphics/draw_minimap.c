@@ -10,18 +10,24 @@
 #include <SFML/OpenGL.h>
 
 #include "lib.h"
-#include "settings.h"
-#include "graphics.h"
+#include "entities.h"
+#include "gameplay.h"
 
 static void draw_cell(sfVector2i *offset)
 {
     glBegin(GL_QUADS);
     glVertex2i(offset->x + 1, offset->y + 1);
-    glVertex2i(offset->x + 1, offset->y + MAP_RATIO - 1);
-    glVertex2i(offset->x + MAP_RATIO - 1,
+    glVertex2i(
+        offset->x + 1,
         offset->y + MAP_RATIO - 1);
-    glVertex2i(offset->x + MAP_RATIO - 1, offset->y + 1);
+    glVertex2i(
+        offset->x + MAP_RATIO - 1,
+        offset->y + MAP_RATIO - 1);
+    glVertex2i(
+        offset->x + MAP_RATIO - 1,
+        offset->y + 1);
     glEnd();
+    return;
 }
 
 static void colorize_cell(int cell)
@@ -30,6 +36,7 @@ static void colorize_cell(int cell)
         glColor3f(1, 1, 1);
     else
         glColor3f(0, 0, 0);
+    return;
 }
 
 static void draw_map(map_t *map)
@@ -47,32 +54,33 @@ static void draw_map(map_t *map)
     return;
 }
 
-static void draw_player(entity_t *p)
+static void draw_player(entity_t *player)
 {
     glColor3f(1, 1, 0);
     glPointSize(8);
     glLineWidth(4);
     glBegin(GL_POINTS);
-    glVertex2i(p->pos.x, p->pos.y);
+    glVertex2i(player->pos.x, player->pos.y);
     glEnd();
     return;
 }
 
-static void draw_player_direction(entity_t *p)
+static void draw_player_direction(entity_t *player)
 {
     glLineWidth(3);
     glBegin(GL_LINES);
-    glVertex2i(p->pos.x, p->pos.y);
+    glVertex2i(player->pos.x, player->pos.y);
     glVertex2i(
-        p->pos.x + p->delta.x * COL_DIST, p->pos.y + p->delta.y * COL_DIST);
+        player->pos.x + player->delta.x * COL_DIST,
+        player->pos.y + player->delta.y * COL_DIST);
     glEnd();
     return;
 }
 
-void draw_minimap(graphics_t *rays)
+void draw_minimap(const map_t *map, const entity_t *player)
 {
-    draw_map(&rays->map);
-    draw_player(&rays->player);
-    draw_player_direction(&rays->player);
+    draw_map(map);
+    draw_player(player);
+    draw_player_direction(player);
     return;
 }

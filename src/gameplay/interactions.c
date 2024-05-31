@@ -30,10 +30,10 @@ static void int_key_action(keybinds_t *keybinds, collisions_t *col, int *walls)
 static void map_action(keybinds_t *keybinds, gameplay_t *gameplay)
 {
     if (sfKeyboard_isKeyPressed(keybinds->map))
-        if (gameplay->mini_map == false)
-            gameplay->mini_map = true;
+        if (gameplay->minimap == false)
+            gameplay->minimap = true;
         else
-            gameplay->mini_map = false;
+            gameplay->minimap = false;
     return;
 }
 

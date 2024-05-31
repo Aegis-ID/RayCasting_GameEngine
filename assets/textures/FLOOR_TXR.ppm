@@ -1,4 +1,4 @@
-const size_t FLOOR_TEXT[] = {
+const size_t FLOOR_TXR[] = {
     255,
     23,
     12,

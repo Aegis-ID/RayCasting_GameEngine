@@ -20,9 +20,9 @@
 
 #include "const/textures.h"
 
-bool is_wall(int m_pos)
+bool is_wall(const int m_pos)
 {
-    if ((m_pos > 0) && (m_pos <= TEXTURES_NB))
+    if ((m_pos > 0) && (m_pos <= TXR_NB))
         return true;
     return false;
 }
@@ -39,127 +39,103 @@ static void set_text_color(
     return;
 }
 
-static void update_offset(int *offset)
-{
-    if (*offset < 0)
-        *offset += SKY_WD;
-    *offset %= SKY_WD;
-    return;
-}
-
-void draw_sky(const sfVector2i res, float p_angle, const float shade)
-{
-    size_t pixel = 0;
-    int pixel_s = res.x / SKY_WD + 1;
-    int offset = 0;
-
-    for (size_t y = 0; y < SKY_HT; ++y) {
-        for (size_t x = 0; x < SKY_WD; ++x) {
-            offset = p_angle - x;
-            update_offset(&offset);
-            pixel = (y * SKY_WD + offset) * 3;
-            set_text_color(pixel, SKY_TEXT, shade);
-            glPointSize(pixel_s);
-            glBegin(GL_POINTS);
-            glVertex2i(x * pixel_s, y * pixel_s);
-            glEnd();
-        }
-    }
-    return;
-}
-
 static float get_text_width(
-    sfVector2i res, const float player_fov, const float deg_angle)
+    const sfVector2u res, const float player_fov, const float deg_angle)
 {
-    float fov = deg_to_rad(get_fov(res, player_fov));
-    float black_magic = (float)res.x / 2.0f / tan(fov / 2.0f);
+    float world_fov = deg_to_rad(get_fov(res, player_fov));
+    float ratio = (float)res.x / 2.0f / tan(world_fov / 2.0f);
     float ra_fix = cos(deg_to_rad(deg_angle));
 
-    return black_magic / 2 * TEXTURES_S / ra_fix;
+    return ratio / 2 * TXR_S / ra_fix;
 }
 
-static void draw_floor(entity_t *p, ray_t *r, textures_t *t, sfVector2i res)
+static void draw_floor(graphics_t *graphics, const entity_t *player, const float fov)
 {
-    float rad = deg_to_rad(r->angle);
+    textures_t *txr = &graphics->textures;
+    float rad = deg_to_rad(graphics->ray.angle);
     float size =
-        get_text_width(res, r->fov, get_deg(p->angle - r->angle));
+        get_text_width(graphics->res, fov,
+        get_deg(player->angle - graphics->ray.angle));
     float dy = 0;
-    size_t pixel = 0;
+    int pixel = 0;
 
-    for (t->iter = t->line_off + t->line_ht; t->iter < res.y; ++t->iter) {
-        dy = t->iter - ((float)res.y / 2.0f);
-        t->pos.x = p->pos.x / 2 + cos(rad) * size / dy;
-        t->pos.y = p->pos.y / 2 - sin(rad) * size / dy;
-        pixel = (((int)(t->pos.y) & (TEXTURES_S - 1)) * TEXTURES_S
-            + ((int)(t->pos.x) & (TEXTURES_S - 1))) * 3;
-        set_text_color(pixel, FLOOR_TEXT, CONST_SHADE * BRIGHTNESS);
-        glPointSize(PIXEL_S);
+    for (txr->iter = txr->offset + txr->height; txr->iter < graphics->res.y; ++txr->iter) {
+        dy = txr->iter - ((float)graphics->res.y / 2.0f);
+        txr->pos.x = player->pos.x / 2 + cos(rad) * size / dy;
+        txr->pos.y = player->pos.y / 2 - sin(rad) * size / dy;
+        pixel = ((txr->pos.y & (TXR_S - 1)) * TXR_S + (txr->pos.x & (TXR_S - 1))) * 3;
+        set_text_color(pixel, FLOOR_TXR, CONST_SHADE * BRIGHTNESS);
+        glPointSize(1);
         glBegin(GL_POINTS);
-        glVertex2i(r->iter * PIXEL_S, t->iter);
+        glVertex2i(graphics->ray.iter, txr->iter);
         glEnd();
     }
     return;
 }
 
-static void draw_vertical_line(textures_t *t,
-    int iter, size_t texture_type)
+static void draw_vertical_line(
+    textures_t *txr, const int iter, const size_t texture_type)
 {
     size_t pixel = 0;
 
-    for (int y = 0; y < t->line_ht; ++y) {
-        pixel = ((int)t->pos.y * TEXTURES_S + (int)t->pos.x) * 3;
-        set_text_color(pixel, ALL_TEXTURES[texture_type], t->shade);
-        glPointSize(PIXEL_S);
+    for (int y = 0; y < txr->height; ++y) {
+        pixel = (txr->pos.y * TXR_S + txr->pos.x) * 3;
+        set_text_color(pixel, ALL_TXR[texture_type], txr->shade);
+        glPointSize(1);
         glBegin(GL_POINTS);
-        glVertex2i(iter * PIXEL_S, y + t->line_off);
+        glVertex2i(iter, y + txr->offset);
         glEnd();
-        t->pos.y += t->step;
+        txr->pos.y += txr->step;
     }
     return;
 }
 
-static void check_side(ray_t *r, textures_t *t)
+static void check_side(const ray_t *ray, textures_t *txr)
 {
-    if (r->v_dist >= r->h_dist) {
-        t->pos.x = (int)(r->pos.x / 2) % TEXTURES_S;
-        if (r->angle > 180)
-            t->pos.x = (TEXTURES_S - 1) - t->pos.x;
+    if (ray->v_dist >= ray->h_dist) {
+        txr->pos.x = (int)(ray->pos.x / 2) % TXR_S;
+        if (ray->angle > 180)
+            txr->pos.x = (TXR_S - 1) - txr->pos.x;
     } else {
-        t->pos.x = (int)(r->pos.y / 2) % TEXTURES_S;
-        if (r->angle > 90 && r->angle < 270)
-            t->pos.x = (TEXTURES_S - 1) - t->pos.x;
+        txr->pos.x = (int)(ray->pos.y / 2) % TXR_S;
+        if (ray->angle > 90 && ray->angle < 270)
+            txr->pos.x = (TXR_S - 1) - txr->pos.x;
     }
     return;
 }
 
-static textures_t setup_textures(map_t *m, ray_t *r, sfVector2i res)
+static void setup_textures(textures_t *txr,
+    const map_t *map, const ray_t *ray, const sfVector2u res)
 {
-    textures_t t = {0};
-
-    t.shade = (1 / r->dist * RENDER_DIST) * BRIGHTNESS;
-    if (t.shade > 1)
-        t.shade = 1;
-    else if (t.shade < 0)
-        t.shade = 0;
-    t.line_ht = m->cell_size * res.y / r->dist;
-    t.step = TEXTURES_S / (float)t.line_ht;
-    if (t.line_ht > res.y) {
-        t.pos.y = (t.line_ht - res.y) / 2 * t.step;
-        t.line_ht = res.y;
+    txr->shade = (1 / ray->dist * SHADE_DIST) * BRIGHTNESS;
+    if (txr->shade > 1)
+        txr->shade = 1;
+    else if (txr->shade < 0)
+        txr->shade = 0;
+    txr->height = map->cell_size * res.y / ray->dist;
+    txr->step = TXR_S / txr->height;
+    if (txr->height > res.y) {
+        txr->pos.y = (txr->height - res.y) / 2 * txr->step;
+        txr->height = res.y;
     }
-    t.line_off = res.y / 2 - (t.line_ht >> 1);
-    return t;
+    txr->offset = res.y / 2 - (txr->height >> 1);
+    return;
 }
 
-void draw_ray(graphics_t *rays, sfVector2i res)
+static void fix_fisheye(ray_t *ray, const float p_angle)
 {
-    entity_t *p = &rays->player;
-    map_t *m = &rays->map;
-    ray_t *r = &rays->ray;
-    textures_t t = setup_textures(m, r, res);
+    ray->dist *= cos(deg_to_rad(get_deg(p_angle - ray->angle)));
+    return;
+}
 
-    check_side(r, &t);
-    draw_vertical_line(&t, r->iter, r->t_type);
-    draw_floor(p, r, &t, res);
+void draw_ray(
+    graphics_t *graphics, const entity_t *player, const map_t *map, const float fov)
+{
+    fix_fisheye(&graphics->ray, player->angle);
+    setup_textures(&graphics->textures, map, &graphics->ray, graphics->res);
+    check_side(&graphics->ray, &graphics->textures);
+    draw_vertical_line(
+        &graphics->textures, graphics->ray.iter, graphics->ray.t_type);
+    draw_floor(graphics, player, fov);
     return;
 }

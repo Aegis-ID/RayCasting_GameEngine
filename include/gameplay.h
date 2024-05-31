@@ -12,6 +12,8 @@
 
     #define MVT 3.0f
 
+    #define MAP_RATIO 24
+
 typedef struct map_s {
     int height;
     int width;
@@ -24,7 +26,7 @@ typedef struct gameplay_s {
     map_t map;
     size_t adventure_state;
     size_t level;
-    bool mini_map;
+    bool minimap;
     bool r_hand;
 }gameplay_t;
 

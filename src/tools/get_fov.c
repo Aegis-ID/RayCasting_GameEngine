@@ -9,7 +9,7 @@
 
 #include "lib.h"
 
-float get_fov(sfVector2i res, float default_fov)
+float get_fov(const sfVector2u res, const float default_fov)
 {
     float fov = 2 * deg_to_rad(default_fov / 2) * get_ratio(res);
 

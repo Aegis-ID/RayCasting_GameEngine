@@ -1,4 +1,4 @@
-const size_t BRICK_TEXT[] = {
+const size_t BRICK_TXR[] = {
     255,
     18,
     17,

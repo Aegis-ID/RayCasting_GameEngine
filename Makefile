@@ -45,8 +45,9 @@ ENTITIES 	=	$(addprefix entities/, 	\
 GRAPHICS 	=	$(addprefix graphics/, 	\
 			display_exploration.c 	\
 			display_hud.c 	\
-			display_minimap.c 	\
+			draw_minimap.c 	\
 			draw_ray.c 	\
+			draw_sky.c 	\
 			ray_casting.c 	\
 			) 	\
 

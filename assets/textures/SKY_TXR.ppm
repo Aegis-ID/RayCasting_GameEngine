@@ -1,4 +1,4 @@
-const size_t SKY_TEXT[] = {
+const size_t SKY_TXR[] = {
     255,
     26,
     28,

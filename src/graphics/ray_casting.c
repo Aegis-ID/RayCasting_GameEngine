@@ -11,135 +11,131 @@
 
 #include "lib.h"
 #include "game.h"
-#include "settings.h"
 
-static void check_v_lines(entity_t *p, map_t *m, ray_t *r)
+static void check_v_lines(entity_t *player, map_t *map, ray_t *ray)
 {
-    float tangent = tan(r->angle);
+    float tangent = tan(ray->angle);
 
-    r->depth_buffer = 0;
-    r->v_dist = 1e30;
-    if (cos(r->angle) > 1e-4) {
-        r->pos.x = (int)p->pos.x / m->height * m->height + m->height;
-        r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
-        r->offset.x = m->height;
-        r->offset.y = -r->offset.x * tangent;
-    } else if (cos(r->angle) < -1e-4) {
-        r->pos.x = (int)p->pos.x / m->height * m->height - 1e-4;
-        r->pos.y = (p->pos.x - r->pos.x) * tangent + p->pos.y;
-        r->offset.x = -m->height;
-        r->offset.y = -r->offset.x * tangent;
+    ray->depth_buffer = 0;
+    ray->v_dist = 1e30;
+    if (cos(ray->angle) > 1e-4) {
+        ray->pos.x = (int)player->pos.x / map->height * map->height + map->height;
+        ray->pos.y = (player->pos.x - ray->pos.x) * tangent + player->pos.y;
+        ray->offset.x = map->height;
+        ray->offset.y = -ray->offset.x * tangent;
+    } else if (cos(ray->angle) < -1e-4) {
+        ray->pos.x = (int)player->pos.x / map->height * map->height - 1e-4;
+        ray->pos.y = (player->pos.x - ray->pos.x) * tangent + player->pos.y;
+        ray->offset.x = -map->height;
+        ray->offset.y = -ray->offset.x * tangent;
     } else {
-        r->pos = p->pos;
-        r->depth_buffer = DEPTH_BUFFER;
+        ray->pos = player->pos;
+        ray->depth_buffer = DEPTH_BUFFER;
     }
     return;
 }
 
-static void check_v_collisions(entity_t *p, map_t *m, ray_t *r)
+static void check_v_collisions(entity_t *player, map_t *map, ray_t *ray)
 {
-    while (r->depth_buffer < DEPTH_BUFFER) {
-        r->m_pos.y = (int)r->pos.y / m->height * m->width
-            + (int)r->pos.x / m->height;
-        if ((r->m_pos.y > 0) && (r->m_pos.y < m->size) &&
-            is_wall(m->walls[r->m_pos.y])) {
-            r->t_pos.y = m->walls[r->m_pos.y] - 1;
-            r->v_dist = cos(r->angle) * (r->pos.x - p->pos.x)
-                -sin(r->angle) * (r->pos.y - p->pos.y);
-            r->depth_buffer = DEPTH_BUFFER;
+    while (ray->depth_buffer < DEPTH_BUFFER) {
+        ray->m_pos.y = (int)ray->pos.y / map->height * map->width
+            + (int)ray->pos.x / map->height;
+        if ((ray->m_pos.y > 0) && (ray->m_pos.y < map->size) &&
+            is_wall(map->walls[ray->m_pos.y])) {
+            ray->t_pos.y = map->walls[ray->m_pos.y] - 1;
+            ray->v_dist = cos(ray->angle) * (ray->pos.x - player->pos.x)
+                -sin(ray->angle) * (ray->pos.y - player->pos.y);
+            ray->depth_buffer = DEPTH_BUFFER;
         } else {
-            r->pos.x += r->offset.x;
-            r->pos.y += r->offset.y;
-            r->depth_buffer += 1;
+            ray->pos.x += ray->offset.x;
+            ray->pos.y += ray->offset.y;
+            ray->depth_buffer += 1;
         }
     }
-    r->v_pos = r->pos;
+    ray->v_pos = ray->pos;
     return;
 }
 
-static void check_h_lines(entity_t *p, map_t *m, ray_t *r)
+static void check_h_lines(entity_t *player, map_t *map, ray_t *ray)
 {
-    float atan = 1 / tan(r->angle);
+    float atan = 1 / tan(ray->angle);
 
-    r->depth_buffer = 0;
-    r->h_dist = 1e30;
-    if (sin(r->angle) < -1e-4) {
-        r->pos.y = (int)p->pos.y / m->height * m->width + m->width;
-        r->pos.x = (p->pos.y - r->pos.y) * atan + p->pos.x;
-        r->offset.y = m->width;
-        r->offset.x = -r->offset.y * atan;
-    } else if (sin(r->angle) > 1e-4) {
-        r->pos.y = (int)p->pos.y / m->width * m->width - 1e-4;
-        r->pos.x = (p->pos.y - r->pos.y) * atan + p->pos.x;
-        r->offset.y = -m->width;
-        r->offset.x = -r->offset.y * atan;
+    ray->depth_buffer = 0;
+    ray->h_dist = 1e30;
+    if (sin(ray->angle) < -1e-4) {
+        ray->pos.y = (int)player->pos.y / map->height * map->width + map->width;
+        ray->pos.x = (player->pos.y - ray->pos.y) * atan + player->pos.x;
+        ray->offset.y = map->width;
+        ray->offset.x = -ray->offset.y * atan;
+    } else if (sin(ray->angle) > 1e-4) {
+        ray->pos.y = (int)player->pos.y / map->width * map->width - 1e-4;
+        ray->pos.x = (player->pos.y - ray->pos.y) * atan + player->pos.x;
+        ray->offset.y = -map->width;
+        ray->offset.x = -ray->offset.y * atan;
     } else {
-        r->pos = p->pos;
-        r->depth_buffer = DEPTH_BUFFER;
+        ray->pos = player->pos;
+        ray->depth_buffer = DEPTH_BUFFER;
     }
     return;
 }
 
-static void check_h_collisions(entity_t *p, map_t *m, ray_t *r)
+static void check_h_collisions(entity_t *player, map_t *map, ray_t *ray)
 {
-    while (r->depth_buffer < DEPTH_BUFFER) {
-        r->m_pos.x = (int)r->pos.y / m->width * m->width
-            + (int)r->pos.x / m->width;
-        if ((r->m_pos.x > 0) && (r->m_pos.x < m->size) &&
-            is_wall(m->walls[r->m_pos.x])) {
-            r->t_pos.x = m->walls[r->m_pos.x] - 1;
-            r->h_dist = cos(r->angle) * (r->pos.x - p->pos.x)
-                -sin(r->angle) * (r->pos.y - p->pos.y);
-            r->depth_buffer = DEPTH_BUFFER;
+    while (ray->depth_buffer < DEPTH_BUFFER) {
+        ray->m_pos.x = (int)ray->pos.y / map->width * map->width
+            + (int)ray->pos.x / map->width;
+        if ((ray->m_pos.x > 0) && (ray->m_pos.x < map->size) &&
+            is_wall(map->walls[ray->m_pos.x])) {
+            ray->t_pos.x = map->walls[ray->m_pos.x] - 1;
+            ray->h_dist = cos(ray->angle) * (ray->pos.x - player->pos.x)
+                -sin(ray->angle) * (ray->pos.y - player->pos.y);
+            ray->depth_buffer = DEPTH_BUFFER;
         } else {
-            r->pos.x += r->offset.x;
-            r->pos.y += r->offset.y;
-            r->depth_buffer += 1;
+            ray->pos.x += ray->offset.x;
+            ray->pos.y += ray->offset.y;
+            ray->depth_buffer += 1;
         }
     }
     return;
 }
 
-static void get_wall_dist(ray_t *r)
+static void get_wall_dist(ray_t *ray)
 {
-    r->dist = r->h_dist;
-    r->t_type = r->t_pos.x;
-    r->wall_pos = r->m_pos.x;
-    if (r->v_dist < r->h_dist) {
-        r->dist = r->v_dist;
-        r->pos = r->v_pos;
-        r->t_type = r->t_pos.y;
-        r->wall_pos = r->m_pos.y;
+    ray->dist = ray->h_dist;
+    ray->t_type = ray->t_pos.x;
+    ray->wall_pos = ray->m_pos.x;
+    if (ray->v_dist < ray->h_dist) {
+        ray->dist = ray->v_dist;
+        ray->pos = ray->v_pos;
+        ray->t_type = ray->t_pos.y;
+        ray->wall_pos = ray->m_pos.y;
     }
     return;
 }
 
-void perform_dda(entity_t *p, map_t *m, ray_t *r)
+void perform_dda(entity_t *player, map_t *map, ray_t *ray)
 {
-    r->angle = deg_to_rad(r->angle);
-    check_v_lines(p, m, r);
-    check_v_collisions(p, m, r);
-    check_h_lines(p, m, r);
-    check_h_collisions(p, m, r);
-    get_wall_dist(r);
-    r->angle = rad_to_deg(r->angle);
+    ray->angle = deg_to_rad(ray->angle);
+    check_v_lines(player, map, ray);
+    check_v_collisions(player, map, ray);
+    check_h_lines(player, map, ray);
+    check_h_collisions(player, map, ray);
+    get_wall_dist(ray);
+    ray->angle = rad_to_deg(ray->angle);
     return;
 }
 
-void ray_casting(graphics_t *rays, const sfVector2i res, const float fov)
+void ray_casting(graphics_t *graphics,
+    const entity_t *player, const map_t *map, const float fov)
 {
-    entity_t *p = &rays->player;
-    map_t *m = &rays->map;
-    ray_t *r = &rays->ray;
-    float world_fov = get_fov(res, fov);
+    ray_t *ray = &graphics->ray;
+    float world_fov = get_fov(graphics->res, fov);
 
-    r->fov = fov;
-    r->angle = get_deg(p->angle + world_fov / 2);
-    for (r->iter = 0; (int)r->iter < res.x; ++r->iter) {
-        perform_dda(p, m, r);
-        r->dist *= cos(deg_to_rad(get_deg(p->angle - r->angle)));
-        draw_ray(rays, res);
-        r->angle = get_deg(r->angle - world_fov / res.x);
+    ray->angle = get_deg(player->angle + world_fov / 2);
+    for (ray->iter = 0; ray->iter < (size_t)graphics->res.x; ++ray->iter) {
+        perform_dda(player, map, ray);
+        draw_ray(graphics, player, map, fov);
+        ray->angle = get_deg(ray->angle - world_fov / graphics->res.x);
     }
     return;
 }

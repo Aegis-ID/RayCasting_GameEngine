@@ -5,30 +5,26 @@
 ** CSFML
 */
 
-#ifndef __TEXTURES_CONST__
-    #define __TEXTURES_CONST__
+#ifndef __TXR_CONST__
+    #define __TXR_CONST__
 
     #include <stddef.h>
 
-    #include "../assets/textures/FLOOR_TEXT.ppm"
-    #include "../assets/textures/BRICK_TEXT.ppm"
-    #include "../assets/textures/BRICK_VAR_TEXT.ppm"
-    #include "../assets/textures/DOOR_TEXT.ppm"
-    #include "../assets/textures/FINAL_DOOR_TEXT.ppm"
-    #include "../assets/textures/SKY_TEXT.ppm"
+    #include "../assets/textures/FLOOR_TXR.ppm"
+    #include "../assets/textures/BRICK_TXR.ppm"
+    #include "../assets/textures/BRICK_VAR_TXR.ppm"
+    #include "../assets/textures/DOOR_TXR.ppm"
+    #include "../assets/textures/FINAL_DOOR_TXR.ppm"
 
-    #define TEXTURES_S 32
-    #define TEXTURES_NB 5
+    #define TXR_S 32
+    #define TXR_NB 5
 
-    #define SKY_WD 120
-    #define SKY_HT 60
-
-const size_t *ALL_TEXTURES[] = {
-    FLOOR_TEXT,
-    BRICK_TEXT,
-    BRICK_VAR_TEXT,
-    DOOR_TEXT,
-    FINAL_DOOR_TEXT,
+const size_t *ALL_TXR[] = {
+    FLOOR_TXR,
+    BRICK_TXR,
+    BRICK_VAR_TXR,
+    DOOR_TXR,
+    FINAL_DOOR_TXR,
     NULL
 };
 

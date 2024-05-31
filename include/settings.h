@@ -15,7 +15,7 @@
     #define INVALID -1
 
 typedef struct display_s {
-    sfVector2i res;
+    sfVector2u res;
     bool fullscreen;
     bool windowed;
     bool vsync;
