@@ -74,7 +74,7 @@ void mouse_rotation(window_t *game_window, keybinds_t *k, entity_t *p, const flo
 void player_actions(keybinds_t *keybinds, gameplay_t *gameplay, entity_t *player);
 
 // Graphics
-void display_exploration(game_t *game, graphics_t *graphics);
+void display_exploration(game_t *game);
 void ray_casting(graphics_t *graphics, const entity_t *player, const map_t *map, const float world_fov);
 void draw_ray(graphics_t *graphics, const entity_t *player, const map_t *map, const float fov);
 void draw_sky(const sfVector2u res, const float p_angle, const float shade);
